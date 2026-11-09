@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
 
-    <!-- 1. Top Navbar: Always visible on all screens (Desktop, Tablet, Mobile) -->
+    <!-- 1. Top Navbar: Always visible on all screens (Desktop, Tablet, Mobile) beside operation/ticket number -->
     <t t-name="alahram_retail_demo.Navbar" t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('navbar-menu')]" position="inside">
             <button class="branch-reservation-btn btn btn-primary btn-lg lh-lg fw-bold d-flex align-items-center gap-1 text-nowrap"
@@ -22,39 +22,6 @@
                btnLabel="'حجز وتوافر الفروع (Multi-Branch)'"
                btnClasses="'btn-primary fw-bold text-start'"
             />
-        </xpath>
-    </t>
-
-    <!-- 3. Tablet Actionpad: Next to Customer Button on Tablet / Small Screen -->
-    <t t-name="alahram_retail_demo.ActionpadWidget" t-inherit="point_of_sale.ActionpadWidget" t-inherit-mode="extension">
-        <xpath expr="//SelectPartnerButton" position="after">
-            <button class="branch-reservation-actionpad-btn btn btn-primary btn-lg d-flex align-items-center gap-1 text-nowrap fw-bold"
-                    t-on-click="() => this.onClickBranchReservation()"
-                    title="حجز وتوافر الفروع">
-                <i class="oi oi-fw" data-icon="home" aria-hidden="true"/>
-                <span>حجز الفروع</span>
-            </button>
-        </xpath>
-    </t>
-
-    <!-- 4. Desktop Control Buttons & Actions Modal -->
-    <t t-name="alahram_retail_demo.ControlButtons" t-inherit="point_of_sale.ControlButtons" t-inherit-mode="extension">
-        <xpath expr="//t[@t-if='!this.props.showRemainingButtons']" position="inside">
-            <button
-                class="branch-reservation-control-btn btn btn-primary btn-lg lh-lg fw-bold text-nowrap d-flex align-items-center gap-2 px-3"
-                t-on-click="() => this.onClickBranchReservation()"
-                title="حجز وتوافر الفروع">
-                <i class="oi oi-fw" data-icon="home" aria-hidden="true"/>
-                <span>حجز وتوافر الفروع</span>
-            </button>
-        </xpath>
-        <xpath expr="//t[@t-if='this.props.showRemainingButtons']/div" position="inside">
-            <t t-call="point_of_sale.controlButton"
-                icon="'home'"
-                btnText="'حجز وتوافر الفروع'"
-                btnClasses="'btn-primary fw-bold '"
-                onClick="() => this.onClickBranchReservation()">
-            </t>
         </xpath>
     </t>
 
