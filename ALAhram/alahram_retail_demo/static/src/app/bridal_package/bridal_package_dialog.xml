@@ -1,0 +1,806 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="alahram_retail_demo.BridalPackageDialog">
+        <Dialog title="'باكدج العروسة الذكي وتوافر الفروع — شركة الأهرام'" size="'xl'" footer="false">
+            <div class="bridal-dialog-container p-3 d-flex flex-column gap-3" dir="rtl">
+
+                <!-- 1. Top Navigation Bar (Tablet Tabs) -->
+                <div class="d-flex justify-content-between align-items-center bg-light p-2 rounded border">
+                    <ul class="nav nav-pills gap-2 flex-grow-1">
+                        <li class="nav-item">
+                            <button type="button"
+                                    class="nav-link fw-bold px-3 py-2"
+                                    t-att-class="{'active btn-danger': this.state.activeTab === 'lines', 'btn-outline-secondary': this.state.activeTab !== 'lines'}"
+                                    t-on-click="() => this.state.activeTab = 'lines'">
+                                <i class="oi oi-fw me-1" data-icon="list" aria-hidden="true"/>
+                                <span>1. تشكيلة الأصناف والتوافر (<t t-esc="this.state.lines.length"/>)</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button"
+                                    class="nav-link fw-bold px-3 py-2"
+                                    t-att-class="{'active btn-danger': this.state.activeTab === 'setup', 'btn-outline-secondary': this.state.activeTab !== 'setup'}"
+                                    t-on-click="() => this.state.activeTab = 'setup'">
+                                <i class="oi oi-fw me-1" data-icon="settings" aria-hidden="true"/>
+                                <span>2. القطاعات والميزانية</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button"
+                                    class="nav-link fw-bold px-3 py-2"
+                                    t-att-class="{'active btn-danger': this.state.activeTab === 'discount', 'btn-outline-secondary': this.state.activeTab !== 'discount'}"
+                                    t-on-click="() => this.state.activeTab = 'discount'">
+                                <i class="oi oi-fw me-1" data-icon="star" aria-hidden="true"/>
+                                <span>3. حوكمة الخصم والحجز</span>
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Summary Widget -->
+                    <div class="d-flex align-items-center gap-3 bg-white px-3 py-1 rounded border shadow-sm">
+                        <div class="text-center">
+                            <small class="text-muted d-block">إجمالي الأصناف</small>
+                            <span class="fw-bold text-dark fs-6"><t t-esc="this.formatAmount(this.state.totalOriginalPrice, 2)"/> ج.م</span>
+                        </div>
+                        <div class="vr"/>
+                        <div class="text-center">
+                            <small class="text-muted d-block">الميزانية المستهدفة</small>
+                            <span class="fw-bold text-primary fs-6"><t t-esc="this.formatAmount(this.state.targetBudget, 2)"/> ج.م</span>
+                            <small class="d-block text-muted" style="font-size: 10px;">نطاق: <t t-esc="this.formatAmount(this.state.lowerBound, 0)"/> - <t t-esc="this.formatAmount(this.state.preferredUpperBound, 0)"/></small>
+                        </div>
+                        <div class="vr"/>
+                        <div class="text-center">
+                            <small class="text-muted d-block">حالة المطابقة</small>
+                            <span class="badge" t-att-class="{
+                                'bg-success': this.state.budgetMatchStatus === 'matches_budget',
+                                'bg-info text-dark': this.state.budgetMatchStatus === 'below_budget',
+                                'bg-primary': this.state.budgetMatchStatus === 'within_preferred',
+                                'bg-warning text-dark': this.state.budgetMatchStatus === 'slightly_above_preferred',
+                                'bg-danger': this.state.budgetMatchStatus === 'out_of_bounds',
+                                'bg-secondary': this.state.budgetMatchStatus === 'no_solution'
+                            }">
+                                <t t-if="this.state.budgetMatchStatus === 'matches_budget'">مطابق للميزانية</t>
+                                <t t-elif="this.state.budgetMatchStatus === 'below_budget'">اقتصادي (أقل)</t>
+                                <t t-elif="this.state.budgetMatchStatus === 'within_preferred'">ضمن النطاق المفضل</t>
+                                <t t-elif="this.state.budgetMatchStatus === 'slightly_above_preferred'">أعلى من المفضل بقليل</t>
+                                <t t-elif="this.state.budgetMatchStatus === 'out_of_bounds'">خارج سقف الميزانية</t>
+                                <t t-else="">لا توجد تشكيلة</t>
+                            </span>
+                        </div>
+                        <div class="vr"/>
+                        <div class="text-center">
+                            <small class="text-muted d-block">الصافي النهائي</small>
+                            <span class="fw-bold text-success fs-5"><t t-esc="this.formatAmount(this.state.finalPackagePrice, 2)"/> ج.م</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget Feedback Alert Banner -->
+                <t t-if="this.state.budgetFeedbackMessage">
+                    <div class="alert alert-info py-2 px-3 mb-0 d-flex align-items-center justify-content-between shadow-sm border-start border-info border-4">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="oi oi-info fs-5 text-info"/>
+                            <span class="fw-bold"><t t-esc="this.state.budgetFeedbackMessage"/></span>
+                        </div>
+                        <span class="badge bg-secondary">فارق الميزانية: <t t-esc="this.state.budgetVariance > 0 ? '+' : ''"/><t t-esc="this.formatAmount(this.state.budgetVariance, 2)"/> ج.م</span>
+                    </div>
+                </t>
+
+                <!-- ========================================================= -->
+                <!-- TAB 1: LINES & MULTI-BRANCH AVAILABILITY -->
+                <!-- ========================================================= -->
+                <t t-if="this.state.activeTab === 'lines'">
+                    <div class="d-flex flex-column gap-3">
+                        <!-- Controls: Quick Add Search & Suggest Button -->
+                        <div class="d-flex justify-content-between align-items-center gap-2 bg-light p-2 rounded border">
+                            <div class="input-group" style="max-width: 450px;">
+                                <span class="input-group-text bg-white"><i class="oi oi-search"/></span>
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="بحث وإضافة صنف من الكتالوج (اسم، كود، باركود)..."
+                                       t-model.proxy="this.state.searchQuery"/>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="button"
+                                        class="btn btn-outline-danger fw-bold d-flex align-items-center gap-1"
+                                        t-on-click="() => this.suggestSmartPackage()"
+                                        t-att-disabled="this.state.isLoadingStock">
+                                    <i class="oi oi-refresh" t-att-class="{'fa-spin': this.state.isLoadingStock}"/>
+                                    <span>إعادة اقتراح التشكيلة الذكية</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Search Autocomplete Dropdown if typing -->
+                        <t t-if="this.state.searchQuery and this.filteredCatalog.length > 0">
+                            <div class="card shadow-sm p-2 bg-white border border-danger">
+                                <div class="text-muted small mb-1 fw-bold">نتائج البحث من كتالوج الأهرام (اضغط للإضافة):</div>
+                                <div class="d-flex flex-wrap gap-2" style="max-height: 180px; overflow-y: auto;">
+                                    <t t-foreach="this.filteredCatalog" t-as="item" t-key="item.id">
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-dark text-start d-flex flex-column p-2 rounded"
+                                                style="width: 240px;"
+                                                t-on-click="() => { this.addProductToPackage(item); this.state.searchQuery = ''; }">
+                                            <span class="fw-bold text-truncate" t-esc="item.name"/>
+                                            <div class="d-flex justify-content-between text-muted small mt-1">
+                                                <span><t t-esc="item.default_code"/></span>
+                                                <span class="fw-bold text-danger"><t t-esc="this.formatAmount(item.list_price, 2)"/> ج.م</span>
+                                            </div>
+                                        </button>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+
+                        <!-- Intelligent Budget-Constrained Recommendation Cards (Economy, Best Match, Premium) -->
+                        <t t-if="this.state.recommendedPackages and this.state.recommendedPackages.length > 0">
+                            <div class="card p-2 bg-light border border-primary shadow-sm mb-1">
+                                <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+                                    <span class="fw-bold text-dark fs-6">
+                                        <i class="oi oi-star text-warning me-1"/>خيارات الباكدج المقترحة المقيدة بالميزانية (الميزانية: <t t-esc="this.formatAmount(this.state.targetBudget, 2)"/> ج.م | النطاق المفضل: <t t-esc="this.formatAmount(this.state.lowerBound, 0)"/> - <t t-esc="this.formatAmount(this.state.preferredUpperBound, 0)"/> ج.م):
+                                    </span>
+                                    <span class="badge bg-secondary">سقف التسامح الأقصى: <t t-esc="this.formatAmount(this.state.absoluteUpperBound, 0)"/> ج.م</span>
+                                </div>
+                                <div class="row g-2">
+                                    <t t-foreach="this.state.recommendedPackages" t-as="pkg" t-key="pkg.type">
+                                        <div class="col-md-4">
+                                            <div class="card h-100 p-2 border cursor-pointer hover-shadow transition-all"
+                                                 t-att-class="{
+                                                     'border-primary border-3 bg-white shadow': this.state.selectedPackageType === pkg.type,
+                                                     'border-secondary bg-white': this.state.selectedPackageType !== pkg.type
+                                                 }"
+                                                 t-on-click="() => this.selectRecommendedPackage(pkg)">
+                                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                                    <span class="fw-bold fs-7 text-truncate" t-att-class="{
+                                                        'text-success': pkg.type === 'economy',
+                                                        'text-primary': pkg.type === 'best_match',
+                                                        'text-danger': pkg.type === 'premium',
+                                                        'text-warning': pkg.type === 'extended'
+                                                    }">
+                                                        <t t-esc="pkg.name"/>
+                                                    </span>
+                                                    <span class="badge" t-att-class="{
+                                                        'bg-success': pkg.variance_status === 'below_budget',
+                                                        'bg-primary': pkg.variance_status === 'matches_budget',
+                                                        'bg-info text-dark': pkg.variance_status === 'within_preferred',
+                                                        'bg-warning text-dark': pkg.variance_status === 'slightly_above_preferred',
+                                                        'bg-danger': pkg.variance_status === 'out_of_bounds'
+                                                    }">
+                                                        <t t-if="pkg.variance_status === 'below_budget'">توفير تحت الميزانية</t>
+                                                        <t t-elif="pkg.variance_status === 'matches_budget'">تطابق تام</t>
+                                                        <t t-elif="pkg.variance_status === 'within_preferred'">ضمن النطاق المفضل</t>
+                                                        <t t-elif="pkg.variance_status === 'slightly_above_preferred'">أعلى من المفضل بقليل</t>
+                                                        <t t-else="">خارج النطاق</t>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-baseline my-1">
+                                                    <span class="fs-5 fw-bold text-dark"><t t-esc="this.formatAmount(pkg.total_price, 2)"/> ج.م</span>
+                                                    <small class="fw-semibold" t-att-class="pkg.variance > 0 ? 'text-danger' : 'text-success'">
+                                                        <t t-esc="pkg.variance > 0 ? '+' : ''"/><t t-esc="this.formatAmount(pkg.variance, 2)"/> ج.م
+                                                    </small>
+                                                </div>
+                                                <div class="small text-muted mb-2 text-truncate" style="font-size: 11px;">
+                                                    <t t-esc="pkg.reason"/>
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center border-top pt-1 mt-auto">
+                                                    <small class="text-muted"><t t-esc="pkg.item_count"/> أصناف مختارة</small>
+                                                    <button type="button"
+                                                            class="btn btn-sm py-0 px-2 fw-bold"
+                                                            t-att-class="this.state.selectedPackageType === pkg.type ? 'btn-primary' : 'btn-outline-primary'">
+                                                        <t t-if="this.state.selectedPackageType === pkg.type">
+                                                            <i class="oi oi-check me-1"/>الباكدج المفعل
+                                                        </t>
+                                                        <t t-else="">
+                                                            اختيار وتفعيل
+                                                        </t>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+
+                        <!-- No Solution Banner if out of budget bounds -->
+                        <t t-if="!this.state.hasSolution">
+                            <div class="alert alert-danger p-3 shadow-sm border-start border-danger border-4">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="oi oi-close fs-4 text-danger"/>
+                                    <h6 class="fw-bold mb-0 text-danger">تنبيه الميزانية: تعذر تشكيل باكدج يغطي كافة القطاعات المطلوبة ضمن سقف الميزانية</h6>
+                                </div>
+                                <p class="mb-2 small"><t t-esc="this.state.noSolutionMessage"/></p>
+                                <t t-if="this.state.noSolutionSuggestions and this.state.noSolutionSuggestions.length > 0">
+                                    <div class="small fw-bold text-dark mb-1">الإجراءات الموصى بها للبائع مع العميل:</div>
+                                    <ul class="mb-0 small ps-3">
+                                        <t t-foreach="this.state.noSolutionSuggestions" t-as="sug" t-key="sug_index">
+                                            <li><t t-esc="sug"/></li>
+                                        </t>
+                                    </ul>
+                                </t>
+                            </div>
+                        </t>
+
+                        <!-- Lines Table -->
+                        <div class="table-responsive bg-white rounded border shadow-sm" style="max-height: 420px; overflow-y: auto;">
+                            <table class="table table-hover align-middle mb-0 text-center">
+                                <thead class="table-light sticky-top">
+                                    <tr>
+                                        <th style="width: 40px;">#</th>
+                                        <th class="text-start">الصنف والمواصفات</th>
+                                        <th style="width: 140px;">الكمية</th>
+                                        <th style="width: 110px;">السعر</th>
+                                        <th style="width: 110px;">الإجمالي</th>
+                                        <th style="width: 170px;">التوافر بالفرع الحالي</th>
+                                        <th style="width: 170px;">التوافر بالفروع الأخرى</th>
+                                        <th style="width: 180px;">الإجراءات والبدائل</th>
+                                        <th style="width: 50px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="this.state.lines.length === 0">
+                                        <tr>
+                                            <td colspan="9" class="py-5 text-muted">
+                                                <i class="oi oi-cart fs-1 d-block mb-2"/>
+                                                <span>لا توجد أصناف في الباكدج حالياً. اضغط "اقتراح التشكيلة الذكية" أو ابحث عن صنف.</span>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-foreach="this.state.lines" t-as="line" t-key="line_index">
+                                        <tr>
+                                            <td class="text-muted"><t t-esc="line_index + 1"/></td>
+                                            <td class="text-start">
+                                                <div class="fw-bold text-dark"><t t-esc="line.name"/></div>
+                                                <div class="text-muted small">
+                                                    <span class="me-2"><t t-esc="line.default_code"/></span>
+                                                    <span class="badge bg-light text-secondary border me-1"><t t-esc="line.categ_name"/></span>
+                                                    <t t-if="line.is_alternative">
+                                                        <span class="badge bg-warning text-dark border"><i class="oi oi-star me-1"/>بديل معتمد</span>
+                                                    </t>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group input-group-sm justify-content-center" style="width: 110px; margin: auto;">
+                                                    <button class="btn btn-outline-secondary" type="button" t-on-click="() => this.onQuantityChange(line_index, line.quantity - 1)">-</button>
+                                                    <input type="number" class="form-control text-center" t-att-value="line.quantity" t-on-change="(e) => this.onQuantityChange(line_index, e.target.value)" min="1" step="1"/>
+                                                    <button class="btn btn-outline-secondary" type="button" t-on-click="() => this.onQuantityChange(line_index, line.quantity + 1)">+</button>
+                                                </div>
+                                            </td>
+                                            <td class="fw-bold text-dark"><t t-esc="this.formatAmount(line.unit_price, 2)"/></td>
+                                            <td class="fw-bold text-danger"><t t-esc="this.formatAmount(line.price_subtotal, 2)"/></td>
+                                            
+                                            <!-- Current Branch Stock -->
+                                            <td>
+                                                <t t-if="line.current_branch_free >= line.quantity">
+                                                    <span class="badge bg-success py-2 px-3 fs-7">
+                                                        <i class="oi oi-check me-1"/>متوفر (<t t-esc="line.current_branch_free"/>)
+                                                    </span>
+                                                </t>
+                                                <t t-elif="line.current_branch_free > 0">
+                                                    <span class="badge bg-warning text-dark py-2 px-2 fs-7">
+                                                        عجز جزئي (<t t-esc="line.current_branch_free"/> من <t t-esc="line.quantity"/>)
+                                                    </span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="badge bg-danger py-2 px-3 fs-7">
+                                                        <i class="oi oi-close me-1"/>غير متوفر محلياً
+                                                    </span>
+                                                </t>
+                                            </td>
+
+                                            <!-- Other Branches Stock -->
+                                            <td>
+                                                <t t-if="line.remote_free > 0">
+                                                    <span class="badge bg-primary py-2 px-2 fs-7">
+                                                        <i class="oi oi-home me-1"/>متوفر (<t t-esc="line.remote_free"/> قطعة)
+                                                    </span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="badge bg-secondary py-2 px-2 fs-7">غير متوفر بالفروع</span>
+                                                </t>
+                                            </td>
+
+                                            <!-- Actions: Alternatives & Branch Sourcing -->
+                                            <td>
+                                                <div class="d-flex gap-1 justify-content-center">
+                                                    <!-- Alternatives Button -->
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-outline-warning text-dark fw-bold"
+                                                            title="عرض البدائل المتاحة"
+                                                            t-on-click="() => this.openAlternativesModal(line_index)">
+                                                        <i class="oi oi-star"/> البدائل
+                                                    </button>
+
+                                                    <!-- Source Branch Selection Button -->
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-outline-info text-dark fw-bold"
+                                                            title="تحديد فرع الصرف وطريقة الاستلام"
+                                                            t-on-click="() => this.openSourcingModal(line_index)">
+                                                        <i class="oi oi-home"/> الصرف
+                                                    </button>
+                                                </div>
+                                            </td>
+
+                                            <!-- Remove Line -->
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-link text-danger p-0" t-on-click="() => this.removeLine(line_index)" title="حذف">
+                                                    <i class="oi oi-trash fs-5"/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- ========================================================= -->
+                <!-- TAB 2: SETUP & SECTORS -->
+                <!-- ========================================================= -->
+                <t t-if="this.state.activeTab === 'setup'">
+                    <div class="row g-3">
+                        <!-- Left Column: Customer & Target Budget -->
+                        <div class="col-md-5">
+                            <div class="card h-100 shadow-sm border">
+                                <div class="card-header bg-light fw-bold text-dark">
+                                    <i class="oi oi-user me-1"/> بيانات العروسة والميزانية المستهدفة
+                                </div>
+                                <div class="card-body d-flex flex-column gap-3">
+                                    <div>
+                                        <label class="form-label fw-bold small text-muted">اسم العروسة / العميل:</label>
+                                        <input type="text" class="form-control" placeholder="اسم العميل الكامل..." t-model.proxy="this.state.customerName"/>
+                                    </div>
+                                    <div>
+                                        <label class="form-label fw-bold small text-muted">رقم الهاتف:</label>
+                                        <input type="text" class="form-control" placeholder="01xxxxxxxxx" t-model.proxy="this.state.customerPhone"/>
+                                    </div>
+                                    <div>
+                                        <label class="form-label fw-bold small text-muted">الميزانية المستهدفة (ج.م):</label>
+                                        <input type="number"
+                                               class="form-control form-control-lg fw-bold text-danger text-center"
+                                               t-att-value="this.state.targetBudget"
+                                               t-on-input="(e) => this.onTargetBudgetChange(e.target.value)"
+                                               t-on-change="(e) => this.onTargetBudgetChange(e.target.value)"/>
+                                    </div>
+
+                                    <!-- Quick Tiers -->
+                                    <div>
+                                        <label class="form-label fw-bold small text-muted">فئات الباكدج السريعة:</label>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <button type="button" class="btn btn-sm" t-att-class="this.state.packageTier === 'silver_15k' ? 'btn-danger' : 'btn-outline-secondary'" t-on-click="() => this.onTierSelect('silver_15k', 15000)">فضي (15,000)</button>
+                                            <button type="button" class="btn btn-sm" t-att-class="this.state.packageTier === 'gold_20k' ? 'btn-danger' : 'btn-outline-secondary'" t-on-click="() => this.onTierSelect('gold_20k', 20000)">ذهبي (20,000)</button>
+                                            <button type="button" class="btn btn-sm" t-att-class="this.state.packageTier === 'platinum_30k' ? 'btn-danger' : 'btn-outline-secondary'" t-on-click="() => this.onTierSelect('platinum_30k', 30000)">بلاتينيوم (30,000)</button>
+                                            <button type="button" class="btn btn-sm" t-att-class="this.state.packageTier === 'royal_45k' ? 'btn-danger' : 'btn-outline-secondary'" t-on-click="() => this.onTierSelect('royal_45k', 45000)">ملكي (45,000)</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Delivery Preferences -->
+                                    <div class="border-top pt-2">
+                                        <label class="form-label fw-bold small text-muted">تفضيل تسليم الباكدج:</label>
+                                        <div class="d-flex gap-2">
+                                            <button type="button" class="btn btn-sm flex-fill" t-att-class="this.state.deliveryPreference === 'all_together' ? 'btn-primary' : 'btn-outline-secondary'" t-on-click="() => this.state.deliveryPreference = 'all_together'">دفعة واحدة كاملة</button>
+                                            <button type="button" class="btn btn-sm flex-fill" t-att-class="this.state.deliveryPreference === 'as_ready' ? 'btn-primary' : 'btn-outline-secondary'" t-on-click="() => this.state.deliveryPreference = 'as_ready'">تسليم جزئي حسب التوفر</button>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="form-label fw-bold small text-muted">تاريخ التسليم المتوقع:</label>
+                                        <input type="date" class="form-control" t-model.proxy="this.state.expectedDeliveryDate"/>
+                                    </div>
+
+                                    <div>
+                                        <label class="form-label fw-bold small text-muted">ملاحظات وطلبات خاصة:</label>
+                                        <textarea class="form-control" rows="2" placeholder="أي تفاصيل خاصة بالجهاز أو العنوان..." t-model.proxy="this.state.customerNotes"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: 9 Sector Cards -->
+                        <div class="col-md-7">
+                            <div class="card h-100 shadow-sm border">
+                                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-dark"><i class="oi oi-view-list me-1"/> قطاعات جهاز العروسة (حدد المطلوب لتشكيل الباكدج)</span>
+                                    <button type="button" class="btn btn-sm btn-danger fw-bold" t-on-click="() => this.suggestSmartPackage()">
+                                        <i class="oi oi-magic me-1"/> تطبيق واقتراح الباكدج
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2">
+                                        <!-- Granite -->
+                                        <div class="col-md-6">
+                                            <div class="card p-2 border h-100 cursor-pointer"
+                                                 t-att-class="this.state.sectors.granite ? 'border-danger bg-danger-subtle text-danger' : 'border-secondary'"
+                                                 t-on-click="() => this.toggleSector('granite')">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <input type="checkbox" class="form-check-input" t-att-checked="this.state.sectors.granite"/>
+                                                    <div>
+                                                        <div class="fw-bold">أطقم حلل جرانيت</div>
+                                                        <small class="text-muted d-block">صحي غير لاصق 7 إلى 9 قطع</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Stainless -->
+                                        <div class="col-md-6">
+                                            <div class="card p-2 border h-100 cursor-pointer"
+                                                 t-att-class="this.state.sectors.stainless ? 'border-danger bg-danger-subtle text-danger' : 'border-secondary'"
+                                                 t-on-click="() => this.toggleSector('stainless')">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <input type="checkbox" class="form-check-input" t-att-checked="this.state.sectors.stainless"/>
+                                                    <div>
+                                                        <div class="fw-bold">أطقم ستانلس ستيل</div>
+                                                        <small class="text-muted d-block">ستانلس 18/10 سيجنتشر وزينوكس</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Aluminum -->
+                                        <div class="col-md-6">
+                                            <div class="card p-2 border h-100 cursor-pointer"
+                                                 t-att-class="this.state.sectors.aluminum ? 'border-danger bg-danger-subtle text-danger' : 'border-secondary'"
+                                                 t-on-click="() => this.toggleSector('aluminum')">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <input type="checkbox" class="form-check-input" t-att-checked="this.state.sectors.aluminum"/>
+                                                    <div>
+                                                        <div class="fw-bold">أطقم ألومنيوم كلاسيك</div>
+                                                        <small class="text-muted d-block">ألومنيوم نقي 99.5% أصلي</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Bakeware -->
+                                        <div class="col-md-6">
+                                            <div class="card p-2 border h-100 cursor-pointer"
+                                                 t-att-class="this.state.sectors.bakeware ? 'border-danger bg-danger-subtle text-danger' : 'border-secondary'"
+                                                 t-on-click="() => this.toggleSector('bakeware')">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <input type="checkbox" class="form-check-input" t-att-checked="this.state.sectors.bakeware"/>
+                                                    <div>
+                                                        <div class="fw-bold">صواني وطواجن فرن</div>
+                                                        <small class="text-muted d-block">صواني بسبوسة ومخبوزات وكيك</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Frypans -->
+                                        <div class="col-md-6">
+                                            <div class="card p-2 border h-100 cursor-pointer"
+                                                 t-att-class="this.state.sectors.frypans ? 'border-danger bg-danger-subtle text-danger' : 'border-secondary'"
+                                                 t-on-click="() => this.toggleSector('frypans')">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <input type="checkbox" class="form-check-input" t-att-checked="this.state.sectors.frypans"/>
+                                                    <div>
+                                                        <div class="fw-bold">طاسات ومقالي وجريل</div>
+                                                        <small class="text-muted d-block">مقالي كريب وتحمير وشوايات</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Small Appliances -->
+                                        <div class="col-md-6">
+                                            <div class="card p-2 border h-100 cursor-pointer"
+                                                 t-att-class="this.state.sectors.appliances ? 'border-danger bg-danger-subtle text-danger' : 'border-secondary'"
+                                                 t-on-click="() => this.toggleSector('appliances')">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <input type="checkbox" class="form-check-input" t-att-checked="this.state.sectors.appliances"/>
+                                                    <div>
+                                                        <div class="fw-bold">أجهزة كهربائية وخلاطات</div>
+                                                        <small class="text-muted d-block">خلاطات يد ومحضرات طعام</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cutlery -->
+                                        <div class="col-md-6">
+                                            <div class="card p-2 border h-100 cursor-pointer"
+                                                 t-att-class="this.state.sectors.cutlery ? 'border-danger bg-danger-subtle text-danger' : 'border-secondary'"
+                                                 t-on-click="() => this.toggleSector('cutlery')">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <input type="checkbox" class="form-check-input" t-att-checked="this.state.sectors.cutlery"/>
+                                                    <div>
+                                                        <div class="fw-bold">أطقم ملاعق وسكاكين</div>
+                                                        <small class="text-muted d-block">ستانلس ستيل وشنط سكاكين</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Serveware -->
+                                        <div class="col-md-6">
+                                            <div class="card p-2 border h-100 cursor-pointer"
+                                                 t-att-class="this.state.sectors.serveware ? 'border-danger bg-danger-subtle text-danger' : 'border-secondary'"
+                                                 t-on-click="() => this.toggleSector('serveware')">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <input type="checkbox" class="form-check-input" t-att-checked="this.state.sectors.serveware"/>
+                                                    <div>
+                                                        <div class="fw-bold">صواني تقديم وزجاجيات</div>
+                                                        <small class="text-muted d-block">أطقم شاي وقهوة وسرافيس</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Accessories -->
+                                        <div class="col-md-12">
+                                            <div class="card p-2 border h-100 cursor-pointer"
+                                                 t-att-class="this.state.sectors.accessories ? 'border-danger bg-danger-subtle text-danger' : 'border-secondary'"
+                                                 t-on-click="() => this.toggleSector('accessories')">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <input type="checkbox" class="form-check-input" t-att-checked="this.state.sectors.accessories"/>
+                                                    <div>
+                                                        <div class="fw-bold">إكسسوارات ومفروشات وموزعات سيليكون</div>
+                                                        <small class="text-muted d-block">أدوات توزيع حرارية ومساكات ومفارش مطبخ</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- ========================================================= -->
+                <!-- TAB 3: DISCOUNT GOVERNANCE & CONFIRMATION -->
+                <!-- ========================================================= -->
+                <t t-if="this.state.activeTab === 'discount'">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm border">
+                                <div class="card-header bg-light fw-bold text-dark">
+                                    <i class="oi oi-shield me-1"/> مصفوفة حوكمة الخصومات الرسمية بالأهرام
+                                </div>
+                                <div class="card-body d-flex flex-column gap-3">
+                                    <div class="p-3 bg-light rounded border">
+                                        <div class="small fw-bold text-muted mb-2">قواعد الصلاحيات المعتمدة:</div>
+                                        <ul class="mb-0 small ps-3">
+                                            <li><strong>0.00%:</strong> بدون خصم (معتمد تلقائياً).</li>
+                                            <li><strong>0.01% إلى 5.00%:</strong> صلاحية مدير الفرع (سيدي جابر).</li>
+                                            <li><strong>5.01% إلى 7.00%:</strong> صلاحية مدير العمليات والتوسع حصرياً.</li>
+                                            <li class="text-danger fw-bold">> 7.00%: محظور تماماً ومرفوض بنظام أودو.</li>
+                                        </ul>
+                                    </div>
+
+                                    <div>
+                                        <label class="form-label fw-bold small text-muted">نسبة الخصم المطلوبة % (بحد أقصى 7%):</label>
+                                        <div class="input-group">
+                                            <input type="number"
+                                                   class="form-control form-control-lg text-center fw-bold"
+                                                   t-att-value="this.state.requestedDiscountPct"
+                                                   t-on-change="(e) => this.onDiscountChange(e.target.value)"
+                                                   min="0"
+                                                   max="7"
+                                                   step="0.5"/>
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Discount State Banner -->
+                                    <t t-if="this.state.requestedDiscountPct > 0">
+                                        <t t-if="this.state.discountState === 'pending_bm'">
+                                            <div class="alert alert-warning py-2 mb-0 border-start border-warning border-4 small fw-bold">
+                                                طلب الخصم (<t t-esc="this.state.requestedDiscountPct"/>%) بانتظار موافقة مدير الفرع.
+                                            </div>
+                                        </t>
+                                        <t t-elif="this.state.discountState === 'pending_ops'">
+                                            <div class="alert alert-danger py-2 mb-0 border-start border-danger border-4 small fw-bold">
+                                                طلب الخصم الاستثنائي (<t t-esc="this.state.requestedDiscountPct"/>%) يتجاوز 5% وبانتظار اعتماد مدير العمليات.
+                                            </div>
+                                        </t>
+                                        <t t-elif="this.state.discountState === 'approved'">
+                                            <div class="alert alert-success py-2 mb-0 border-start border-success border-4 small fw-bold">
+                                                تم اعتماد الخصم رسمياً بنسبة <t t-esc="this.state.requestedDiscountPct"/>% (وفر: <t t-esc="this.formatAmount(this.state.discountAmount, 2)"/> ج.م).
+                                            </div>
+                                        </t>
+                                    </t>
+
+                                    <!-- Quick Approval Action if Authorized -->
+                                    <t t-if="this.state.requestedDiscountPct > 0 and this.state.discountState !== 'approved'">
+                                        <button type="button"
+                                                class="btn btn-outline-success fw-bold d-flex align-items-center justify-content-center gap-1"
+                                                t-on-click="() => this.approveDiscountDirectly()">
+                                            <i class="oi oi-check"/>
+                                            <span>اعتماد الخصم بصلاحية المدير الحالي</span>
+                                        </button>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm border">
+                                <div class="card-header bg-light fw-bold text-dark">
+                                    <i class="oi oi-tag me-1"/> ملخص الحساب والتنفيذ
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between gap-3">
+                                    <div class="d-flex flex-column gap-2">
+                                        <div class="d-flex justify-content-between py-2 border-bottom">
+                                            <span class="text-muted">إجمالي السعر الأصلي:</span>
+                                            <span class="fw-bold"><t t-esc="this.formatAmount(this.state.totalOriginalPrice, 2)"/> ج.م</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between py-2 border-bottom">
+                                            <span class="text-muted">قيمة الخصم المعتمد:</span>
+                                            <span class="fw-bold text-danger">- <t t-esc="this.formatAmount(this.state.discountAmount, 2)"/> ج.م (<t t-esc="this.state.requestedDiscountPct"/>%)</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between py-2 border-bottom bg-light px-2 rounded">
+                                            <span class="fw-bold text-dark fs-6">صافي سعر الباكدج للعروسة:</span>
+                                            <span class="fw-bold text-success fs-5"><t t-esc="this.formatAmount(this.state.finalPackagePrice, 2)"/> ج.م</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Reservation Success Banner -->
+                                    <t t-if="this.state.isReserved">
+                                        <div class="alert alert-success py-2 mb-0">
+                                            <div class="fw-bold">تم تأكيد الباكدج والحجز المخزني!</div>
+                                            <small class="d-block">كود الباكدج: <strong><t t-esc="this.state.packageName"/></strong></small>
+                                            <small class="d-block">كود الحجز: <strong><t t-esc="this.state.reservationName"/></strong></small>
+                                        </div>
+                                    </t>
+
+                                    <!-- Big Final Execution Buttons -->
+                                    <div class="d-flex flex-column gap-2 pt-2 border-top">
+                                        <button type="button"
+                                                class="btn btn-primary btn-lg fw-bold d-flex align-items-center justify-content-center gap-2"
+                                                t-att-disabled="this.state.isSubmitting"
+                                                t-on-click="() => this.confirmAndReservePackage()">
+                                            <i class="oi oi-check"/>
+                                            <span>تأكيد الباكدج وحجز المخزون بالفروع</span>
+                                        </button>
+
+                                        <button type="button"
+                                                class="btn btn-success btn-lg fw-bold d-flex align-items-center justify-content-center gap-2"
+                                                t-att-disabled="this.state.isSubmitting or (this.state.discountState === 'pending_bm' or this.state.discountState === 'pending_ops')"
+                                                t-on-click="() => this.loadIntoPosCart()">
+                                            <i class="oi oi-cart"/>
+                                            <span>تحويل الأصناف لسلة الـ POS للدفع الفوري</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- ========================================================= -->
+                <!-- MODAL DRAWER: ALTERNATIVE PRODUCTS -->
+                <!-- ========================================================= -->
+                <t t-if="this.state.activeAlternativeLineIndex !== null">
+                    <div class="modal d-block" style="background: rgba(0,0,0,0.5);">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content shadow-lg border-warning">
+                                <div class="modal-header bg-warning-subtle text-dark">
+                                    <h5 class="modal-title fw-bold">
+                                        <i class="oi oi-star me-2"/>البدائل المؤهلة والمتاحة للصنف: <t t-esc="this.state.lines[this.state.activeAlternativeLineIndex].name"/>
+                                    </h5>
+                                    <button type="button" class="btn-close" t-on-click="() => this.closeAlternativesModal()"></button>
+                                </div>
+                                <div class="modal-body p-3">
+                                    <p class="small text-muted mb-3">
+                                        اختر صنفاً بديلاً من نفس الفئة أو الخامة بعد موافقة العروسة. سيتم تحديث الأسعار والميزانية تلقائياً مع تسجيل الاستبدال.
+                                    </p>
+
+                                    <div class="d-flex flex-column gap-2" style="max-height: 380px; overflow-y: auto;">
+                                        <t t-if="this.state.alternativesList.length === 0">
+                                            <div class="text-center py-4 text-muted">
+                                                لا توجد بدائل متاحة في نفس الفئة حالياً.
+                                            </div>
+                                        </t>
+                                        <t t-foreach="this.state.alternativesList" t-as="alt" t-key="alt.id">
+                                            <div class="card p-3 border d-flex flex-row justify-content-between align-items-center hover-shadow">
+                                                <div>
+                                                    <div class="fw-bold text-dark fs-6"><t t-esc="alt.name"/></div>
+                                                    <div class="text-muted small mt-1">
+                                                        <span class="me-3">كود: <t t-esc="alt.default_code"/></span>
+                                                        <span class="badge bg-light text-dark border me-2"><t t-esc="alt.categ_name"/></span>
+                                                        <span class="badge" t-att-class="alt.total_network_free > 0 ? 'bg-success' : 'bg-danger'">
+                                                            الرصيد الحر عبر الفروع: <t t-esc="alt.total_network_free"/> قطعة
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="text-end">
+                                                        <div class="fw-bold fs-6 text-danger"><t t-esc="this.formatAmount(alt.list_price, 2)"/> ج.م</div>
+                                                        <small class="text-muted d-block">
+                                                            فارق السعر: <t t-esc="alt.price_diff > 0 ? '+' : ''"/><t t-esc="this.formatAmount(alt.price_diff, 2)"/> ج.م
+                                                        </small>
+                                                    </div>
+
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-warning fw-bold text-dark px-3"
+                                                            t-on-click="() => this.applyAlternative(alt)">
+                                                        اعتماد واستبدال
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="modal-footer bg-light">
+                                    <button type="button" class="btn btn-secondary" t-on-click="() => this.closeAlternativesModal()">إلغاء</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- ========================================================= -->
+                <!-- MODAL DRAWER: BRANCH SOURCING & FULFILLMENT -->
+                <!-- ========================================================= -->
+                <t t-if="this.state.activeSourcingLineIndex !== null">
+                    <div class="modal d-block" style="background: rgba(0,0,0,0.5);">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content shadow-lg border-info">
+                                <div class="modal-header bg-info-subtle text-dark">
+                                    <h5 class="modal-title fw-bold">
+                                        <i class="oi oi-home me-2"/>تحديد فرع الصرف وطريقة الاستلام
+                                    </h5>
+                                    <button type="button" class="btn-close" t-on-click="() => this.closeSourcingModal()"></button>
+                                </div>
+                                <div class="modal-body p-3">
+                                    <div class="fw-bold mb-2 text-dark"><t t-esc="this.state.lines[this.state.activeSourcingLineIndex].name"/></div>
+                                    <p class="small text-muted mb-3">اختر الفرع المصدر وطريقة الاستلام المناسبة للعميل:</p>
+
+                                    <div class="d-flex flex-column gap-2">
+                                        <t t-foreach="this.state.lines[this.state.activeSourcingLineIndex].branches" t-as="b" t-key="b.warehouse_id">
+                                            <div class="card p-2 border">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <span class="fw-bold text-dark">
+                                                        <t t-esc="b.warehouse_name"/>
+                                                        <t t-if="b.is_current"><span class="badge bg-secondary ms-1">الفرع الحالي</span></t>
+                                                    </span>
+                                                    <span class="badge" t-att-class="b.qty_free > 0 ? 'bg-success' : 'bg-secondary'">
+                                                        الرصيد المتاح: <t t-esc="b.qty_free"/>
+                                                    </span>
+                                                </div>
+
+                                                <t t-if="b.qty_free > 0">
+                                                    <div class="d-flex gap-2">
+                                                        <button type="button"
+                                                                class="btn btn-sm btn-outline-primary flex-fill"
+                                                                t-on-click="() => this.setSourcingBranch(b.warehouse_id, 'transfer')">
+                                                            تحويل للفرع البائع
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-sm btn-outline-success flex-fill"
+                                                                t-on-click="() => this.setSourcingBranch(b.warehouse_id, 'pickup')">
+                                                            استلام العميل من الفرع
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-sm btn-outline-info flex-fill"
+                                                                t-on-click="() => this.setSourcingBranch(b.warehouse_id, 'direct_delivery')">
+                                                            شحن مباشر للعميل
+                                                        </button>
+                                                    </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <small class="text-muted">لا يوجد رصيد حر في هذا الفرع.</small>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="modal-footer bg-light">
+                                    <button type="button" class="btn btn-secondary" t-on-click="() => this.closeSourcingModal()">إغلاق</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+            </div>
+        </Dialog>
+    </t>
+
+</templates>

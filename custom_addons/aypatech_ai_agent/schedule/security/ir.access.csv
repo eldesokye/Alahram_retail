@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+schedule_access_ai_schedule_admin,aypatech_wooai.schedule system,aypatech_wooai.schedule,base.group_system,crud,
+schedule_access_ai_schedule_user,aypatech_wooai.schedule user (restricted),aypatech_wooai.schedule,base.group_user,crud,"[('user_id', '=', user.id)]"

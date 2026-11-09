@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_SpaceDialog">
+        <Dialog size="'md'" title="this.props.title">
+            <div class="ayp_space_dialog">
+                <div class="mb-3">
+                    <label class="form-label small text-muted">Name</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        t-ref="this.inputRef"
+                        t-att-value="this.state.name"
+                        placeholder="Space name"
+                        t-on-input="(ev) => this.onInput(ev)"
+                        t-on-keydown="(ev) => this.onKeydown(ev)"
+                    />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small text-muted">Icon</label>
+                    <SelectMenu
+                        choices="this.icons"
+                        value="this.state.icon"
+                        required="true"
+                        searchPlaceholder="this.searchPlaceholder"
+                        onSelect.bind="this.onIconSelect"
+                        class="'ayp_icon_selector_boxed'"
+                        menuClass="'ayp_icon_selector_menu'"
+                    >
+                        <span class="ayp_icon_selector_value">
+                            <i class="fa fa-fw" t-att-class="this.state.icon"/>
+                            <span class="ms-2 text-truncate" t-esc="this.iconLabel"/>
+                        </span>
+                        <t t-set-slot="choice" t-slot-scope="scope">
+                            <i class="fa fa-fw" t-att-class="scope.data.value" t-att-title="scope.data.label"/>
+                        </t>
+                    </SelectMenu>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small text-muted">Default agent</label>
+                    <Many2XAutocomplete t-props="this.agentAutocompleteProps"/>
+                </div>
+                <div>
+                    <label class="form-label small text-muted">Instructions</label>
+                    <textarea
+                        class="form-control"
+                        rows="6"
+                        t-att-value="this.state.instructions"
+                        placeholder="Context and preferences for every chat in this space..."
+                        t-on-input="(ev) => this.onInstructionsInput(ev)"
+                    />
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-att-disabled="!this.canConfirm" t-on-click="() => this.confirm()">
+                    Save
+                </button>
+                <button class="btn btn-secondary" t-on-click="() => this.cancel()">
+                    Cancel
+                </button>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>

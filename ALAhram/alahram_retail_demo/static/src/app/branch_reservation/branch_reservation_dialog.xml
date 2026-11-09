@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="alahram_retail_demo.BranchReservationDialog">
+        <Dialog title="'حجز وتوافر الفروع — شركة الأهرام'" size="'xl'" bodyClass="'alahram-reservation-modal p-3'" footer="false">
+            <div class="branch-reservation-container d-flex flex-column gap-3">
+                <t t-if="this.state.bridalPackageName">
+                    <div class="alert alert-primary py-2 px-3 mb-1 d-flex align-items-center justify-content-between border-0 shadow-sm">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="oi oi-gift fs-5"/>
+                            <div>
+                                <span class="fw-bold">باكدج العروسة المرتبط: </span>
+                                <span class="badge bg-dark fs-6" t-esc="this.state.bridalPackageName"/>
+                            </div>
+                        </div>
+                        <span class="badge bg-primary">توزيع وصرف الأصناف على الفروع</span>
+                    </div>
+                </t>
+                
+                <!-- TOP HEADER & CUSTOMER DETAILS -->
+                <div class="card bg-light p-3 border-0 shadow-sm">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-5">
+                            <label class="form-label fw-bold text-muted small">اسم العميل</label>
+                            <input type="text" class="form-control form-control-lg" placeholder="اسم العميل أو العروسة..." t-model.proxy="this.state.customerName"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold text-muted small">رقم الهاتف</label>
+                            <input type="text" class="form-control form-control-lg text-start" placeholder="01xxxxxxxxx" t-model.proxy="this.state.customerPhone"/>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <div class="form-check form-switch fs-5 pb-1">
+                                <input class="form-check-input" type="checkbox" id="addToCartSwitch" t-model.proxy="this.state.addToCart"/>
+                                <label class="form-check-label fs-6 fw-semibold" for="addToCartSwitch">إضافة لسلة الكاشير</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUCT SEARCH & BARCODE SCANNER AREA -->
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <div class="card p-3 h-100 border-0 shadow-sm">
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-white"><i class="oi oi-search"/></span>
+                                <input type="text" class="form-control form-control-lg" placeholder="بحث بالاسم أو الباركود..." t-model.proxy="this.state.searchQuery"/>
+                            </div>
+                            <div class="product-search-list overflow-auto" style="max-height: 380px;">
+                                <t t-foreach="this.availableProducts" t-as="prod" t-key="prod.id">
+                                    <div class="product-item d-flex align-items-center justify-content-between p-2 mb-2 border rounded bg-white hover-shadow cursor-pointer"
+                                         t-on-click="() => this.addProductToReservation(prod, 1)">
+                                        <div class="d-flex flex-column text-truncate">
+                                            <span class="fw-bold text-truncate" t-esc="prod.display_name || prod.name || 'صنف'"/>
+                                            <span class="small text-muted" t-esc="prod.barcode || prod.default_code || 'بدون باركود'"/>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="badge bg-primary fs-6" t-esc="(prod.lst_price || prod.price || 0) + ' ج.م'"/>
+                                            <button class="btn btn-outline-primary btn-sm rounded-circle px-2 py-1">
+                                                <i class="oi oi-plus"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RESERVATION ITEMS & BRANCH ALLOCATION MATRIX -->
+                    <div class="col-md-7">
+                        <div class="card p-3 h-100 border-0 shadow-sm overflow-auto" style="max-height: 460px;">
+                            <h6 class="fw-bold mb-3 border-bottom pb-2">الأصناف المختارة وتوزيع الصرف على الفروع</h6>
+                            
+                            <t t-if="!this.state.selectedItems or this.state.selectedItems.length === 0">
+                                <div class="text-center py-5 text-muted">
+                                    <i class="oi oi-cart display-4 mb-3 opacity-25"/>
+                                    <p class="fs-5">لم يتم اختيار أي أصناف بعد. ابحث عن منتج أو امسح الباركود للبدء.</p>
+                                </div>
+                            </t>
+
+                            <t t-foreach="this.state.selectedItems" t-as="item" t-key="item.product.id">
+                                <div class="item-allocation-card border rounded p-3 mb-3 bg-white shadow-sm">
+                                    
+                                    <!-- Item Header & Stepper -->
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                            <h6 class="fw-bold mb-0" t-esc="item.product.display_name || item.product.name || 'صنف'"/>
+                                            <span class="badge bg-secondary" t-esc="'سعر القطعة: ' + (item.product.lst_price || item.product.price || 0) + ' ج.م'"/>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <button class="btn btn-outline-secondary btn-sm px-3 fs-5" t-on-click="() => this.updateRequestedQty(item, -1)">-</button>
+                                            <span class="fw-bold fs-5 px-2" t-esc="item.qty_requested"/>
+                                            <button class="btn btn-outline-secondary btn-sm px-3 fs-5" t-on-click="() => this.updateRequestedQty(item, 1)">+</button>
+                                            <button class="btn btn-outline-danger btn-sm ms-2" t-on-click="() => this.removeProduct(item_index)">
+                                                <i class="oi oi-trash"/>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Branch Real-Time Availability Badges -->
+                                    <t t-set="stockItem" t-value="this.getStockInfo(item.product.id)"/>
+                                    <t t-if="stockItem and stockItem.branches">
+                                        <div class="branch-stock-badges d-flex flex-wrap gap-2 mb-2 p-2 bg-light rounded">
+                                            <span class="small fw-bold text-muted align-self-center">رصيد الفروع:</span>
+                                            <t t-foreach="stockItem.branches" t-as="b" t-key="b.warehouse_id">
+                                                <span t-attf-class="badge {{b.qty_free > 0 ? 'bg-success' : 'bg-secondary opacity-50'}} p-2">
+                                                    <span t-esc="b.warehouse_name"/>: <strong t-esc="b.qty_free"/>
+                                                </span>
+                                            </t>
+                                        </div>
+                                    </t>
+
+                                    <!-- Allocations for this item -->
+                                    <div class="allocations-section mt-2">
+                                        <span class="small fw-bold text-dark d-block mb-1">تخصيص الفروع وطريقة الاستلام:</span>
+                                        <t t-foreach="item.allocations" t-as="alloc" t-key="alloc_index">
+                                            <div class="d-flex align-items-center gap-2 mb-2 p-2 border rounded bg-light">
+                                                <span class="fw-semibold text-truncate" style="min-width: 140px;" t-esc="alloc.warehouse_name"/>
+                                                
+                                                <!-- Quantity Stepper -->
+                                                <div class="d-flex align-items-center">
+                                                    <button class="btn btn-sm btn-white border px-2" t-on-click="() => this.changeAllocationQty(item, alloc, -1)">-</button>
+                                                    <span class="px-2 fw-bold" t-esc="alloc.qty"/>
+                                                    <button class="btn btn-sm btn-white border px-2" t-on-click="() => this.changeAllocationQty(item, alloc, 1)">+</button>
+                                                </div>
+
+                                                <!-- Fulfillment Type Selector -->
+                                                <select class="form-select form-select-sm" t-on-change="(ev) => alloc.fulfillment_type = ev.target.value">
+                                                    <option value="transfer" t-att-selected="alloc.fulfillment_type === 'transfer'">تحويل وشحن لفرع البيع (سيدي جابر)</option>
+                                                    <option value="pickup" t-att-selected="alloc.fulfillment_type === 'pickup'">استلام مباشر من الفرع المصدري</option>
+                                                </select>
+
+                                                <button class="btn btn-link text-danger p-0" t-on-click="() => this.removeAllocation(item, alloc_index)">
+                                                    <i class="oi oi-close"/>
+                                                </button>
+                                            </div>
+                                        </t>
+
+                                        <!-- Add branch allocation dropdown -->
+                                        <div class="d-flex align-items-center gap-2 mt-2">
+                                            <select class="form-select form-select-sm" t-on-change="(ev) => this.onSelectBranch(item, ev)">
+                                                <option value="">+ تخصيص صرف من فرع إضافي...</option>
+                                                <t t-foreach="this.state.branches" t-as="br" t-key="br.warehouse_id">
+                                                    <option t-att-value="br.warehouse_id" t-esc="br.name"/>
+                                                </t>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Allocation Status & Deficit Alert -->
+                                    <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center">
+                                        <span class="small text-muted">
+                                            المخصص: <strong t-esc="this.getItemTotalAllocated(item)"/> من <strong t-esc="item.qty_requested"/>
+                                        </span>
+                                        <t t-if="this.getItemDeficit(item) > 0">
+                                            <span class="badge bg-warning text-dark p-2">
+                                                عجز <t t-esc="this.getItemDeficit(item)"/> قطعة (ستدرج في قائمة الانتظار)
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="badge bg-success p-2">مكتمل التخصيص</span>
+                                        </t>
+                                    </div>
+
+                                </div>
+                            </t>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOOTER TOTALS & CONFIRMATION -->
+                <div class="card bg-dark text-white p-3 border-0 shadow-sm mt-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex gap-4">
+                            <div>
+                                <span class="text-white-50 d-block small">إجمالي المطلوب</span>
+                                <h4 class="mb-0 fw-bold" t-esc="this.summaryTotals.requested"/>
+                            </div>
+                            <div>
+                                <span class="text-white-50 d-block small">المحجوز بالمخازن</span>
+                                <h4 class="mb-0 fw-bold text-success" t-esc="this.summaryTotals.reserved"/>
+                            </div>
+                            <div>
+                                <span class="text-white-50 d-block small">قيد الانتظار (عجز)</span>
+                                <h4 class="mb-0 fw-bold text-warning" t-esc="this.summaryTotals.waiting"/>
+                            </div>
+                            <div class="border-start ps-4">
+                                <span class="text-white-50 d-block small">إجمالي القيمة التقديرية</span>
+                                <h4 class="mb-0 fw-bold text-info" t-esc="this.summaryTotals.amount + ' ج.م'"/>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-light btn-lg px-4" t-on-click="() => this.closeDialog()">إلغاء</button>
+                            <button class="btn btn-success btn-lg px-5 fw-bold" t-att-disabled="this.state.isSubmitting" t-on-click="() => this.submitReservation()">
+                                <t t-if="this.state.isSubmitting">
+                                    <span class="spinner-border spinner-border-sm me-2"/> جاري الحفظ...
+                                </t>
+                                <t t-else="">
+                                    تأكيد الحجز وتخصيص الفروع
+                                </t>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </Dialog>
+    </t>
+</templates>

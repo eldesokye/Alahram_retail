@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_AttachmentCard">
+        <div
+            class="ayp_att_card position-relative overflow-hidden"
+            t-att-class="{ 'ayp_att_card_compact': this.props.compact, 'ayp_att_card_image': this.file.isImage }"
+            t-att-title="this.props.attachment.filename"
+            t-on-click="() => this.onClick()"
+            role="button"
+            tabindex="0"
+        >
+            <t t-if="this.file.isImage">
+                <img
+                    class="ayp_att_card_thumb"
+                    t-att-src="this.file.defaultSource"
+                    t-att-alt="this.props.attachment.filename"
+                />
+            </t>
+            <t t-else="">
+                <div class="ayp_att_card_preview">
+                    <div class="o_image" t-att-data-mimetype="this.props.attachment.mimetype"/>
+                </div>
+                <div class="ayp_att_card_info px-2 py-1">
+                    <div class="ayp_att_card_name text-truncate fw-semibold" t-esc="this.props.attachment.filename"/>
+                    <div class="ayp_att_card_meta text-muted small text-uppercase" t-if="this.humanSize" t-esc="this.humanSize"/>
+                </div>
+            </t>
+            <button
+                t-if="this.props.removable"
+                class="ayp_att_card_remove btn btn-sm rounded-circle"
+                t-on-click="(ev) => this.onRemove(ev)"
+                title="Remove"
+            >
+                <i class="fa fa-times"/>
+            </button>
+            <a
+                t-if="this.props.attachment.id > 0"
+                class="ayp_att_card_download btn btn-sm rounded-circle"
+                t-att-href="this.file.downloadUrl"
+                t-on-click="(ev) => ev.stopPropagation()"
+                title="Download"
+                download=""
+            >
+                <i class="fa fa-download"/>
+            </a>
+        </div>
+    </t>
+
+</templates>

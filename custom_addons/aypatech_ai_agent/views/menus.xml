@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<record id="ai_action_app" model="ir.actions.act_url">
+		<field name="name">AI Agent App</field>
+		<field name="url">/aypatech_ai/app</field>
+		<field name="target">self</field>
+	</record>
+
+	<menuitem id="menu_ai_root" name="AI Agent" sequence="27"
+		web_icon="aypatech_ai_agent,static/description/icon.png" action="ai_action_app"/>
+
+	<menuitem id="menu_ai_open_app" name="Open App" parent="menu_ai_root" sequence="0" action="ai_action_app"/>
+	<menuitem id="menu_ai_chat" name="Chat (backend)" parent="menu_ai_root" sequence="1" action="ai_action_ai_chat"/>
+	<menuitem id="menu_ai_spaces" name="Spaces" parent="menu_ai_root" sequence="5" action="ai_action_ai_space"/>
+	<menuitem id="menu_ai_sessions" name="Sessions" parent="menu_ai_root" sequence="10" action="ai_action_ai_session"/>
+
+	<menuitem id="menu_ai_reports" name="Reports" parent="menu_ai_root" sequence="20"/>
+	<menuitem id="menu_ai_reports_schedules" name="Schedules" parent="menu_ai_reports" sequence="10"
+		action="aypatech_ai_agent.reports_action_report_schedule"/>
+	<menuitem id="menu_ai_reports_runs" name="Sent Reports" parent="menu_ai_reports" sequence="20"
+		action="aypatech_ai_agent.reports_action_report_run"/>
+
+	<menuitem id="menu_ai_automation" name="Automation" parent="menu_ai_root" sequence="30"/>
+	<menuitem id="menu_ai_automation_schedules" name="Agent Schedules" parent="menu_ai_automation" sequence="10"
+		action="schedule_action_aypatech_wooai_schedule"/>
+	<menuitem id="menu_ai_automation_rules" name="Automation Rules" parent="menu_ai_automation" sequence="20"
+		action="base_automation.base_automation_act"/>
+
+	<menuitem id="menu_ai_mcp" name="MCP" parent="menu_ai_root" sequence="40"/>
+	<menuitem id="menu_ai_mcp_playground" name="Playground" parent="menu_ai_mcp" sequence="5" action="mcp_action_mcp_playground"/>
+	<menuitem id="menu_ai_mcp_keys" name="API Keys" parent="menu_ai_mcp" sequence="10" action="mcp_action_mcp_key"/>
+	<menuitem id="menu_ai_mcp_servers" name="External Servers" parent="menu_ai_mcp" sequence="15"
+		action="aypatech_ai_agent.mcp_client_action_server"/>
+	<menuitem id="menu_ai_mcp_tools" name="Tools" parent="menu_ai_mcp" sequence="20" action="mcp_action_mcp_tool"/>
+	<menuitem id="menu_ai_mcp_prompts" name="Prompts" parent="menu_ai_mcp" sequence="30" action="mcp_action_mcp_prompt"/>
+	<menuitem id="menu_ai_mcp_sessions" name="MCP Sessions" parent="menu_ai_mcp" sequence="40" action="mcp_action_mcp_session"/>
+	<menuitem id="menu_ai_mcp_logs" name="Audit Log" parent="menu_ai_mcp" sequence="50" action="mcp_action_mcp_log"/>
+	<menuitem id="menu_ai_mcp_connect" name="Connect a Client" parent="menu_ai_mcp" sequence="60" action="mcp_action_connect"/>
+
+	<menuitem id="menu_ai_insights" name="Insights" parent="menu_ai_root" sequence="50"/>
+	<menuitem id="menu_ai_insights_usage" name="Cost and Usage" parent="menu_ai_insights" sequence="10"
+		action="aypatech_ai_agent.dashboard_action_usage"/>
+	<menuitem id="menu_ai_insights_approvals" name="Approvals" parent="menu_ai_insights" sequence="20" action="ai_action_ai_approval"/>
+
+	<menuitem id="menu_ai_config" name="Configuration" parent="menu_ai_root" sequence="90"/>
+	<menuitem id="menu_ai_config_agents" name="Agents" parent="menu_ai_config" sequence="10" action="ai_action_ai_agent"/>
+	<menuitem id="menu_ai_config_skills" name="Skills" parent="menu_ai_config" sequence="20" action="skills_action_aypatech_wooai_skill"/>
+	<menuitem id="menu_ai_config_providers" name="Providers" parent="menu_ai_config" sequence="30" action="ai_action_aypatech_wooai_provider"/>
+	<menuitem id="menu_ai_config_models" name="Models" parent="menu_ai_config" sequence="40" action="ai_action_aypatech_wooai_model"/>
+	<menuitem id="menu_ai_config_settings" name="Settings" parent="menu_ai_config" sequence="90"
+		action="ai_action_aypatech_wooai_config_settings"/>
+
+</odoo>

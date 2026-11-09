@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_ChatArtifactsPanel">
+        <aside class="ayp_artifacts_panel d-flex flex-column">
+            <div class="ayp_artifacts_header d-flex align-items-center">
+                <span class="ayp_artifacts_title fw-semibold">Artifacts</span>
+                <button
+                    class="btn btn-link btn-sm ms-auto ayp_artifacts_close p-1"
+                    t-on-click="() => this.props.onClose()"
+                    title="Close artifacts panel"
+                >
+                    <i class="fa fa-times"/>
+                </button>
+            </div>
+            <t t-if="this.tabs.length >= 2">
+                <div class="ayp_artifacts_tabs d-flex" role="tablist">
+                    <t t-foreach="this.tabs" t-as="tab" t-key="tab.id">
+                        <button
+                            class="ayp_artifacts_tab btn btn-link btn-sm"
+                            t-att-class="{ active: this.activeTab and this.activeTab.id === tab.id }"
+                            t-on-click="() => this.onSelectTab(tab.id)"
+                            role="tab"
+                        >
+                            <i t-if="tab.icon" class="fa me-1" t-att-class="tab.icon"/>
+                            <span t-esc="tab.label"/>
+                        </button>
+                    </t>
+                </div>
+            </t>
+            <div class="ayp_artifacts_body flex-grow-1">
+                <t t-foreach="this.tabs" t-as="tab" t-key="tab.id">
+                    <div t-if="this.activeTab and this.activeTab.id === tab.id" class="ayp_artifacts_body_slot h-100">
+                        <t t-if="tab.id === 'attachments'">
+                            <AttachmentsTab
+                                items="tab.items"
+                                session="this.props.session"
+                                onOpenAttachment="this.bodyProps.onOpenAttachment"
+                            />
+                        </t>
+                        <t t-else="">
+                            <t t-component="tab.component" t-props="this.bodyProps"/>
+                        </t>
+                    </div>
+                </t>
+                <div t-if="!this.activeTab" class="ayp_artifacts_empty text-muted small p-3">
+                    No artifacts in this conversation yet.
+                </div>
+            </div>
+        </aside>
+    </t>
+
+</templates>

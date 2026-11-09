@@ -1,0 +1,15 @@
+id,name,model_id,group_id/id,operation,domain
+access_alahram_cross_branch_reserve_user,alahram.cross.branch.reserve.user,alahram.cross.branch.reserve,base.group_user,crud,
+access_alahram_cross_branch_wizard_user,alahram.cross.branch.reserve.wizard.user,alahram.cross.branch.reserve.wizard,base.group_user,crud,
+access_alahram_bridal_configurator_user,alahram.bridal.configurator.user,alahram.bridal.configurator,base.group_user,crud,
+access_alahram_bridal_configurator_line_user,alahram.bridal.configurator.line.user,alahram.bridal.configurator.line,base.group_user,crud,
+access_alahram_bridal_wizard_user,alahram.bridal.package.wizard.user,alahram.bridal.package.wizard,base.group_user,crud,
+access_alahram_ai_assistant_user,alahram.ai.assistant.user,alahram.ai.assistant,base.group_user,crud,
+access_alahram_branch_analytics_user,alahram.branch.analytics.user,alahram.branch.analytics,base.group_user,crud,
+access_alahram_chat_history_user,alahram.chat.history.user,alahram.chat.history,base.group_user,crud,
+access_alahram_stock_recommendation_user,alahram.stock.recommendation.user,alahram.stock.recommendation,base.group_user,crud,
+access_alahram_branch_reservation_user,alahram.branch.reservation.user,alahram.branch.reservation,base.group_user,crud,
+access_alahram_branch_reservation_line_user,alahram.branch.reservation.line.user,alahram.branch.reservation.line,base.group_user,crud,
+access_alahram_branch_reservation_allocation_user,alahram.branch.reservation.allocation.user,alahram.branch.reservation.allocation,base.group_user,crud,
+access_alahram_branch_waitlist_line_user,alahram.branch.waitlist.line.user,alahram.branch.waitlist.line,base.group_user,crud,
+rule_pos_order_branch_manager,POS Order Sidi Gaber BM,pos.order,alahram_retail_demo.group_alahram_branch_manager,r,"[('config_id.name', 'ilike', 'سيدي جابر')]"

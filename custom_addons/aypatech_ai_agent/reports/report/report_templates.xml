@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<template id="reports_report_run_document">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="doc">
+				<t t-call="web.basic_layout">
+					<style>
+						.aypatech-ai-report table, .aypatech-ai-report thead, .aypatech-ai-report tbody, .aypatech-ai-report tr { border: 0 !important; }
+						.aypatech-ai-report th, .aypatech-ai-report td { border-left: 0 !important; border-right: 0 !important; border-top: 0 !important; }
+						.aypatech-ai-report tr { page-break-inside: avoid; }
+					</style>
+					<div class="page aypatech-ai-report">
+						<t t-out="doc.body_html"/>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+
+	<record id="reports_paperformat_report_run" model="report.paperformat">
+		<field name="name">AypaTech AI report (A4)</field>
+		<field name="format">A4</field>
+		<field name="orientation">Portrait</field>
+		<field name="margin_top">12</field>
+		<field name="margin_bottom">12</field>
+		<field name="margin_left">10</field>
+		<field name="margin_right">10</field>
+		<field name="header_line" eval="False"/>
+		<field name="header_spacing">0</field>
+		<field name="dpi">96</field>
+	</record>
+
+	<record id="reports_action_report_pdf" model="ir.actions.report">
+		<field name="name">Report (PDF)</field>
+		<field name="model">aypatech_wooai.report.run</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">aypatech_ai_agent.reports_report_run_document</field>
+		<field name="print_report_name">object.name</field>
+		<field name="paperformat_id" ref="reports_paperformat_report_run"/>
+	</record>
+
+</odoo>

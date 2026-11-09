@@ -1,0 +1,45 @@
+/* Al Ahram Smart Bridal Package POS Tablet Styling */
+.bridal-dialog-container {
+    min-height: 520px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    .cursor-pointer {
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        }
+    }
+
+    .hover-shadow:hover {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-pills .nav-link {
+        font-size: 15px;
+        border-radius: 8px;
+    }
+
+    .table th {
+        font-size: 14px;
+        font-weight: 600;
+        background-color: #f8f9fa;
+    }
+
+    .table td {
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+    .btn-lg {
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+    }
+
+    .badge {
+        font-weight: 600;
+    }
+}
+

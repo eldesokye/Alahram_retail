@@ -1,0 +1,192 @@
+.ayp_chat,
+.ayp_window {
+    --ayp-primary-fill: var(--o-cc1-btn-primary, #6b3e66);
+    --ayp-primary: #c9a2c3;
+    --ayp-primary-rgb: 201, 162, 195;
+
+    .ayp_avatar,
+    .ayp_empty_badge,
+    .ayp_sidebar_dot.ayp_state_running,
+    .ayp_tool_streaming .ayp_tool_icon {
+        background: var(--ayp-primary-fill);
+    }
+    .ayp_running::before,
+    .ayp_dots span {
+        background: var(--ayp-primary-fill);
+    }
+    .ayp_send {
+        background: var(--ayp-primary-fill);
+    }
+    .ayp_bubble_user {
+        background: var(--ayp-primary-fill) !important;
+    }
+
+    .ayp_tool.ayp_tool_read {
+        border-left-color: #3fb950;
+    }
+    .ayp_tool.ayp_tool_write {
+        border-left-color: #d29922;
+    }
+    .ayp_tool.ayp_tool_nav,
+    .ayp_tool.ayp_tool_schedule_resume {
+        border-left-color: #58a6ff;
+    }
+    .ayp_tool.ayp_tool_error {
+        border-left-color: #f85149;
+    }
+    .ayp_tool.ayp_tool_schedule_recur {
+        border-left-color: #3fb950;
+    }
+    .ayp_tool.ayp_tool_schedule_resume .ayp_tool_schedule_icon {
+        background: rgba(88, 166, 255, 0.16);
+        color: #58a6ff;
+    }
+    .ayp_tool.ayp_tool_schedule_recur .ayp_tool_schedule_icon {
+        background: rgba(63, 185, 80, 0.16);
+        color: #3fb950;
+    }
+    .ayp_tool_group.ayp_tool_group_has_error {
+        border-color: rgba(248, 81, 73, 0.45);
+    }
+
+    .ayp_markdown pre,
+    .ayp_tool_body pre {
+        background: #0d1117;
+        color: #c9d1d9;
+        border-color: var(--ayp-border);
+        box-shadow: none;
+        .token.comment,
+        .token.prolog,
+        .token.cdata {
+            color: #8b949e;
+        }
+        .token.punctuation {
+            color: #c9d1d9;
+        }
+        .token.property,
+        .token.tag,
+        .token.constant,
+        .token.symbol,
+        .token.deleted {
+            color: #7ee787;
+        }
+        .token.boolean,
+        .token.number {
+            color: #79c0ff;
+        }
+        .token.selector,
+        .token.attr-name,
+        .token.char,
+        .token.builtin,
+        .token.inserted,
+        .token.string,
+        .token.attr-value {
+            color: #a5d6ff;
+        }
+        .token.operator,
+        .token.entity,
+        .token.url,
+        .token.atrule,
+        .token.keyword,
+        .language-css .token.string,
+        .style .token.string {
+            color: #ff7b72;
+        }
+        .token.function,
+        .token.class-name {
+            color: #d2a8ff;
+        }
+        .token.regex,
+        .token.important,
+        .token.variable {
+            color: #ffa657;
+        }
+    }
+    .ayp_markdown pre .ayp_code_copy {
+        &:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--ayp-text);
+        }
+        &.ayp_code_copy_done {
+            color: #3fb950;
+            border-color: #3fb950;
+        }
+        &.ayp_code_copy_fail {
+            color: #f85149;
+            border-color: #f85149;
+        }
+    }
+    .ayp_markdown tbody tr:nth-child(even) td {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .ayp_msg_btn:hover,
+    .ayp_msg_copy:hover,
+    .ayp_bubble_queued .ayp_queue_cancel:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .ayp_att_card_info {
+        background: var(--ayp-bg-soft);
+    }
+
+    mark.ayp_search_hit,
+    mark.ayp_search_hit_active {
+        color: #14151a;
+    }
+
+    .ayp_context_chip.ayp_context_amber {
+        color: #e3b341;
+    }
+    .ayp_approval_pill.ayp_approval_bypass {
+        color: #f0b968;
+    }
+    .ayp_ask_card {
+        .ayp_ask_head,
+        .ayp_ask_toggle,
+        table.ayp_ask_changes th {
+            color: #e3b341;
+        }
+        .ayp_ask_toggle:hover {
+            color: #f2cc60;
+        }
+        .ayp_ask_body code,
+        .ayp_ask_preview .ayp_ask_call code {
+            color: #f0c674;
+        }
+    }
+    .ayp_tool_group_head {
+        .ayp_tg_ok {
+            color: #3fb950;
+        }
+        .ayp_tg_err {
+            color: #f85149;
+        }
+    }
+
+    .ayp_avatar.ayp_state_new,
+    .ayp_avatar.ayp_state_stopped {
+        background: rgba(139, 148, 158, 0.18);
+        color: #8b949e;
+    }
+    .ayp_avatar.ayp_state_running {
+        background: rgba(88, 166, 255, 0.18);
+        color: #58a6ff;
+    }
+    .ayp_avatar.ayp_state_waiting {
+        background: rgba(210, 153, 34, 0.2);
+        color: #d29922;
+    }
+    .ayp_avatar.ayp_state_done {
+        background: rgba(63, 185, 80, 0.2);
+        color: #3fb950;
+    }
+    .ayp_avatar.ayp_state_error {
+        background: rgba(248, 81, 73, 0.18);
+        color: #f85149;
+    }
+}
+
+.ayp_window_header {
+    background: var(--ayp-primary-fill);
+}

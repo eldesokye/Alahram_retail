@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_ChatSidebarItem">
+        <div
+            class="ayp_sidebar_item"
+            t-att-class="{ active: session.id === this.props.activeSessionId, ayp_running: session.state === 'running' || session.state === 'waiting', ayp_unread: this.isUnread(session.id), ayp_sidebar_item_nested: nested, ayp_sidebar_shared: !this.isOwn(session) }"
+            t-att-data-session-id="session.id"
+            t-att-data-space-id="session.space_id and session.space_id[0]"
+            t-on-click="() => this.props.onSelect(session.id)"
+            t-att-title="this.statusLabel(session.state)"
+        >
+            <span class="ayp_sidebar_dot" t-att-class="'ayp_state_' + session.state">
+                <t t-if="session.state === 'running'">
+                    <i class="fa fa-circle-o-notch fa-spin" />
+                </t>
+                <t t-elif="session.state === 'waiting'">
+                    <i class="fa fa-question" />
+                </t>
+                <t t-elif="session.state === 'error'">
+                    <i class="fa fa-exclamation" />
+                </t>
+            </span>
+            <span class="ayp_sidebar_name">
+                <span class="ayp_sidebar_label" t-esc="session.name"/>
+                <span
+                    class="ayp_sidebar_share"
+                    t-if="this.sharedWith(session).length"
+                    t-att-title="this.sharedTitle(session)"
+                >
+                    <img
+                        t-foreach="this.sharedWith(session)" t-as="uid" t-key="uid"
+                        class="ayp_sidebar_share_avatar"
+                        t-att-src="'/web/image/res.users/' + uid + '/avatar_128'"
+                        alt=""
+                    />
+                </span>
+            </span>
+            <span class="ayp_sidebar_unread" t-if="this.isUnread(session.id)" title="Unread" />
+            <div class="ayp_sidebar_meta">
+                <span
+                    class="ayp_space_chip"
+                    t-if="this.isServerSearch and session.space_id"
+                    t-esc="session.space_id[1]"
+                />
+                <small class="ayp_sidebar_sub text-muted" t-if="session.state === 'running'">thinking…</small>
+                <small class="ayp_sidebar_sub text-muted" t-elif="session.state === 'waiting'">awaiting you</small>
+            </div>
+            <div class="ayp_sidebar_actions" t-if="this.isOwn(session)">
+                <button
+                    class="btn btn-link btn-sm"
+                    title="Rename"
+                    t-on-click="(ev) => this.onRenameClick(session, ev)"
+                >
+                    <i class="fa fa-pencil" />
+                </button>
+                <button
+                    class="btn btn-link btn-sm text-danger"
+                    title="Delete"
+                    t-on-click="(ev) => this.onDeleteClick(session, ev)"
+                >
+                    <i class="fa fa-trash" />
+                </button>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="aypatech_ai_agent.ai_ChatSidebarSpace">
+        <div
+            t-att-class="{
+                ayp_space_group: !space.system,
+                ayp_space_personal: !space.system,
+                ayp_space_fixed: space.system,
+            }"
+            t-att-data-space-id="space.id"
+        >
+        <div
+            class="ayp_space_row"
+            t-att-class="{ ayp_space_system: space.system, ayp_space_target: this.isDropTarget(space.id), ayp_space_open: this.isExpanded(space.id) }"
+            t-on-click="() => this.toggleSpace(space.id)"
+        >
+            <i class="fa ayp_space_grip fa-bars" t-if="!space.system" />
+            <i
+                class="fa ayp_space_caret"
+                t-att-class="this.isExpanded(space.id) ? 'fa-caret-down' : 'fa-caret-right'"
+            />
+            <i class="fa ayp_space_icon" t-att-class="space.icon"/>
+            <span class="ayp_space_name" t-esc="space.name" />
+            <button
+                class="ayp_space_badge"
+                t-if="this.spaceUnread(space.id)"
+                t-att-class="{ ayp_space_badge_on: this.isUnreadOnly(space.id) }"
+                t-att-title="this.unreadFilterTitle(space.id)"
+                t-on-click="(ev) => this.toggleUnreadFilter(space.id, ev)"
+            >
+                <t t-esc="this.spaceUnread(space.id)"/>
+            </button>
+            <div class="ayp_space_actions" t-if="!space.system">
+                <button
+                    class="btn btn-link btn-sm"
+                    title="New chat here"
+                    t-on-click="(ev) => this.onSpaceNewClick(space, ev)"
+                >
+                    <i class="fa fa-plus" />
+                </button>
+                <button
+                    class="btn btn-link btn-sm"
+                    title="Edit"
+                    t-on-click="(ev) => this.onSpaceEditClick(space, ev)"
+                >
+                    <i class="fa fa-pencil" />
+                </button>
+                <button
+                    class="btn btn-link btn-sm text-danger"
+                    title="Delete"
+                    t-on-click="(ev) => this.onSpaceDeleteClick(space, ev)"
+                >
+                    <i class="fa fa-trash" />
+                </button>
+            </div>
+        </div>
+        <t t-if="this.isExpanded(space.id)">
+            <div class="ayp_space_branch">
+                <div class="ayp_space_filter" t-if="this.isUnreadOnly(space.id)">
+                    <i class="fa fa-filter"/>
+                    <span>Unread only</span>
+                    <button
+                        class="btn btn-link btn-sm ayp_space_filter_clear"
+                        title="Show all chats"
+                        t-on-click="(ev) => this.toggleUnreadFilter(space.id, ev)"
+                    >
+                        <i class="fa fa-times"/>
+                    </button>
+                </div>
+                <t t-foreach="this.sessionsInSpace(space.id)" t-as="session" t-key="session.id">
+                    <t t-call="aypatech_ai_agent.ai_ChatSidebarItem">
+                        <t t-set="nested" t-value="true"/>
+                    </t>
+                </t>
+                <div
+                    class="ayp_space_empty text-muted"
+                    t-if="!this.sessionsInSpace(space.id).length"
+                >
+                    <t t-if="this.isUnreadOnly(space.id)">Nothing unread here.</t>
+                    <t t-else="">No chats here yet.</t>
+                </div>
+                <button
+                    class="ayp_load_more"
+                    t-if="this.spaceHasMore(space.id)"
+                    t-on-click="(ev) => this.onSpaceLoadMoreClick(space.id, ev)"
+                >
+                    <i class="fa fa-angle-down"/>
+                    <span>Load more</span>
+                </button>
+            </div>
+        </t>
+        </div>
+    </t>
+
+    <t t-name="aypatech_ai_agent.ai_ChatSidebar">
+        <aside
+            class="ayp_sidebar d-flex flex-column"
+            t-ref="this.asideRef"
+            t-att-style="this.widthStyle"
+        >
+            <div
+                class="ayp_sidebar_resizer"
+                t-att-class="{ ayp_sidebar_resizing: this.state.resizing }"
+                title="Drag to resize"
+                t-on-pointerdown="this.onResizeStart"
+                t-on-dblclick="this.onResizeReset"
+            />
+            <div class="ayp_sidebar_header p-3 border-bottom">
+                <button class="btn btn-primary btn-sm w-100 fw-semibold" t-on-click="() => this.props.onNew()">
+                    <i class="fa fa-plus me-1" />
+                    <span>New Chat</span>
+                </button>
+                <div class="ayp_sidebar_search mt-2" t-if="this.hasAnySession">
+                    <i class="fa fa-search ayp_sidebar_search_icon"/>
+                    <input
+                        type="text"
+                        class="form-control form-control-sm ayp_sidebar_search_input"
+                        placeholder="Search chats…"
+                        t-att-value="this.state.query"
+                        t-on-input="this.onQueryInput"
+                    />
+                    <button
+                        class="btn btn-link btn-sm ayp_sidebar_search_clear"
+                        t-if="this.hasQuery"
+                        title="Clear"
+                        t-on-click="this.onClearQuery"
+                    >
+                        <i class="fa fa-times"/>
+                    </button>
+                </div>
+            </div>
+            <div class="ayp_sidebar_list flex-grow-1" t-ref="this.listRef">
+                <t t-if="!this.isServerSearch">
+                    <t t-foreach="this.systemSpaces" t-as="space" t-key="space.id">
+                        <t t-call="aypatech_ai_agent.ai_ChatSidebarSpace"/>
+                    </t>
+                    <div class="ayp_space_head" t-if="this.props.onSpaceCreate">
+                        <span>Spaces</span>
+                        <button
+                            class="btn btn-link btn-sm ayp_space_head_add"
+                            title="New space"
+                            t-on-click="this.startCreate"
+                        >
+                            <i class="fa fa-plus"/>
+                        </button>
+                    </div>
+                    <div class="ayp_space_new" t-if="this.state.creating">
+                        <i class="fa fa-folder-o ayp_space_icon"/>
+                        <input
+                            type="text"
+                            class="form-control form-control-sm ayp_space_new_input"
+                            placeholder="Space name"
+                            t-ref="this.newSpaceRef"
+                            t-att-value="this.state.newName"
+                            t-on-input="this.onCreateInput"
+                            t-on-keydown="this.onCreateKeydown"
+                            t-on-blur="this.submitCreate"
+                        />
+                    </div>
+                    <div t-ref="this.spacesRef">
+                        <t t-foreach="this.personalSpaces" t-as="space" t-key="space.id">
+                            <t t-call="aypatech_ai_agent.ai_ChatSidebarSpace"/>
+                        </t>
+                    </div>
+                    <div
+                        class="ayp_space_empty text-muted ms-2"
+                        t-if="this.props.onSpaceCreate and !this.personalSpaces.length and !this.state.creating"
+                    >
+                        No space yet. Create a new space.
+                    </div>
+                </t>
+                <t t-if="!this.hasAnySession">
+                    <div class="text-center text-muted small py-4 px-3">
+                        <i class="fa fa-comments-o fa-2x d-block mb-2 opacity-50" />
+                        No chats yet.
+                    </div>
+                </t>
+                <t t-elif="this.props.searching and !this.groups.length">
+                    <div class="text-center text-muted small py-4 px-3">
+                        <i class="fa fa-spinner fa-spin fa-2x d-block mb-2 opacity-50" />
+                        Searching…
+                    </div>
+                </t>
+                <t t-elif="!this.groups.length and (this.hasQuery or !!this.props.searchMode)">
+                    <div class="text-center text-muted small py-4 px-3">
+                        <i class="fa fa-search fa-2x d-block mb-2 opacity-50" />
+                        No chats match
+                        <strong t-esc="this.state.query" />.
+                    </div>
+                </t>
+                <t t-else="">
+                    <div
+                        class="ayp_space_group ayp_loose_group"
+                        t-att-class="{ ayp_space_target: this.state.dropTargetId === 'loose' }"
+                    >
+                        <t t-foreach="this.groups" t-as="group" t-key="group.key">
+                            <div class="ayp_sidebar_group_label" t-esc="group.label"/>
+                            <t t-foreach="group.sessions" t-as="session" t-key="session.id">
+                                <t t-call="aypatech_ai_agent.ai_ChatSidebarItem"/>
+                            </t>
+                        </t>
+                    </div>
+                    <button
+                        class="ayp_load_more"
+                        t-if="this.showLoadMore"
+                        t-att-disabled="this.props.loadingMore"
+                        t-on-click="this.onLoadMoreClick"
+                    >
+                        <t t-if="this.props.loadingMore">
+                            <i class="fa fa-spinner fa-spin"/><span>Loading…</span>
+                        </t>
+                        <t t-else="">
+                            <i class="fa fa-angle-down"/><span>Load more</span>
+                        </t>
+                    </button>
+                </t>
+            </div>
+        </aside>
+    </t>
+
+</templates>

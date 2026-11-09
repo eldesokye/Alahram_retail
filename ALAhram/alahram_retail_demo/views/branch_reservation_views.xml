@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- ALAHRAM BRANCH RESERVATION VIEWS                             -->
+    <!-- ============================================================ -->
+
+    <!-- Form View -->
+    <record id="view_alahram_branch_reservation_form" model="ir.ui.view">
+        <field name="name">alahram.branch.reservation.form</field>
+        <field name="model">alahram.branch.reservation</field>
+        <field name="arch" type="xml">
+            <form string="حجز وتوافر الفروع">
+                <header>
+                    <button name="action_confirm" string="تأكيد الحجز وتخصيص المخزون" type="object" class="btn-primary" invisible="state not in ('draft', 'partially_reserved')"/>
+                    <button name="action_retry_waiting_allocation" string="إعادة فحص قائمة الانتظار" type="object" class="btn-secondary" invisible="state not in ('partially_reserved', 'draft')"/>
+                    <button name="action_complete_handover" string="تسليم للعميل" type="object" class="btn-success" invisible="state not in ('reserved', 'partially_reserved', 'transferred')"/>
+                    <button name="action_cancel" string="إلغاء الحجز" type="object" class="btn-danger" invisible="state in ('delivered', 'cancelled')" confirm="هل أنت متأكد من إلغاء الحجز وإلغاء حركات المخزون المرتبطة؟"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,partially_reserved,reserved,transferred,delivered"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label">حجز فروع شركة الأهرام</span>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="بيانات العميل والطلب">
+                            <field name="partner_id"/>
+                            <field name="customer_name"/>
+                            <field name="customer_phone"/>
+                            <field name="pos_order_id"/>
+                        </group>
+                        <group string="بيانات الفرع والمسؤول">
+                            <field name="current_branch_id"/>
+                            <field name="salesperson_id"/>
+                            <field name="date_reservation"/>
+                            <field name="pos_config_id"/>
+                            <field name="idempotency_key" groups="base.group_no_one"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="أصناف الحجز المطلوبة" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="qty_requested"/>
+                                    <field name="qty_reserved" readonly="1"/>
+                                    <field name="qty_waiting" readonly="1"/>
+                                    <field name="uom_id" readonly="1"/>
+                                    <field name="price_unit"/>
+                                    <field name="price_subtotal" readonly="1"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="total_qty_requested"/>
+                                <field name="total_qty_reserved"/>
+                                <field name="total_qty_waiting"/>
+                                <field name="total_amount" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+                        <page string="تخصيصات الفروع وحركات المخزن" name="allocations">
+                            <field name="allocation_ids" readonly="1">
+                                <list>
+                                    <field name="product_id"/>
+                                    <field name="source_warehouse_id"/>
+                                    <field name="destination_warehouse_id"/>
+                                    <field name="fulfillment_type"/>
+                                    <field name="qty_allocated"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'handed_over'" decoration-info="state in ('reserved', 'transit')" decoration-muted="state == 'cancelled'"/>
+                                    <field name="picking_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="قائمة الانتظار والعجز" name="waitlist">
+                            <field name="waitlist_line_ids" readonly="1">
+                                <list>
+                                    <field name="product_id"/>
+                                    <field name="qty_waiting"/>
+                                    <field name="preferred_warehouse_ids" widget="many2many_tags"/>
+                                    <field name="priority" widget="badge" decoration-danger="priority == 'urgent'" decoration-warning="priority == 'high'"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'allocated'" decoration-warning="state == 'waiting'"/>
+                                    <field name="notification_notes"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="ملاحظات" name="notes">
+                            <field name="notes" placeholder="أية ملاحظات خاصة بتسليم أو شحن البضاعة..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_alahram_branch_reservation_tree" model="ir.ui.view">
+        <field name="name">alahram.branch.reservation.tree</field>
+        <field name="model">alahram.branch.reservation</field>
+        <field name="arch" type="xml">
+            <list string="حجوزات الفروع" decoration-success="state == 'reserved'" decoration-warning="state == 'partially_reserved'" decoration-info="state == 'transferred'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="customer_name"/>
+                <field name="customer_phone"/>
+                <field name="current_branch_id"/>
+                <field name="total_qty_requested"/>
+                <field name="total_qty_reserved"/>
+                <field name="total_qty_waiting"/>
+                <field name="total_amount"/>
+                <field name="date_reservation"/>
+                <field name="state" widget="badge" decoration-success="state == 'reserved'" decoration-warning="state == 'partially_reserved'" decoration-info="state == 'transferred'" decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_alahram_branch_reservation_search" model="ir.ui.view">
+        <field name="name">alahram.branch.reservation.search</field>
+        <field name="model">alahram.branch.reservation</field>
+        <field name="arch" type="xml">
+            <search string="بحث في حجوزات الفروع">
+                <field name="name"/>
+                <field name="customer_name"/>
+                <field name="customer_phone"/>
+                <field name="partner_id"/>
+                <field name="current_branch_id"/>
+                <filter string="المسودات" name="filter_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="محجوز بالكامل" name="filter_reserved" domain="[('state', '=', 'reserved')]"/>
+                <filter string="حجز جزئي" name="filter_partially_reserved" domain="[('state', '=', 'partially_reserved')]"/>
+                <filter string="قيد التحويل" name="filter_transferred" domain="[('state', '=', 'transferred')]"/>
+                <filter string="تم التسليم" name="filter_delivered" domain="[('state', '=', 'delivered')]"/>
+                <filter string="يحتوي قائمة انتظار" name="filter_has_waitlist" domain="[('total_qty_waiting', '>', 0)]"/>
+                <group>
+                    <filter string="الفرع الحالي" name="group_branch" context="{'group_by': 'current_branch_id'}"/>
+                    <filter string="الحالة" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="تاريخ الحجز" name="group_date" context="{'group_by': 'date_reservation'}"/>
+                    <filter string="البائع" name="group_salesperson" context="{'group_by': 'salesperson_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_alahram_branch_reservation" model="ir.actions.act_window">
+        <field name="name">حجوزات وتوافر الفروع</field>
+        <field name="res_model">alahram.branch.reservation</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                لا توجد حجوزات فروع مسجلة حتى الآن.
+            </p>
+            <p>
+                يمكن لمسؤولي المبيعات ونقاط البيع إنشاء حجوزات متعددة الأصناف وتوزيع الصرف على الفروع.
+            </p>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- WAITING LIST VIEWS                                           -->
+    <!-- ============================================================ -->
+
+    <record id="view_alahram_branch_waitlist_tree" model="ir.ui.view">
+        <field name="name">alahram.branch.waitlist.line.tree</field>
+        <field name="model">alahram.branch.waitlist.line</field>
+        <field name="arch" type="xml">
+            <list string="قائمة الانتظار والعجز المخزني" decoration-danger="priority == 'urgent'" decoration-warning="priority == 'high'" decoration-success="state == 'allocated'">
+                <field name="reservation_id"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="qty_waiting"/>
+                <field name="priority" widget="badge"/>
+                <field name="preferred_warehouse_ids" widget="many2many_tags"/>
+                <field name="date_added"/>
+                <field name="state" widget="badge" decoration-warning="state == 'waiting'" decoration-success="state == 'allocated'" decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_alahram_branch_waitlist_search" model="ir.ui.view">
+        <field name="name">alahram.branch.waitlist.line.search</field>
+        <field name="model">alahram.branch.waitlist.line</field>
+        <field name="arch" type="xml">
+            <search string="بحث في قائمة الانتظار">
+                <field name="product_id"/>
+                <field name="partner_id"/>
+                <field name="reservation_id"/>
+                <filter string="بانتظار رصيد" name="filter_waiting" domain="[('state', '=', 'waiting')]"/>
+                <filter string="تم التخصيص" name="filter_allocated" domain="[('state', '=', 'allocated')]"/>
+                <group>
+                    <filter string="الصنف" name="group_product" context="{'group_by': 'product_id'}"/>
+                    <filter string="الأولوية" name="group_priority" context="{'group_by': 'priority'}"/>
+                    <filter string="الحالة" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_alahram_branch_waitlist" model="ir.actions.act_window">
+        <field name="name">قائمة انتظار العجز المخزني</field>
+        <field name="res_model">alahram.branch.waitlist.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_waiting': 1}</field>
+    </record>
+
+</odoo>

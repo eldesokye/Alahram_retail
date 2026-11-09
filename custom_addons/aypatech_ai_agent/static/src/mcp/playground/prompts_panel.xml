@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.mcp_PromptsPanel">
+        <div class="o_aypatech_woomcp_prompts d-flex flex-column flex-grow-1 overflow-hidden">
+            <KeyBar
+                client="this.client"
+                keyPrefix="this.state.keyPrefix"
+                onKeyChanged.bind="this.onKeyChanged"
+            />
+            <div class="o_aypatech_woomcp_body flex-grow-1 d-flex overflow-hidden">
+                <div t-if="this.state.loading" class="m-auto text-muted">
+                    Loading prompts…
+                </div>
+                <t t-else="">
+                    <div class="o_aypatech_woomcp_list border-end d-flex flex-column">
+                        <div class="p-2 border-bottom">
+                            <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="Search prompts…"
+                                t-att-value="this.state.search"
+                                t-on-input="this.onSearch"
+                            />
+                        </div>
+                        <div class="overflow-auto flex-grow-1">
+                            <div t-if="this.filteredPrompts.length === 0" class="p-3 text-muted small">
+                                No matching prompts.
+                            </div>
+                            <t t-foreach="this.filteredPrompts" t-as="prompt" t-key="prompt.name">
+                                <button
+                                    type="button"
+                                    t-attf-class="o_aypatech_woomcp_tool btn btn-link text-start w-100 px-2 py-1 {{ this.state.selected === prompt.name ? 'active' : '' }}"
+                                    t-on-click="() => this.onSelect(prompt.name)"
+                                >
+                                    <div class="fw-bold text-body" t-esc="prompt.name"/>
+                                    <div class="small text-muted text-truncate" t-esc="prompt.title or prompt.description"/>
+                                </button>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="o_aypatech_woomcp_detail flex-grow-1 d-flex flex-column overflow-hidden" t-on-keydown="this.onKeyDown">
+                        <div t-if="!this.selectedPrompt" class="m-auto text-muted">
+                            Select a prompt from the list on the left.
+                        </div>
+                        <t t-else="">
+                            <div class="p-3 border-bottom">
+                                <div class="d-flex align-items-center gap-2">
+                                    <h4 class="mb-0" t-esc="this.selectedPrompt.name"/>
+                                    <div class="ms-auto d-flex gap-1">
+                                        <button class="btn btn-sm btn-secondary" t-on-click="this.onCopyCurl">
+                                            <i class="fa fa-terminal me-1"/>curl
+                                        </button>
+                                        <button class="btn btn-sm btn-secondary" t-on-click="this.onCopyJsonRpc">
+                                            <i class="fa fa-code me-1"/>JSON-RPC
+                                        </button>
+                                    </div>
+                                </div>
+                                <div t-if="this.selectedPrompt.title" class="text-body mt-1" t-esc="this.selectedPrompt.title"/>
+                                <div class="text-muted small mt-1" t-esc="this.selectedPrompt.description"/>
+                            </div>
+                            <div class="p-3 flex-grow-1 overflow-auto">
+                                <div t-if="(this.selectedPrompt.arguments or []).length === 0" class="text-muted small">
+                                    This prompt takes no arguments.
+                                </div>
+                                <t t-else="">
+                                    <t t-foreach="this.selectedPrompt.arguments" t-as="arg" t-key="arg.name">
+                                        <div class="mb-3">
+                                            <label class="form-label d-flex align-items-center gap-1">
+                                                <span class="fw-bold" t-esc="arg.name"/>
+                                                <span t-if="arg.required" class="text-danger">*</span>
+                                            </label>
+                                            <div t-if="arg.description" class="form-text" t-esc="arg.description"/>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                t-att-value="this.argValue(arg.name)"
+                                                t-att-list="'mcp-prompt-arg-' + arg.name"
+                                                t-on-input="(ev) => this.onArgInput(arg.name, ev)"
+                                            />
+                                            <datalist t-att-id="'mcp-prompt-arg-' + arg.name">
+                                                <t t-foreach="this.completionsFor(arg.name)" t-as="opt" t-key="opt_index">
+                                                    <option t-att-value="opt"/>
+                                                </t>
+                                            </datalist>
+                                        </div>
+                                    </t>
+                                </t>
+                            </div>
+                            <div class="p-3 border-top bg-light d-flex align-items-center gap-2">
+                                <button
+                                    class="btn btn-primary"
+                                    t-att-disabled="this.state.running or !this.state.hasKey"
+                                    t-on-click="this.onGet"
+                                >
+                                    <i t-if="this.state.running" class="fa fa-spinner fa-spin me-2"/>
+                                    <i t-else="" class="fa fa-play me-2"/>
+                                    <t t-esc="this.state.running ? 'Getting…' : 'Get prompt'"/>
+                                </button>
+                                <button class="btn btn-outline-secondary" t-on-click="this.onReset">
+                                    Reset args
+                                </button>
+                                <span t-if="!this.state.hasKey" class="text-danger small">
+                                    <i class="fa fa-exclamation-triangle me-1"/>Pick or generate an MCP key first.
+                                </span>
+                                <span t-else="" class="text-muted small d-none d-md-inline">
+                                    <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run
+                                </span>
+                                <span t-if="this.state.response" class="ms-auto small">
+                                    <span t-attf-class="fw-bold {{ this.statusClass }}">HTTP <t t-esc="this.state.response.status"/></span>
+                                    <span class="text-muted"> · <t t-esc="this.state.response.duration"/> ms</span>
+                                </span>
+                            </div>
+                            <div t-if="this.state.response" class="p-3 border-top overflow-auto" style="max-height: 45%;">
+                                <div t-if="this.responseError" class="alert alert-danger mb-2" t-esc="this.responseError"/>
+                                <t t-else="">
+                                    <div t-if="this.responseDescription" class="small text-muted mb-2" t-esc="this.responseDescription"/>
+                                    <div t-if="this.messages.length === 0" class="text-muted small">
+                                        No messages returned.
+                                    </div>
+                                    <t t-foreach="this.messages" t-as="message" t-key="message_index">
+                                        <div class="mb-2">
+                                            <span class="badge text-bg-secondary text-uppercase" t-esc="message.role"/>
+                                            <pre class="mb-0 mt-1 p-2 bg-light border rounded" t-esc="this.messageText(message)"/>
+                                        </div>
+                                    </t>
+                                </t>
+                                <details class="mt-2">
+                                    <summary class="small text-muted">Raw JSON-RPC response</summary>
+                                    <pre class="mt-2 p-2 bg-light border rounded small" t-esc="this.rawBody"/>
+                                </details>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+
+</templates>

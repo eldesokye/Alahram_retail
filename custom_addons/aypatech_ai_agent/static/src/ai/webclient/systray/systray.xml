@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_Systray">
+        <Dropdown position="'bottom-end'" menuClass="'ayp_systray_menu'">
+            <button class="ayp_ai_systray_btn btn btn-link" title="WooFusion AI" t-ref="this.btnRef">
+                <span class="ayp_systray_icon_wrap">
+                    <span class="ayp_icon_ai ayp_systray_icon"/>
+                    <span t-if="this.hasRunning" class="ayp_systray_badge">
+                        <span class="ayp_systray_dot ayp_state_running" />
+                    </span>
+                </span>
+                <span t-if="this.badge.count" class="ayp_systray_count badge rounded-pill" t-esc="this.badgeLabel" />
+            </button>
+            <t t-set-slot="content">
+                <div class="ayp_systray_header">
+                    <div class="fw-semibold d-flex align-items-center gap-2">
+                        <span class="ayp_icon_ai ayp_systray_icon_sm"/>
+                        <span>WooFusion AI</span>
+                    </div>
+                    <small t-if="this.hasRunning" class="text-muted">
+                        <t t-esc="this.runningCount" />
+                        <t t-if="this.runningCount === 1"> running</t>
+                        <t t-else=""> running</t>
+                    </small>
+                </div>
+                <DropdownItem class="'ayp_systray_item ayp_systray_action'" onSelected="() => this.onNewChat()">
+                    <i class="fa fa-plus text-primary me-2" />
+                    <span>New Chat</span>
+                    <kbd class="ayp_systray_hotkey ms-auto" t-esc="this.newChatHotkeyLabel" />
+                </DropdownItem>
+                <DropdownItem class="'ayp_systray_item ayp_systray_action'" onSelected="() => this.onOpenFullChat()">
+                    <i class="fa fa-expand text-primary me-2" />
+                    <span>Open Full Chat</span>
+                    <kbd class="ayp_systray_hotkey ms-auto" t-esc="this.fullChatHotkeyLabel" />
+                </DropdownItem>
+                <div class="ayp_systray_divider" t-if="this.state.sessions.length" />
+                <div class="ayp_systray_group_label" t-if="this.state.sessions.length">Recent sessions</div>
+                <t t-foreach="this.state.sessions" t-as="s" t-key="s.id">
+                    <DropdownItem class="badge.isUnread(s.id) ? 'ayp_systray_item ayp_systray_item_unread' : 'ayp_systray_item'" onSelected="() => this.onOpenSession(s)">
+                        <span class="ayp_systray_dot_wrap">
+                            <span class="ayp_systray_dot" t-att-class="this.statusDotClass(s.state)" />
+                        </span>
+                        <span class="ayp_systray_name text-truncate" t-esc="s.name" />
+                    </DropdownItem>
+                </t>
+                <div class="ayp_systray_empty text-muted small px-3 py-2" t-if="this.state.loaded and !this.state.sessions.length">
+                    No chats yet.
+                </div>
+            </t>
+        </Dropdown>
+    </t>
+
+</templates>

@@ -1,0 +1,201 @@
+{
+  "timestamp": "2026-10-30T23:05:36.709665",
+  "scenarios": {
+    "Scenario_A": {
+      "status": "PASSED",
+      "po_name": "P00020",
+      "po_total": 56347.7,
+      "picking_name": "WH-MAIN/IN/00003",
+      "picking_state": "done",
+      "bill_name": "BILL/2026/10/0005",
+      "bill_total": 55857.72,
+      "bill_tax": 6859.72
+    },
+    "Scenario_B": {
+      "status": "PASSED",
+      "order_3pct_status": "auto_approved",
+      "order_7pct_before_status": "pending",
+      "order_7pct_after_status": "approved",
+      "order_7pct_name": "كاشير 1 - سيدي جابر (Terminal 1) - 000002",
+      "order_7pct_total": 1723.29,
+      "payment_cash": 861.64,
+      "payment_visa": 861.65,
+      "pos_order_state": "paid"
+    },
+    "Scenario_C": {
+      "status": "PASSED",
+      "product_scrapped": "كسرولة سيجنتشر ستايل ستانلس ستيل يد و غطا ستانلس ستيل 16",
+      "product_cost": 340.45,
+      "scrap_reference": "SP/00003",
+      "scrap_destination": "مخزن الهالك والتوالف (هالك)",
+      "scrap_state": "done"
+    },
+    "Scenario_D": {
+      "status": "PASSED",
+      "reserve_name": "RES-00001",
+      "product_code": "6221049011701",
+      "qty_transferred": 2.0,
+      "picking_out": "WH-ROSHDY/INT/00003",
+      "picking_in": "WH-SG/INT/00002",
+      "final_state": "received"
+    },
+    "Scenario_E": {
+      "status": "PASSED",
+      "users": {
+        "owner@alahram.com": {
+          "found": true,
+          "name": "م. أحمد الأهرام (رئيس مجلس الإدارة)",
+          "active": true,
+          "verified_groups": [
+            "alahram_retail_demo.group_alahram_owner",
+            "base.group_user"
+          ]
+        },
+        "ops.manager@alahram.com": {
+          "found": true,
+          "name": "أ. سامح عبد الرازق (مدير العمليات)",
+          "active": true,
+          "verified_groups": [
+            "alahram_retail_demo.group_alahram_ops_manager",
+            "stock.group_stock_manager"
+          ]
+        },
+        "bm.sidigaber@alahram.com": {
+          "found": true,
+          "name": "أ. طارق إبراهيم (مدير فرع سيدي جابر)",
+          "active": true,
+          "verified_groups": [
+            "alahram_retail_demo.group_alahram_branch_manager"
+          ]
+        },
+        "sales.sidigaber@alahram.com": {
+          "found": true,
+          "name": "كريم ممدوح (مسؤول مبيعات صالة سيدي جابر)",
+          "active": true,
+          "verified_groups": [
+            "alahram_retail_demo.group_alahram_salesperson"
+          ]
+        },
+        "cashier1.sidigaber@alahram.com": {
+          "found": true,
+          "name": "محمود حسن (كاشير 1 سيدي جابر)",
+          "active": true,
+          "verified_groups": [
+            "point_of_sale.group_pos_user"
+          ]
+        },
+        "cashier2.sidigaber@alahram.com": {
+          "found": true,
+          "name": "سارة عادل (كاشير 2 سيدي جابر)",
+          "active": true,
+          "verified_groups": [
+            "point_of_sale.group_pos_user"
+          ]
+        },
+        "warehouse.roshdy@alahram.com": {
+          "found": true,
+          "name": "عماد فؤاد (أمين مخزن فرع رشدي)",
+          "active": true,
+          "verified_groups": [
+            "stock.group_stock_user"
+          ]
+        }
+      }
+    },
+    "Scenario_F": {
+      "status": "PASSED"
+    }
+  },
+  "ai_queries": {
+    "q1_lowest_branches": {
+      "title": "1. إيه أقل 5 فروع في المبيعات؟",
+      "summary": "تم فحص بيانات 10 فروع لشهر أكتوبر وتحديد أدنى 5 فروع مع تنبيه مخزون فيصل.",
+      "html_response": "<div style=\"font-family: Cairo, Tahoma, sans-serif; direction: rtl; line-height: 1.8;\">\n            <div class=\"alert alert-info\" style=\"font-size: 15px; font-weight: bold; border-right: 5px solid #0056b3; background: #e8f4fd;\">\n                📊 <strong>تحليل الذكاء الاصطناعي — أقل 5 فروع في مبيعات شهر أكتوبر 2026:</strong>\n            </div>\n            <table class=\"table table-bordered table-striped\" style=\"margin-top: 15px; text-align: center;\">\n                <thead style=\"background: #2c3e50; color: white;\">\n                    <tr>\n                        <th>الترتيب</th>\n                        <th>اسم الفرع</th>\n                        <th>صافي الكمية المباعة</th>\n                        <th>صافي المبيعات شامل الضريبة (ج.م)</th>\n                        <th>صافي المبيعات غير شامل الضريبة (ج.م)</th>\n                        <th>صافي الربح (ج.م)</th>\n                        <th>رصيد المخزون التقديري (ج.م)</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr style=\"background: #fff3cd;\">\n                        <td><strong>1</strong></td>\n                        <td><strong>مخزن الإدارة (WH-MAIN)</strong></td>\n                        <td>-40 قطعة</td>\n                        <td>71,371.11 ج.م</td>\n                        <td>62,606.24 ج.م</td>\n                        <td>13,397.68 ج.م</td>\n                        <td>15,838,583.79 ج.م</td>\n                    </tr>\n                    <tr>\n                        <td><strong>2</strong></td>\n                        <td><strong>مبيعات الأونلاين (WH-ONLINE)</strong></td>\n                        <td>414 قطعة</td>\n                        <td>307,838.02 ج.م</td>\n                        <td>270,033.34 ج.م</td>\n                        <td>63,233.69 ج.م</td>\n                        <td>1,050,353.86 ج.م</td>\n                    </tr>\n                    <tr>\n                        <td><strong>3</strong></td>\n                        <td><strong>فرع باكوس / سموحة (WH-SMOUHA)</strong></td>\n                        <td>591 قطعة</td>\n                        <td>385,077.03 ج.م</td>\n                        <td>337,786.84 ج.م</td>\n                        <td>66,961.00 ج.م</td>\n                        <td>1,611,825.96 ج.م</td>\n                    </tr>\n                    <tr>\n                        <td><strong>4</strong></td>\n                        <td><strong>فرع لوران / رشدي (WH-ROSHDY)</strong></td>\n                        <td>919 قطعة</td>\n                        <td>529,961.02 ج.م</td>\n                        <td>464,878.06 ج.م</td>\n                        <td>90,233.10 ج.م</td>\n                        <td>3,672,735.00 ج.م</td>\n                    </tr>\n                    <tr style=\"background: #f8d7da; color: #721c24;\">\n                        <td><strong>5</strong></td>\n                        <td><strong>فرع فيصل - الجيزة (WH-FAISAL)</strong></td>\n                        <td>904 قطعة</td>\n                        <td>576,657.59 ج.م</td>\n                        <td>505,839.98 ج.م</td>\n                        <td>89,353.71 ج.م</td>\n                        <td><strong>6,866,883.84 ج.م ⚠️</strong></td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"alert alert-warning\" style=\"margin-top: 15px; border-right: 5px solid #ff9800; background: #fff8e1;\">\n                ⚠️ <strong>تنبيه إداري فوري لفرع فيصل (Executive Warning):</strong><br>\n                فرع فيصل يحتفظ بمخزون قيمته البيعية <strong>6.87 مليون جنيه</strong> (وهو أعلى رصيد بضاعة راكدة بين جميع فروع الجمهورية)، ومع ذلك يحتل المركز الخامس كأقل الفروع تحقيقاً للمبيعات!<br>\n                <strong>توصية الذكاء الاصطناعي:</strong> نقل 30% من مخزون فيصل الراكد إلى فرع سيدي جابر وشبرا الأعلى سحباً، أو تدشين حملة تصفيات محلية.\n            </div>\n        </div>\n        ",
+      "extra": {}
+    },
+    "q2_dead_stock": {
+      "title": "2. إيه الأصناف اللي عندي منها مخزون كبير ومش بتتباع؟",
+      "summary": "تم فحص أرصدة المخزون وتحديد الأصناف ذات الرصيد > 50 قطعة ومبيعات صفرية في أكتوبر.",
+      "html_response": "<div style=\"font-family: Cairo, Tahoma, sans-serif; direction: rtl; line-height: 1.8;\">\n            <div class=\"alert alert-danger\" style=\"font-size: 15px; font-weight: bold; border-right: 5px solid #dc3545; background: #fdf2f2;\">\n                📦 <strong>تحليل الذكاء الاصطناعي — أعلى 5 أصناف ذات مخزون راكد بدون مبيعات في أكتوبر 2026:</strong>\n            </div>\n            <table class=\"table table-bordered table-hover\" style=\"margin-top: 15px; text-align: center;\">\n                <thead style=\"background: #842029; color: white;\">\n                    <tr>\n                        <th>كود الصنف</th>\n                        <th>اسم الصنف الراكد</th>\n                        <th>رصيد المخزون (قطعة)</th>\n                        <th>متوسط التكلفة (ج.م)</th>\n                        <th>قيمة التكلفة المجمدة (ج.م)</th>\n                        <th>سعر البيع الرسمي (ج.م)</th>\n                        <th>مبيعات أكتوبر</th>\n                        <th>موقع التخزين الرئيسي</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr>\n                        <td><code>1414000000042</code></td>\n                        <td><strong>شواية جرانيت Bio trade grip يد بكاليت 28</strong></td>\n                        <td><span class=\"badge bg-danger\">438 قطعة</span></td>\n                        <td>434.21 ج.م</td>\n                        <td><strong>190,183.98 ج.م</strong></td>\n                        <td>1,102.69 ج.م</td>\n                        <td>0 قطعة</td>\n                        <td>مخزن الإدارة (279) + رشدي (35)</td>\n                    </tr>\n                    <tr>\n                        <td><code>1433000000067</code></td>\n                        <td><strong>حلة سيجنتشر ستايل ستانلس ستيل أيادي وغطا 24</strong></td>\n                        <td><span class=\"badge bg-danger\">317 قطعة</span></td>\n                        <td>556.29 ج.م</td>\n                        <td><strong>176,342.66 ج.م</strong></td>\n                        <td>1,124.00 ج.م</td>\n                        <td>0 قطعة</td>\n                        <td>مخزن الإدارة (221) + رشدي (48)</td>\n                    </tr>\n                    <tr>\n                        <td><code>1414000000035</code></td>\n                        <td><strong>حلة جرانيت Bio trade grip غطا ستانلس 24</strong></td>\n                        <td><span class=\"badge bg-danger\">357 قطعة</span></td>\n                        <td>486.84 ج.م</td>\n                        <td><strong>173,801.88 ج.م</strong></td>\n                        <td>1,112.79 ج.م</td>\n                        <td>0 قطعة</td>\n                        <td>مخزن الإدارة (233) + سيدي جابر (5)</td>\n                    </tr>\n                    <tr>\n                        <td><code>1431000000278</code></td>\n                        <td><strong>الأهرام طقم شاورما ألومنيوم كلاسيك 5 قطع</strong></td>\n                        <td><span class=\"badge bg-danger\">63 طقم</span></td>\n                        <td>1,995.00 ج.م</td>\n                        <td><strong>125,685.00 ج.م</strong></td>\n                        <td>3,620.00 ج.م</td>\n                        <td>0 طقم</td>\n                        <td>مخزن الإدارة الرئيسي</td>\n                    </tr>\n                    <tr>\n                        <td><code>1431000000124</code></td>\n                        <td><strong>صينية بيتزا بان ألومنيوم كلاسيك 30</strong></td>\n                        <td><span class=\"badge bg-danger\">266 قطعة</span></td>\n                        <td>417.96 ج.م</td>\n                        <td><strong>111,176.03 ج.م</strong></td>\n                        <td>898.00 ج.م</td>\n                        <td>0 قطعة</td>\n                        <td>مخزن الإدارة (210) + فروع</td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"alert alert-success\" style=\"margin-top: 15px; border-right: 5px solid #28a745; background: #e8f5e9;\">\n                💡 <strong>خطة تصريف الركود المقترحة من أودو 20:</strong><br>\n                إجمالي رأس المال المجمد في هذه الأصناف الـ 5 يبلغ <strong>777,189.55 جنيه</strong> بسعر التكلفة و<strong>1,692,300.00 جنيه</strong> بسعر البيع!<br>\n                - إدخال حلة الجرانيت 24 وشواية 28 في \"باكدج العروسة الفضي والذهبي\" بخصم باكدج 20% لتسييل السيولة فوراً.\n            </div>\n        </div>\n        ",
+      "extra": {}
+    },
+    "q3_stockout_sidigaber": {
+      "title": "3. إيه المنتجات اللي ناقصة في سيدي جابر وموجودة في فروع تانية؟",
+      "summary": "تم اكتشاف عجز 3 أصناف استراتيجية في سيدي جابر مع وجودها في الإدارة وفرع رشدي.",
+      "html_response": "<div style=\"font-family: Cairo, Tahoma, sans-serif; direction: rtl; line-height: 1.8;\">\n            <div class=\"alert alert-warning\" style=\"font-size: 15px; font-weight: bold; border-right: 5px solid #ffc107; background: #fffde7;\">\n                🚨 <strong>تحليل الذكاء الاصطناعي — أصناف نفدت في سيدي جابر وعليها طلب عالٍ مع وجودها بالفروع الأخرى:</strong>\n            </div>\n            <table class=\"table table-bordered table-hover\" style=\"margin-top: 15px; text-align: center;\">\n                <thead style=\"background: #d39e00; color: #212529;\">\n                    <tr>\n                        <th>الباركود</th>\n                        <th>اسم الصنف</th>\n                        <th>رصيد سيدي جابر الحالي</th>\n                        <th>مبيعات الصنف في أكتوبر</th>\n                        <th>المخزن المتوفر به البديل</th>\n                        <th>الرصيد المتاح بالنقل</th>\n                        <th>الإجراء الموصى به</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr>\n                        <td><code>6221049803894</code></td>\n                        <td><strong>الاهرام مقلايه جرانيت BIO TRADE GRIP دارك سيلفر 20</strong></td>\n                        <td><span class=\"badge bg-danger\">0 قطعة</span></td>\n                        <td><strong>107 قطعة (طلب مرتفع جداً)</strong></td>\n                        <td>مخزن الإدارة الرئيسي (WH-MAIN)</td>\n                        <td><span class=\"badge bg-success\">27 قطعة</span></td>\n                        <td>تحويل فوري 15 قطعة عبر بضاعة بالطريق</td>\n                    </tr>\n                    <tr>\n                        <td><code>6221049430625</code></td>\n                        <td><strong>الأهرام طقم حلة ويركت ألومنيوم كلاسيك 10 قطع</strong></td>\n                        <td><span class=\"badge bg-danger\">0 قطعة</span></td>\n                        <td><strong>23 طقم (صنف باكدج أساسي)</strong></td>\n                        <td>فرع لوران / رشدي (WH-ROSHDY)</td>\n                        <td><span class=\"badge bg-success\">2 طقم (إجمالي الشركة 13)</span></td>\n                        <td>تحويل 2 طقم من فرع رشدي القريب</td>\n                    </tr>\n                    <tr>\n                        <td><code>6221049011701</code></td>\n                        <td><strong>الأهرام حلة صحي و مفيد ألومنيوم كلاسيك 24</strong></td>\n                        <td><span class=\"badge bg-danger\">0 قطعة</span></td>\n                        <td>9 قطع</td>\n                        <td>فرع رشدي (3) + مخزن الإدارة (3)</td>\n                        <td><span class=\"badge bg-success\">30 قطعة في الشركة</span></td>\n                        <td>تحويل 3 قطع فورية لسيدي جابر</td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"alert alert-info\" style=\"margin-top: 15px;\">\n                🚚 <strong>ربط أودو 20 السريع:</strong> يمكنك من شاشة \"طلب حجز وتحويل بين الفروع\" الضغط على زر <strong>تحويل فوري</strong> لإنشاء أذون التحويل المزدوجة (WH-ROSHDY -&gt; WH-TRANSIT -&gt; WH-SG).\n            </div>\n        </div>\n        ",
+      "extra": {}
+    },
+    "q4_promo_candidates": {
+      "title": "4. إيه الأصناف اللي ممكن أعمل عليها عروض وتخفيضات؟",
+      "summary": "تم حساب هوامش الأرباح للأصناف الوفيرة وتحديد 3 فرص ترويجية بربحية مضمونة.",
+      "html_response": "<div style=\"font-family: Cairo, Tahoma, sans-serif; direction: rtl; line-height: 1.8;\">\n            <div class=\"alert alert-success\" style=\"font-size: 15px; font-weight: bold; border-right: 5px solid #28a745; background: #f0fdf4;\">\n                🎯 <strong>تحليل الذكاء الاصطناعي — أصناف مثالية للحملات الترويجية (هامش ربح &gt; 50% ورصيد وفير):</strong>\n            </div>\n            <table class=\"table table-bordered table-striped\" style=\"margin-top: 15px; text-align: center;\">\n                <thead style=\"background: #1b5e20; color: white;\">\n                    <tr>\n                        <th>الباركود</th>\n                        <th>اسم الصنف المرشح للعرض</th>\n                        <th>إجمالي الرصيد المتاح</th>\n                        <th>التكلفة (ج.م)</th>\n                        <th>سعر البيع الرسمي (ج.م)</th>\n                        <th>هامش الربح الإجمالي %</th>\n                        <th>العرض الترويجي المقترح من الذكاء الاصطناعي</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr>\n                        <td><code>1414000000073</code></td>\n                        <td><strong>صينية فرن جرانيت Bio grip trade 30</strong></td>\n                        <td><span class=\"badge bg-info\">580 قطعة</span></td>\n                        <td>350.88 ج.م</td>\n                        <td>811.03 ج.م</td>\n                        <td><strong>50.62%</strong></td>\n                        <td>خصم 25% ليصبح 608 ج.م مع الحفاظ على ربح 257 ج.م للقطعة</td>\n                    </tr>\n                    <tr>\n                        <td><code>1433000000050</code></td>\n                        <td><strong>طقم حلة ستانلس ستيل سيجنتشر ستايل 6 قطع</strong></td>\n                        <td><span class=\"badge bg-info\">81 طقم</span></td>\n                        <td>1,321.87 ج.م</td>\n                        <td>3,463.82 ج.م</td>\n                        <td><strong>56.49%</strong></td>\n                        <td>عرض هدية كسرولة ستانلس 16 مجاناً عند الشراء بسعر 3,199 ج.م</td>\n                    </tr>\n                    <tr>\n                        <td><code>BUNDLE_01</code></td>\n                        <td><strong>عرض ثنائي الطهي (شواية جرانيت 28 + حلة جرانيت 24)</strong></td>\n                        <td><span class=\"badge bg-warning\">350+ مجموعة</span></td>\n                        <td>921.05 ج.م</td>\n                        <td>2,215.48 ج.م</td>\n                        <td><strong>58.42%</strong></td>\n                        <td>بيع الطقمين معاً بسعر 1,599 ج.م (توفير 616 ج.م للعميل وربح 678 ج.م للشركة)</td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n        ",
+      "extra": {}
+    },
+    "q5_high_returns": {
+      "title": "5. إيه الفروع اللي زادت فيها المرتجعات بنسبة غير طبيعية؟",
+      "summary": "تم رصد فروع شبرا ومدينة نصر والأونلاين بنسب مرتجع تجاوزت 23%.",
+      "html_response": "<div style=\"font-family: Cairo, Tahoma, sans-serif; direction: rtl; line-height: 1.8;\">\n            <div class=\"alert alert-danger\" style=\"font-size: 15px; font-weight: bold; border-right: 5px solid #b71c1c; background: #ffebee;\">\n                📉 <strong>تحليل الذكاء الاصطناعي — الفروع التي سجلت ارتفاعاً حاداً في نسب المرتجعات:</strong>\n            </div>\n            <table class=\"table table-bordered table-hover\" style=\"margin-top: 15px; text-align: center;\">\n                <thead style=\"background: #b71c1c; color: white;\">\n                    <tr>\n                        <th>الفرع</th>\n                        <th>كمية المرتجع (قطعة)</th>\n                        <th>قيمة المرتجعات (ج.م)</th>\n                        <th>صافي مبيعات الفرع (ج.م)</th>\n                        <th>نسبة المرتجع %</th>\n                        <th>التشخيص الإداري للمشكلة</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr style=\"background: #ffcdd2;\">\n                        <td><strong>فرع شبرا - القاهرة (WH-SHOBRA)</strong></td>\n                        <td><span class=\"badge bg-danger\">-180 قطعة</span></td>\n                        <td><strong>-280,232.34 ج.م</strong></td>\n                        <td>1,147,535.30 ج.م</td>\n                        <td><strong style=\"color: #b71c1c; font-size: 16px;\">24.34% ⚠️</strong></td>\n                        <td>شكاوى من خدوش طلاء الجرانيت أثناء النقل أو أخطاء استبدال الفاتورة</td>\n                    </tr>\n                    <tr style=\"background: #ffe0b2;\">\n                        <td><strong>فرع مدينة نصر (WH-NASR)</strong></td>\n                        <td><span class=\"badge bg-danger\">-86 قطعة</span></td>\n                        <td><strong>-140,141.55 ج.م</strong></td>\n                        <td>602,827.03 ج.م</td>\n                        <td><strong style=\"color: #b71c1c; font-size: 16px;\">23.64% ⚠️</strong></td>\n                        <td>مرتجع أطقم ستانلس ستيل ومقاسات غير مناسبة للمطابخ</td>\n                    </tr>\n                    <tr style=\"background: #fff9c4;\">\n                        <td><strong>مبيعات الأونلاين (WH-ONLINE)</strong></td>\n                        <td><span class=\"badge bg-danger\">-47 قطعة</span></td>\n                        <td><strong>-69,589.10 ج.م</strong></td>\n                        <td>307,838.02 ج.م</td>\n                        <td><strong style=\"color: #b71c1c; font-size: 16px;\">23.32% ⚠️</strong></td>\n                        <td>طبيعة التجارة الإلكترونية ورفض الاستلام من مندوبي الشحن</td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"alert alert-warning\" style=\"margin-top: 15px;\">\n                🔎 <strong>مقارنة بفرع سيدي جابر المنضبط:</strong> سجل فرع سيدي جابر نسبة مرتجع <strong>8.49%</strong> فقط (100 قطعة من أصل 2,067 مباعة)، مما يؤكد أن فروع القاهرة تعاني من خلل تشغيلي في فحص الجودة وتوجيه العملاء.\n            </div>\n        </div>\n        ",
+      "extra": {}
+    },
+    "q6_budget_order": {
+      "title": "6. تجهيز أمر بيع آلي بميزانية محددة (15,000 ج.م - 5 تصنيفات)",
+      "summary": "تم بنجاح توليد أمر البيع S00026 بميزانية 15,000.00 ج.م متوازناً عبر 5 تصنيفات رئيسية.",
+      "html_response": "<div style=\"font-family: Cairo, Tahoma, sans-serif; direction: rtl; line-height: 1.8;\">\n            <div class=\"alert alert-success\" style=\"font-size: 15px; font-weight: bold; border-right: 5px solid #28a745; background: #e8f5e9;\">\n                🎉 <strong>نجح الذكاء الاصطناعي في تكوين باكدج العروسة وإصدار أمر البيع الرسمي رقم (S00026) بدقة!</strong>\n            </div>\n            <p style=\"font-size: 14px;\">\n                <strong>العميل:</strong> Acme Corporation &nbsp;|&nbsp;\n                <strong>الميزانية المستهدفة:</strong> <span class=\"badge bg-primary\" style=\"font-size: 14px;\">15,000.00 ج.م</span> &nbsp;|&nbsp;\n                <strong>الإجمالي بعد خصم الباكدج:</strong> <span class=\"badge bg-success\" style=\"font-size: 14px;\">17,250.00 ج.م</span>\n            </p>\n            <table class=\"table table-bordered table-striped\" style=\"margin-top: 15px; text-align: center;\">\n                <thead style=\"background: #0d6efd; color: white;\">\n                    <tr>\n                        <th>الكود / الباركود</th>\n                        <th>الصنف المختار</th>\n                        <th>التصنيف العائلي</th>\n                        <th>الكمية</th>\n                        <th>سعر الوحدة</th>\n                        <th>الإجمالي</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    \n            <tr>\n                <td>6221049430625</td>\n                <td><strong>الأهرام طقم حلة ويركت ألومنيوم كلاسيك 10 قطع (16/18/20/24/28)</strong></td>\n                <td>أطقم حلل وتجهيز عرائس</td>\n                <td>1.0</td>\n                <td>4,110.46 ج.م</td>\n                <td><strong>4,110.46 ج.م</strong></td>\n            </tr>\n            \n            <tr>\n                <td>1430000003975</td>\n                <td><strong>طقم حلة جرانيت 7 قطع سماوي 4 مم اكسسوار تركي (ح20-26-28-م28)</strong></td>\n                <td>أطقم حلل وتجهيز عرائس</td>\n                <td>1.0</td>\n                <td>5,199.00 ج.م</td>\n                <td><strong>5,199.00 ج.م</strong></td>\n            </tr>\n            \n            <tr>\n                <td>1433000000050</td>\n                <td><strong>طقم حلة ستانلس ستيل سيجنتشر ستايل 6 قطع (18/20/22)</strong></td>\n                <td>أطقم حلل وتجهيز عرائس</td>\n                <td>1.0</td>\n                <td>3,463.82 ج.م</td>\n                <td><strong>3,463.82 ج.م</strong></td>\n            </tr>\n            \n            <tr>\n                <td>6221049302519</td>\n                <td><strong>الأهرام طقم صينية فرن ألومنيوم كلاسيك 3 قطع (24/26/30)</strong></td>\n                <td>قسم الصواني والطواجن</td>\n                <td>1.0</td>\n                <td>1,515.00 ج.م</td>\n                <td><strong>1,515.00 ج.م</strong></td>\n            </tr>\n            \n            <tr>\n                <td>1433000000005</td>\n                <td><strong>كسرولة سيجنتشر ستايل ستانلس ستيل يد و غطا ستانلس ستيل 16</strong></td>\n                <td>قسم الكسرولات والمصافي</td>\n                <td>1.0</td>\n                <td>683.00 ج.م</td>\n                <td><strong>683.00 ج.م</strong></td>\n            </tr>\n            \n            <tr>\n                <td>1474000000527</td>\n                <td><strong>طقم مطبخ جوانتى وماسك وفوطه AH-50</strong></td>\n                <td>إكسسوارات ومفروشات المطبخ</td>\n                <td>1.0</td>\n                <td>206.93 ج.م</td>\n                <td><strong>206.93 ج.م</strong></td>\n            </tr>\n            \n            <tr>\n                <td>DISC_BRIDAL</td>\n                <td><strong>خصم باكدج العروسة الخاص</strong></td>\n                <td>أدوات منزلية</td>\n                <td>1.0</td>\n                <td>-178.21 ج.م</td>\n                <td><strong>-178.21 ج.م</strong></td>\n            </tr>\n            \n                </tbody>\n            </table>\n            <div class=\"alert alert-info\" style=\"margin-top: 15px;\">\n                ✅ تم إنشاء أمر البيع رسميًا في قاعدة بيانات أودو 20 وهو جاهز للتأكيد وإصدار الفاتورة أو الإرسال لشاشة الكاشير.\n            </div>\n        </div>\n        ",
+      "extra": {
+        "sale_order_name": "S00026",
+        "sale_order_total": 17250.0,
+        "lines": [
+          {
+            "code": "6221049430625",
+            "name": "الأهرام طقم حلة ويركت ألومنيوم كلاسيك 10 قطع (16/18/20/24/28)",
+            "qty": 1.0,
+            "price_unit": 4110.46,
+            "subtotal": 4110.46
+          },
+          {
+            "code": "1430000003975",
+            "name": "طقم حلة جرانيت 7 قطع سماوي 4 مم اكسسوار تركي (ح20-26-28-م28)",
+            "qty": 1.0,
+            "price_unit": 5199.0,
+            "subtotal": 5199.0
+          },
+          {
+            "code": "1433000000050",
+            "name": "طقم حلة ستانلس ستيل سيجنتشر ستايل 6 قطع (18/20/22)",
+            "qty": 1.0,
+            "price_unit": 3463.82,
+            "subtotal": 3463.82
+          },
+          {
+            "code": "6221049302519",
+            "name": "الأهرام طقم صينية فرن ألومنيوم كلاسيك 3 قطع (24/26/30)",
+            "qty": 1.0,
+            "price_unit": 1515.0,
+            "subtotal": 1515.0
+          },
+          {
+            "code": "1433000000005",
+            "name": "كسرولة سيجنتشر ستايل ستانلس ستيل يد و غطا ستانلس ستيل 16",
+            "qty": 1.0,
+            "price_unit": 683.0,
+            "subtotal": 683.0
+          },
+          {
+            "code": "1474000000527",
+            "name": "طقم مطبخ جوانتى وماسك وفوطه AH-50",
+            "qty": 1.0,
+            "price_unit": 206.93,
+            "subtotal": 206.93
+          },
+          {
+            "code": "DISC_BRIDAL",
+            "name": "خصم باكدج العروسة الخاص",
+            "qty": 1.0,
+            "price_unit": -178.21,
+            "subtotal": -178.21
+          }
+        ]
+      }
+    }
+  }
+}

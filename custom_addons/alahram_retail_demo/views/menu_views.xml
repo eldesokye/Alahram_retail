@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu: Al Ahram Smart Operations Center -->
+    <menuitem id="menu_alahram_root"
+              name="الأهرام — مركز العمليات الذكية 🍳"
+              web_icon="alahram_retail_demo,static/description/icon.png"
+              sequence="5"/>
+
+    <!-- 1. Scene 3: Branch Availability & Reservation -->
+    <menuitem id="menu_alahram_scene3_availability"
+              name="المشهد 3 — التوافر والحجز من الفروع"
+              parent="menu_alahram_root"
+              action="action_alahram_scene3_availability"
+              sequence="10"/>
+
+    <!-- Multi-Branch POS Reservation Subsystem -->
+    <menuitem id="menu_alahram_branch_reservation"
+              name="حجوزات وتوافر الفروع"
+              parent="menu_alahram_root"
+              action="action_alahram_branch_reservation"
+              sequence="12"/>
+
+    <menuitem id="menu_alahram_branch_waitlist"
+              name="قائمة انتظار العجز المخزني"
+              parent="menu_alahram_root"
+              action="action_alahram_branch_waitlist"
+              sequence="14"/>
+
+    <menuitem id="menu_pos_branch_reservation"
+              name="حجوزات الفروع"
+              parent="point_of_sale.menu_point_of_sale"
+              action="action_alahram_branch_reservation"
+              sequence="25"/>
+
+    <!-- 2. Scene 4: Bridal Package Configurator -->
+    <menuitem id="menu_alahram_scene4_bridal"
+              name="المشهد 4 — تجهيز باكدج العروسة الذكي"
+              parent="menu_alahram_root"
+              action="action_alahram_bridal_configurator"
+              sequence="20"/>
+
+    <menuitem id="menu_alahram_bridal_settings"
+              name="⚙️ إعدادات تسامح ميزانية باكدج العروسة"
+              parent="menu_alahram_root"
+              action="action_alahram_bridal_settings"
+              groups="alahram_retail_demo.group_alahram_ops_manager,point_of_sale.group_pos_manager"
+              sequence="22"/>
+
+    <!-- 3. Scene 6: POS Discount Approvals Dashboard -->
+    <menuitem id="menu_alahram_scene6_discount"
+              name="المشهد 6 — إدارة موافقات الخصم"
+              parent="menu_alahram_root"
+              action="action_alahram_discount_approvals"
+              sequence="30"/>
+
+    <!-- 4. Scene 11: Smart Stock Transfer Recommendations -->
+    <menuitem id="menu_alahram_scene11_stock_recommendation"
+              name="المشهد 11 — التوصيات الذكية لنقل المخزون"
+              parent="menu_alahram_root"
+              action="action_alahram_stock_recommendation"
+              sequence="40"/>
+
+    <!-- 5. Scene 13: AI Executive Assistant -->
+    <menuitem id="menu_alahram_scene13_ai_assistant"
+              name="المشهد 13 — مساعد الأهرام الذكي للإدارة العليا"
+              parent="menu_alahram_root"
+              action="action_alahram_ai_assistant"
+              sequence="50"/>
+
+    <!-- 6. Interactive AI Chatbot (Web App & API) -->
+    <menuitem id="menu_alahram_web_chatbot"
+              name="💬 شات بوت الذكاء الاصطناعي التفاعلي"
+              parent="menu_alahram_root"
+              action="action_alahram_web_chatbot"
+              sequence="60"/>
+
+    <!-- 7. Executive BI & Operational Reports -->
+    <menuitem id="menu_alahram_bi_reports_parent"
+              name="📊 تقارير الإدارة والمتابعة التشغيلية"
+              parent="menu_alahram_root"
+              sequence="70"/>
+
+    <menuitem id="menu_alahram_bi_branch_sales"
+              name="تقرير 1: أداء مبيعات وربحية ومرتجعات الفروع"
+              parent="menu_alahram_bi_reports_parent"
+              action="action_alahram_branch_analytics_report"
+              sequence="10"/>
+
+    <menuitem id="menu_alahram_bi_dead_stock"
+              name="تقرير 2: تحليل المخزون الراكد وتدوير الأصناف"
+              parent="menu_alahram_bi_reports_parent"
+              action="action_alahram_dead_stock_report"
+              sequence="20"/>
+
+    <menuitem id="menu_alahram_cross_branch_reserve"
+              name="سجل 3: طلبات التحويل المخزني المباشر بين الفروع"
+              parent="menu_alahram_bi_reports_parent"
+              action="action_alahram_cross_branch_reserve"
+              sequence="30"/>
+
+    <menuitem id="menu_alahram_chat_history"
+              name="سجل 4: تاريخ محادثات شات بوت الذكاء الاصطناعي"
+              parent="menu_alahram_bi_reports_parent"
+              action="action_alahram_chat_history"
+              sequence="40"/>
+</odoo>

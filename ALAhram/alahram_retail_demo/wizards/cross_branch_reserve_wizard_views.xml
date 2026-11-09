@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_alahram_cross_branch_reserve_wizard_form" model="ir.ui.view">
+        <field name="name">alahram.cross.branch.reserve.wizard.form</field>
+        <field name="model">alahram.cross.branch.reserve.wizard</field>
+        <field name="arch" type="xml">
+            <form string="طلب حجز وتحويل مخزني فوري من فرع آخر">
+                <sheet>
+                    <group>
+                        <group string="الصنف والكمية المطلوبة">
+                            <field name="product_id"/>
+                            <field name="product_code"/>
+                            <field name="product_barcode"/>
+                            <field name="quantity"/>
+                        </group>
+                        <group string="فروع التحويل">
+                            <field name="src_warehouse_id"/>
+                            <field name="dest_warehouse_id"/>
+                            <field name="notes"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_confirm_and_create_transfer"
+                            string="🚚 تأكيد الحجز وإصدار أمر الشحن الفوري"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="إلغاء" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
+

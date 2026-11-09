@@ -1,0 +1,940 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo noupdate="1">
+
+	<!-- OpenAI -->
+
+	<record id="model_gpt_5_6_sol" model="aypatech_wooai.model">
+		<field name="name">GPT-5.6 Sol</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.6-sol</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">5.0</field>
+		<field name="output_rate">30.0</field>
+		<field name="cache_read_rate">0.5</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_6_terra" model="aypatech_wooai.model">
+		<field name="name">GPT-5.6 Terra</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.6-terra</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">2.5</field>
+		<field name="output_rate">15.0</field>
+		<field name="cache_read_rate">0.25</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_6_luna" model="aypatech_wooai.model">
+		<field name="name">GPT-5.6 Luna</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.6-luna</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">1.0</field>
+		<field name="output_rate">6.0</field>
+		<field name="cache_read_rate">0.1</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_5_pro" model="aypatech_wooai.model">
+		<field name="name">GPT-5.5 Pro</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.5-pro</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['medium', 'high', 'xhigh']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">30.0</field>
+		<field name="output_rate">180.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_5" model="aypatech_wooai.model">
+		<field name="name">GPT-5.5</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.5</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">5.0</field>
+		<field name="output_rate">30.0</field>
+		<field name="cache_read_rate">0.5</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_4_pro" model="aypatech_wooai.model">
+		<field name="name">GPT-5.4 Pro</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.4-pro</field>
+		<field name="context_window">400000</field>
+		<field name="reasoning_efforts" eval="['medium', 'high', 'xhigh']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">30.0</field>
+		<field name="output_rate">180.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_4" model="aypatech_wooai.model">
+		<field name="name">GPT-5.4</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.4</field>
+		<field name="context_window">400000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">2.5</field>
+		<field name="output_rate">15.0</field>
+		<field name="cache_read_rate">0.25</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_4_mini" model="aypatech_wooai.model">
+		<field name="name">GPT-5.4 Mini</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.4-mini</field>
+		<field name="context_window">400000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">0.75</field>
+		<field name="output_rate">4.5</field>
+		<field name="cache_read_rate">0.075</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_4_nano" model="aypatech_wooai.model">
+		<field name="name">GPT-5.4 Nano</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.4-nano</field>
+		<field name="context_window">400000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">0.2</field>
+		<field name="output_rate">1.25</field>
+		<field name="cache_read_rate">0.02</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_2" model="aypatech_wooai.model">
+		<field name="name">GPT-5.2</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.2</field>
+		<field name="context_window">400000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">1.75</field>
+		<field name="output_rate">14.0</field>
+		<field name="cache_read_rate">0.175</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_1" model="aypatech_wooai.model">
+		<field name="name">GPT-5.1</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5.1</field>
+		<field name="context_window">400000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">1.25</field>
+		<field name="output_rate">10.0</field>
+		<field name="cache_read_rate">0.125</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5" model="aypatech_wooai.model">
+		<field name="name">GPT-5</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5</field>
+		<field name="context_window">400000</field>
+		<field name="reasoning_efforts" eval="['minimal', 'low', 'medium', 'high']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">1.25</field>
+		<field name="output_rate">10.0</field>
+		<field name="cache_read_rate">0.125</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_mini" model="aypatech_wooai.model">
+		<field name="name">GPT-5 Mini</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5-mini</field>
+		<field name="context_window">400000</field>
+		<field name="reasoning_efforts" eval="['minimal', 'low', 'medium', 'high']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">0.25</field>
+		<field name="output_rate">2.0</field>
+		<field name="cache_read_rate">0.025</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_5_nano" model="aypatech_wooai.model">
+		<field name="name">GPT-5 Nano</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-5-nano</field>
+		<field name="context_window">400000</field>
+		<field name="reasoning_efforts" eval="['minimal', 'low', 'medium', 'high']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">0.05</field>
+		<field name="output_rate">0.4</field>
+		<field name="cache_read_rate">0.005</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_4_1" model="aypatech_wooai.model">
+		<field name="name">GPT-4.1</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-4.1</field>
+		<field name="context_window">1000000</field>
+		<field name="input_rate">2.0</field>
+		<field name="output_rate">8.0</field>
+		<field name="cache_read_rate">0.5</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_4_1_mini" model="aypatech_wooai.model">
+		<field name="name">GPT-4.1 Mini</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-4.1-mini</field>
+		<field name="context_window">1000000</field>
+		<field name="input_rate">0.4</field>
+		<field name="output_rate">1.6</field>
+		<field name="cache_read_rate">0.1</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_4_1_nano" model="aypatech_wooai.model">
+		<field name="name">GPT-4.1 Nano</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-4.1-nano</field>
+		<field name="context_window">1000000</field>
+		<field name="input_rate">0.1</field>
+		<field name="output_rate">0.4</field>
+		<field name="cache_read_rate">0.025</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_4o" model="aypatech_wooai.model">
+		<field name="name">GPT-4o</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-4o</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">2.5</field>
+		<field name="output_rate">10.0</field>
+		<field name="cache_read_rate">1.25</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gpt_4o_mini" model="aypatech_wooai.model">
+		<field name="name">GPT-4o Mini</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">gpt-4o-mini</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.15</field>
+		<field name="output_rate">0.6</field>
+		<field name="cache_read_rate">0.075</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_o1" model="aypatech_wooai.model">
+		<field name="name">o1</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">o1</field>
+		<field name="context_window">200000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">15.0</field>
+		<field name="output_rate">60.0</field>
+		<field name="cache_read_rate">7.5</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_o1_mini" model="aypatech_wooai.model">
+		<field name="name">o1 Mini</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">o1-mini</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">3.0</field>
+		<field name="output_rate">12.0</field>
+		<field name="cache_read_rate">1.5</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_o3" model="aypatech_wooai.model">
+		<field name="name">o3</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">o3</field>
+		<field name="context_window">200000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">2.0</field>
+		<field name="output_rate">8.0</field>
+		<field name="cache_read_rate">0.5</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_o3_mini" model="aypatech_wooai.model">
+		<field name="name">o3 Mini</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">o3-mini</field>
+		<field name="context_window">200000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">1.1</field>
+		<field name="output_rate">4.4</field>
+		<field name="cache_read_rate">0.55</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_o4_mini" model="aypatech_wooai.model">
+		<field name="name">o4 Mini</field>
+		<field name="provider_id" ref="ai_provider_openai"/>
+		<field name="technical_name">o4-mini</field>
+		<field name="context_window">200000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">1.1</field>
+		<field name="output_rate">4.4</field>
+		<field name="cache_read_rate">0.275</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="ai_provider_openai" model="aypatech_wooai.provider">
+		<field name="default_model_id" ref="model_gpt_5_4"/>
+	</record>
+
+	<!-- Anthropic -->
+
+	<record id="model_claude_fable_5" model="aypatech_wooai.model">
+		<field name="name">Claude Fable 5</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-fable-5</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">10.0</field>
+		<field name="output_rate">50.0</field>
+		<field name="cache_read_rate">1.0</field>
+		<field name="cache_write_rate">12.5</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_opus_4_8" model="aypatech_wooai.model">
+		<field name="name">Claude Opus 4.8</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-opus-4-8</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">5.0</field>
+		<field name="output_rate">25.0</field>
+		<field name="cache_read_rate">0.5</field>
+		<field name="cache_write_rate">6.25</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_opus_4_7" model="aypatech_wooai.model">
+		<field name="name">Claude Opus 4.7</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-opus-4-7</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">5.0</field>
+		<field name="output_rate">25.0</field>
+		<field name="cache_read_rate">0.5</field>
+		<field name="cache_write_rate">6.25</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_opus_4_6" model="aypatech_wooai.model">
+		<field name="name">Claude Opus 4.6</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-opus-4-6</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['minimal', 'low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">5.0</field>
+		<field name="output_rate">25.0</field>
+		<field name="cache_read_rate">0.5</field>
+		<field name="cache_write_rate">6.25</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_opus_4_5" model="aypatech_wooai.model">
+		<field name="name">Claude Opus 4.5</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-opus-4-5</field>
+		<field name="context_window">200000</field>
+		<field name="reasoning_efforts" eval="['minimal', 'low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">5.0</field>
+		<field name="output_rate">25.0</field>
+		<field name="cache_read_rate">0.5</field>
+		<field name="cache_write_rate">6.25</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_opus_4_1" model="aypatech_wooai.model">
+		<field name="name">Claude Opus 4.1</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-opus-4-1</field>
+		<field name="context_window">200000</field>
+		<field name="notes">Deprecated by Anthropic; retires 2026-08-05. Migrate to Claude Opus 4.8.</field>
+		<field name="reasoning_efforts" eval="['minimal', 'low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">15.0</field>
+		<field name="output_rate">75.0</field>
+		<field name="cache_read_rate">1.5</field>
+		<field name="cache_write_rate">18.75</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_opus_4" model="aypatech_wooai.model">
+		<field name="name">Claude Opus 4</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-opus-4</field>
+		<field name="context_window">200000</field>
+		<field name="input_rate">15.0</field>
+		<field name="output_rate">75.0</field>
+		<field name="cache_read_rate">1.5</field>
+		<field name="cache_write_rate">18.75</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_sonnet_5" model="aypatech_wooai.model">
+		<field name="name">Claude Sonnet 5</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-sonnet-5</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">3.0</field>
+		<field name="output_rate">15.0</field>
+		<field name="cache_read_rate">0.3</field>
+		<field name="cache_write_rate">3.75</field>
+		<field name="currency">USD</field>
+		<field name="notes">Introductory pricing of $2 / $10 per MTok applies through 2026-08-31.</field>
+	</record>
+
+	<record id="model_claude_sonnet_4_6" model="aypatech_wooai.model">
+		<field name="name">Claude Sonnet 4.6</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-sonnet-4-6</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['minimal', 'low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">3.0</field>
+		<field name="output_rate">15.0</field>
+		<field name="cache_read_rate">0.3</field>
+		<field name="cache_write_rate">3.75</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_sonnet_4_5" model="aypatech_wooai.model">
+		<field name="name">Claude Sonnet 4.5</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-sonnet-4-5</field>
+		<field name="context_window">200000</field>
+		<field name="reasoning_efforts" eval="['minimal', 'low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">3.0</field>
+		<field name="output_rate">15.0</field>
+		<field name="cache_read_rate">0.3</field>
+		<field name="cache_write_rate">3.75</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_sonnet_4" model="aypatech_wooai.model">
+		<field name="name">Claude Sonnet 4</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-sonnet-4</field>
+		<field name="context_window">200000</field>
+		<field name="reasoning_efforts" eval="['minimal', 'low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">3.0</field>
+		<field name="output_rate">15.0</field>
+		<field name="cache_read_rate">0.3</field>
+		<field name="cache_write_rate">3.75</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_haiku_4_5" model="aypatech_wooai.model">
+		<field name="name">Claude Haiku 4.5</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-haiku-4-5</field>
+		<field name="context_window">200000</field>
+		<field name="input_rate">1.0</field>
+		<field name="output_rate">5.0</field>
+		<field name="cache_read_rate">0.1</field>
+		<field name="cache_write_rate">1.25</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_claude_haiku_3_5" model="aypatech_wooai.model">
+		<field name="name">Claude Haiku 3.5 (retired)</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-haiku-3-5</field>
+		<field name="context_window">200000</field>
+		<field name="input_rate">0.8</field>
+		<field name="output_rate">4.0</field>
+		<field name="cache_read_rate">0.08</field>
+		<field name="cache_write_rate">1.0</field>
+		<field name="currency">USD</field>
+		<field name="active" eval="False"/>
+	</record>
+
+	<record id="model_claude_3_7_sonnet" model="aypatech_wooai.model">
+		<field name="name">Claude Sonnet 3.7 (deprecated)</field>
+		<field name="provider_id" ref="ai_provider_anthropic"/>
+		<field name="technical_name">claude-3-7-sonnet</field>
+		<field name="context_window">200000</field>
+		<field name="reasoning_efforts" eval="['minimal', 'low', 'medium', 'high', 'xhigh', 'max']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">3.0</field>
+		<field name="output_rate">15.0</field>
+		<field name="cache_read_rate">0.3</field>
+		<field name="cache_write_rate">3.75</field>
+		<field name="currency">USD</field>
+		<field name="active" eval="False"/>
+	</record>
+
+	<record id="ai_provider_anthropic" model="aypatech_wooai.provider">
+		<field name="default_model_id" ref="model_claude_sonnet_4_6"/>
+	</record>
+
+	<!-- Google -->
+
+	<record id="model_gemini_3_1_pro_preview" model="aypatech_wooai.model">
+		<field name="name">Gemini 3.1 Pro Preview</field>
+		<field name="provider_id" ref="ai_provider_google"/>
+		<field name="technical_name">gemini-3.1-pro-preview</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high']"/>
+		<field name="input_rate">2.0</field>
+		<field name="output_rate">12.0</field>
+		<field name="cache_read_rate">0.2</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gemini_3_5_flash" model="aypatech_wooai.model">
+		<field name="name">Gemini 3.5 Flash</field>
+		<field name="provider_id" ref="ai_provider_google"/>
+		<field name="technical_name">gemini-3.5-flash</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'high']"/>
+		<field name="input_rate">1.5</field>
+		<field name="output_rate">9.0</field>
+		<field name="cache_read_rate">0.15</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gemini_3_1_flash_lite" model="aypatech_wooai.model">
+		<field name="name">Gemini 3.1 Flash Lite</field>
+		<field name="provider_id" ref="ai_provider_google"/>
+		<field name="technical_name">gemini-3.1-flash-lite</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'high']"/>
+		<field name="input_rate">0.25</field>
+		<field name="output_rate">1.5</field>
+		<field name="cache_read_rate">0.025</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gemini_3_flash_preview" model="aypatech_wooai.model">
+		<field name="name">Gemini 3 Flash Preview</field>
+		<field name="provider_id" ref="ai_provider_google"/>
+		<field name="technical_name">gemini-3-flash-preview</field>
+		<field name="context_window">1000000</field>
+		<field name="reasoning_efforts" eval="['low', 'high']"/>
+		<field name="input_rate">0.5</field>
+		<field name="output_rate">3.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gemini_2_5_pro" model="aypatech_wooai.model">
+		<field name="name">Gemini 2.5 Pro</field>
+		<field name="provider_id" ref="ai_provider_google"/>
+		<field name="technical_name">gemini-2.5-pro</field>
+		<field name="context_window">2000000</field>
+		<field name="input_rate">1.25</field>
+		<field name="output_rate">10.0</field>
+		<field name="cache_read_rate">0.31</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gemini_2_5_flash" model="aypatech_wooai.model">
+		<field name="name">Gemini 2.5 Flash</field>
+		<field name="provider_id" ref="ai_provider_google"/>
+		<field name="technical_name">gemini-2.5-flash</field>
+		<field name="context_window">1000000</field>
+		<field name="input_rate">0.30</field>
+		<field name="output_rate">2.50</field>
+		<field name="cache_read_rate">0.075</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gemini_2_5_flash_lite" model="aypatech_wooai.model">
+		<field name="name">Gemini 2.5 Flash Lite</field>
+		<field name="provider_id" ref="ai_provider_google"/>
+		<field name="technical_name">gemini-2.5-flash-lite</field>
+		<field name="context_window">1000000</field>
+		<field name="input_rate">0.10</field>
+		<field name="output_rate">0.40</field>
+		<field name="cache_read_rate">0.025</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_gemini_2_5_flash_image" model="aypatech_wooai.model">
+		<field name="name">Gemini 2.5 Flash Image</field>
+		<field name="provider_id" ref="ai_provider_google"/>
+		<field name="technical_name">gemini-2.5-flash-image</field>
+		<field name="context_window">1000000</field>
+		<field name="input_rate">0.30</field>
+		<field name="output_rate">2.50</field>
+		<field name="cache_read_rate">0.075</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="ai_provider_google" model="aypatech_wooai.provider">
+		<field name="default_model_id" ref="model_gemini_3_5_flash"/>
+	</record>
+
+	<!-- Groq -->
+
+	<record id="model_groq_llama_3_3_70b" model="aypatech_wooai.model">
+		<field name="name">Llama 3.3 70B Versatile</field>
+		<field name="provider_id" ref="ai_provider_groq"/>
+		<field name="technical_name">llama-3.3-70b-versatile</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.59</field>
+		<field name="output_rate">0.79</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_groq_llama_3_1_8b" model="aypatech_wooai.model">
+		<field name="name">Llama 3.1 8B Instant</field>
+		<field name="provider_id" ref="ai_provider_groq"/>
+		<field name="technical_name">llama-3.1-8b-instant</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.05</field>
+		<field name="output_rate">0.08</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_groq_gpt_oss_120b" model="aypatech_wooai.model">
+		<field name="name">GPT-OSS 120B</field>
+		<field name="provider_id" ref="ai_provider_groq"/>
+		<field name="technical_name">openai/gpt-oss-120b</field>
+		<field name="context_window">131000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">0.15</field>
+		<field name="output_rate">0.75</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_groq_gpt_oss_20b" model="aypatech_wooai.model">
+		<field name="name">GPT-OSS 20B</field>
+		<field name="provider_id" ref="ai_provider_groq"/>
+		<field name="technical_name">openai/gpt-oss-20b</field>
+		<field name="context_window">131000</field>
+		<field name="reasoning_efforts" eval="['low', 'medium', 'high']"/>
+		<field name="reasoning_effort_default">medium</field>
+		<field name="input_rate">0.10</field>
+		<field name="output_rate">0.50</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_groq_qwen3_32b" model="aypatech_wooai.model">
+		<field name="name">Qwen3 32B</field>
+		<field name="provider_id" ref="ai_provider_groq"/>
+		<field name="technical_name">qwen/qwen3-32b</field>
+		<field name="context_window">131000</field>
+		<field name="input_rate">0.29</field>
+		<field name="output_rate">0.59</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_groq_deepseek_r1_distill" model="aypatech_wooai.model">
+		<field name="name">DeepSeek R1 Distill Llama 70B</field>
+		<field name="provider_id" ref="ai_provider_groq"/>
+		<field name="technical_name">deepseek-r1-distill-llama-70b</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.75</field>
+		<field name="output_rate">0.99</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="ai_provider_groq" model="aypatech_wooai.provider">
+		<field name="default_model_id" ref="model_groq_llama_3_3_70b"/>
+	</record>
+
+	<!-- Mistral -->
+
+	<record id="model_mistral_large" model="aypatech_wooai.model">
+		<field name="name">Mistral Large</field>
+		<field name="provider_id" ref="ai_provider_mistral"/>
+		<field name="technical_name">mistral-large-latest</field>
+		<field name="context_window">131000</field>
+		<field name="input_rate">2.0</field>
+		<field name="output_rate">6.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_mistral_medium" model="aypatech_wooai.model">
+		<field name="name">Mistral Medium</field>
+		<field name="provider_id" ref="ai_provider_mistral"/>
+		<field name="technical_name">mistral-medium-latest</field>
+		<field name="context_window">131000</field>
+		<field name="input_rate">0.4</field>
+		<field name="output_rate">2.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_mistral_small" model="aypatech_wooai.model">
+		<field name="name">Mistral Small</field>
+		<field name="provider_id" ref="ai_provider_mistral"/>
+		<field name="technical_name">mistral-small-latest</field>
+		<field name="context_window">131000</field>
+		<field name="input_rate">0.1</field>
+		<field name="output_rate">0.3</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_mistral_codestral" model="aypatech_wooai.model">
+		<field name="name">Codestral</field>
+		<field name="provider_id" ref="ai_provider_mistral"/>
+		<field name="technical_name">codestral-latest</field>
+		<field name="context_window">256000</field>
+		<field name="input_rate">0.3</field>
+		<field name="output_rate">0.9</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_mistral_pixtral_large" model="aypatech_wooai.model">
+		<field name="name">Pixtral Large</field>
+		<field name="provider_id" ref="ai_provider_mistral"/>
+		<field name="technical_name">pixtral-large-latest</field>
+		<field name="context_window">131000</field>
+		<field name="input_rate">2.0</field>
+		<field name="output_rate">6.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_mistral_ministral_8b" model="aypatech_wooai.model">
+		<field name="name">Ministral 8B</field>
+		<field name="provider_id" ref="ai_provider_mistral"/>
+		<field name="technical_name">ministral-8b-latest</field>
+		<field name="context_window">131000</field>
+		<field name="input_rate">0.1</field>
+		<field name="output_rate">0.1</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="ai_provider_mistral" model="aypatech_wooai.provider">
+		<field name="default_model_id" ref="model_mistral_large"/>
+	</record>
+
+	<!-- xAI -->
+
+	<record id="model_xai_grok_4" model="aypatech_wooai.model">
+		<field name="name">Grok 4</field>
+		<field name="provider_id" ref="ai_provider_xai"/>
+		<field name="technical_name">grok-4</field>
+		<field name="context_window">256000</field>
+		<field name="input_rate">3.0</field>
+		<field name="output_rate">15.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_xai_grok_4_fast" model="aypatech_wooai.model">
+		<field name="name">Grok 4 Fast</field>
+		<field name="provider_id" ref="ai_provider_xai"/>
+		<field name="technical_name">grok-4-fast</field>
+		<field name="context_window">2000000</field>
+		<field name="input_rate">0.2</field>
+		<field name="output_rate">0.5</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_xai_grok_3" model="aypatech_wooai.model">
+		<field name="name">Grok 3</field>
+		<field name="provider_id" ref="ai_provider_xai"/>
+		<field name="technical_name">grok-3</field>
+		<field name="context_window">131000</field>
+		<field name="input_rate">3.0</field>
+		<field name="output_rate">15.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_xai_grok_3_mini" model="aypatech_wooai.model">
+		<field name="name">Grok 3 Mini</field>
+		<field name="provider_id" ref="ai_provider_xai"/>
+		<field name="technical_name">grok-3-mini</field>
+		<field name="context_window">131000</field>
+		<field name="reasoning_efforts" eval="['low', 'high']"/>
+		<field name="reasoning_effort_default">low</field>
+		<field name="input_rate">0.3</field>
+		<field name="output_rate">0.5</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_xai_grok_code_fast" model="aypatech_wooai.model">
+		<field name="name">Grok Code Fast 1</field>
+		<field name="provider_id" ref="ai_provider_xai"/>
+		<field name="technical_name">grok-code-fast-1</field>
+		<field name="context_window">256000</field>
+		<field name="input_rate">0.2</field>
+		<field name="output_rate">1.5</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="ai_provider_xai" model="aypatech_wooai.provider">
+		<field name="default_model_id" ref="model_xai_grok_4"/>
+	</record>
+
+	<!-- DeepSeek -->
+
+	<record id="model_deepseek_chat" model="aypatech_wooai.model">
+		<field name="name">DeepSeek Chat (V3.2)</field>
+		<field name="provider_id" ref="ai_provider_deepseek"/>
+		<field name="technical_name">deepseek-chat</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.28</field>
+		<field name="output_rate">0.42</field>
+		<field name="cache_read_rate">0.028</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_deepseek_reasoner" model="aypatech_wooai.model">
+		<field name="name">DeepSeek Reasoner (R1)</field>
+		<field name="provider_id" ref="ai_provider_deepseek"/>
+		<field name="technical_name">deepseek-reasoner</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.55</field>
+		<field name="output_rate">2.19</field>
+		<field name="cache_read_rate">0.14</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="ai_provider_deepseek" model="aypatech_wooai.provider">
+		<field name="default_model_id" ref="model_deepseek_chat"/>
+	</record>
+
+	<!-- OpenRouter -->
+
+	<record id="model_openrouter_gpt_4o_mini" model="aypatech_wooai.model">
+		<field name="name">OpenAI GPT-4o Mini (via OpenRouter)</field>
+		<field name="provider_id" ref="ai_provider_openrouter"/>
+		<field name="technical_name">openai/gpt-4o-mini</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.15</field>
+		<field name="output_rate">0.60</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_openrouter_claude_sonnet" model="aypatech_wooai.model">
+		<field name="name">Claude Sonnet 4.5 (via OpenRouter)</field>
+		<field name="provider_id" ref="ai_provider_openrouter"/>
+		<field name="technical_name">anthropic/claude-sonnet-4.5</field>
+		<field name="context_window">200000</field>
+		<field name="input_rate">3.0</field>
+		<field name="output_rate">15.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_openrouter_gemini_flash" model="aypatech_wooai.model">
+		<field name="name">Gemini 2.5 Flash (via OpenRouter)</field>
+		<field name="provider_id" ref="ai_provider_openrouter"/>
+		<field name="technical_name">google/gemini-2.5-flash</field>
+		<field name="context_window">1000000</field>
+		<field name="input_rate">0.30</field>
+		<field name="output_rate">2.50</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_openrouter_llama_3_3_70b" model="aypatech_wooai.model">
+		<field name="name">Llama 3.3 70B (via OpenRouter)</field>
+		<field name="provider_id" ref="ai_provider_openrouter"/>
+		<field name="technical_name">meta-llama/llama-3.3-70b-instruct</field>
+		<field name="context_window">131000</field>
+		<field name="input_rate">0.12</field>
+		<field name="output_rate">0.30</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_openrouter_deepseek_chat" model="aypatech_wooai.model">
+		<field name="name">DeepSeek Chat (via OpenRouter)</field>
+		<field name="provider_id" ref="ai_provider_openrouter"/>
+		<field name="technical_name">deepseek/deepseek-chat</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.28</field>
+		<field name="output_rate">0.42</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="ai_provider_openrouter" model="aypatech_wooai.provider">
+		<field name="default_model_id" ref="model_openrouter_gpt_4o_mini"/>
+	</record>
+
+	<!-- Ollama (local, no cost) -->
+
+	<record id="model_ollama_llama3_1" model="aypatech_wooai.model">
+		<field name="name">Llama 3.1 (local)</field>
+		<field name="provider_id" ref="ai_provider_ollama"/>
+		<field name="technical_name">llama3.1</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.0</field>
+		<field name="output_rate">0.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_ollama_llama3_2" model="aypatech_wooai.model">
+		<field name="name">Llama 3.2 (local)</field>
+		<field name="provider_id" ref="ai_provider_ollama"/>
+		<field name="technical_name">llama3.2</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.0</field>
+		<field name="output_rate">0.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_ollama_qwen2_5" model="aypatech_wooai.model">
+		<field name="name">Qwen 2.5 (local)</field>
+		<field name="provider_id" ref="ai_provider_ollama"/>
+		<field name="technical_name">qwen2.5</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.0</field>
+		<field name="output_rate">0.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_ollama_mistral" model="aypatech_wooai.model">
+		<field name="name">Mistral 7B (local)</field>
+		<field name="provider_id" ref="ai_provider_ollama"/>
+		<field name="technical_name">mistral</field>
+		<field name="context_window">32000</field>
+		<field name="input_rate">0.0</field>
+		<field name="output_rate">0.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="model_ollama_deepseek_r1" model="aypatech_wooai.model">
+		<field name="name">DeepSeek R1 (local)</field>
+		<field name="provider_id" ref="ai_provider_ollama"/>
+		<field name="technical_name">deepseek-r1</field>
+		<field name="context_window">128000</field>
+		<field name="input_rate">0.0</field>
+		<field name="output_rate">0.0</field>
+		<field name="currency">USD</field>
+	</record>
+
+	<record id="ai_provider_ollama" model="aypatech_wooai.provider">
+		<field name="default_model_id" ref="model_ollama_llama3_1"/>
+	</record>
+
+</odoo>

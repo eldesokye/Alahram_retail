@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_alahram_bridal" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.alahram.bridal</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="95"/>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='point_of_sale']" position="inside">
+                <block title="سياسة تسامح وميزانية باكدج العروسة الذكي (Al Ahram Bridal Package Budget Policy)" id="bridal_package_budget_settings">
+                    <setting string="تسامح الميزانية الأدنى والأقصى" help="تحديد حدود الميزانية المقبولة للتوصيات الذكية (Lower Bound, Preferred Upper, Absolute Upper).">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="bridal_tolerance_below" class="col-lg-5 o_light_label" string="الحد الأقصى تحت الميزانية (ج.م)"/>
+                                <field name="bridal_tolerance_below" class="col-lg-3"/>
+                            </div>
+                            <div class="row mt8">
+                                <label for="bridal_tolerance_above_pref" class="col-lg-5 o_light_label" string="الحد الأقصى المفضل فوق الميزانية (ج.م)"/>
+                                <field name="bridal_tolerance_above_pref" class="col-lg-3"/>
+                            </div>
+                            <div class="row mt8">
+                                <label for="bridal_tolerance_above_abs" class="col-lg-5 o_light_label" string="الحد الأقصى المطلق فوق الميزانية (ج.م)"/>
+                                <field name="bridal_tolerance_above_abs" class="col-lg-3"/>
+                            </div>
+                            <div class="row mt8">
+                                <label for="bridal_max_recommendations" class="col-lg-5 o_light_label" string="أقصى عدد للخيارات المقترحة"/>
+                                <field name="bridal_max_recommendations" class="col-lg-3"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting string="خيارات النطاق الموسع وتوافر الفروع" help="تمكين التوصيات في النطاق الموسع والتحقق من التوافر عبر شبكة فروع الأهرام.">
+                        <div class="content-group">
+                            <div class="row mt8">
+                                <field name="bridal_enable_extended_range"/>
+                                <label for="bridal_enable_extended_range" string="تمكين خيارات النطاق الموسع حتى الحد الأقصى المطلق"/>
+                            </div>
+                            <div class="row mt8">
+                                <field name="bridal_consider_cross_branch"/>
+                                <label for="bridal_consider_cross_branch" string="مراعاة التوافر بالفروع الأخرى عند حساب التوصيات"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_alahram_bridal_settings" model="ir.actions.act_window">
+        <field name="name">إعدادات تسامح ميزانية باكدج العروسة</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'point_of_sale'}</field>
+    </record>
+</odoo>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit POS Order Form View for Discount Approvals -->
+    <record id="view_alahram_pos_order_form" model="ir.ui.view">
+        <field name="name">alahram.pos.order.form</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_approve_special_discount"
+                        string="✅ اعتماد خصم الكاشير (> 5%)"
+                        type="object"
+                        class="btn-success"
+                        invisible="discount_approval_status != 'pending'"
+                        groups="alahram_retail_demo.group_alahram_branch_manager,base.group_system"/>
+                <button name="action_reject_special_discount"
+                        string="❌ رفض الخصم"
+                        type="object"
+                        class="btn-danger"
+                        invisible="discount_approval_status != 'pending'"
+                        groups="alahram_retail_demo.group_alahram_branch_manager,base.group_system"/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="discount_approval_status" widget="badge"
+                       decoration-success="discount_approval_status in ('auto_approved', 'approved')"
+                       decoration-warning="discount_approval_status == 'pending'"
+                       decoration-danger="discount_approval_status == 'rejected'"/>
+                <field name="max_discount_applied" widget="percentage"/>
+                <field name="discount_approver_id" readonly="1" invisible="not discount_approver_id"/>
+                <field name="discount_approval_note"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit POS Order Tree View -->
+    <record id="view_alahram_pos_order_tree" model="ir.ui.view">
+        <field name="name">alahram.pos.order.list</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="max_discount_applied" optional="show"/>
+                <field name="discount_approval_status" widget="badge" optional="show"
+                       decoration-success="discount_approval_status in ('auto_approved', 'approved')"
+                       decoration-warning="discount_approval_status == 'pending'"
+                       decoration-danger="discount_approval_status == 'rejected'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action: POS Discount Approvals Desk for Branch Manager: Scene 6 -->
+    <record id="action_alahram_discount_approvals" model="ir.actions.act_window">
+        <field name="name">المشهد 6 — إدارة موافقات الخصم</field>
+        <field name="res_model">pos.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('discount_approval_status', 'in', ('pending', 'approved', 'rejected'))]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                لا توجد طلبات خصم معلقة حالياً!
+            </p>
+            <p>
+                أي طلب خصم يتجاوز 5% تم إدخاله بواسطة كاشير 1 أو كاشير 2 سيظهر هنا بانتظار اعتماد مدير فرع سيدي جابر.
+            </p>
+        </field>
+    </record>
+</odoo>

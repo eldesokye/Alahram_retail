@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<record id="dashboard_view_usage_pivot" model="ir.ui.view">
+		<field name="name">aypatech_wooai.session.usage.pivot</field>
+		<field name="model">aypatech_wooai.session</field>
+		<field name="arch" type="xml">
+			<pivot string="AI Cost and Usage">
+				<field name="agent_id" type="row"/>
+				<field name="user_id" type="row"/>
+				<field name="create_date" interval="week" type="col"/>
+				<field name="total_cost" type="measure"/>
+				<field name="total_input_tokens" type="measure"/>
+				<field name="total_output_tokens" type="measure"/>
+			</pivot>
+		</field>
+	</record>
+
+	<record id="dashboard_view_usage_graph" model="ir.ui.view">
+		<field name="name">aypatech_wooai.session.usage.graph</field>
+		<field name="model">aypatech_wooai.session</field>
+		<field name="arch" type="xml">
+			<graph string="AI Cost and Usage" type="bar" stacked="True">
+				<field name="create_date" interval="day"/>
+				<field name="agent_id"/>
+				<field name="total_cost" type="measure"/>
+			</graph>
+		</field>
+	</record>
+
+	<record id="dashboard_view_usage_list" model="ir.ui.view">
+		<field name="name">aypatech_wooai.session.usage.list</field>
+		<field name="model">aypatech_wooai.session</field>
+		<field name="arch" type="xml">
+			<list string="AI Cost and Usage" default_order="create_date desc">
+				<field name="create_date"/>
+				<field name="agent_id"/>
+				<field name="user_id"/>
+				<field name="total_input_tokens" sum="Input Tokens"/>
+				<field name="total_output_tokens" sum="Output Tokens"/>
+				<field name="total_cost" sum="Cost"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="dashboard_view_usage_search" model="ir.ui.view">
+		<field name="name">aypatech_wooai.session.usage.search</field>
+		<field name="model">aypatech_wooai.session</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="agent_id"/>
+				<field name="user_id"/>
+				<filter name="this_month" string="This Month"
+					domain="[('create_date', '&gt;=', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d'))]"/>
+				<group>
+					<filter name="group_agent" string="Agent" context="{'group_by': 'agent_id'}"/>
+					<filter name="group_user" string="User" context="{'group_by': 'user_id'}"/>
+					<filter name="group_week" string="Week" context="{'group_by': 'create_date:week'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="dashboard_action_usage" model="ir.actions.act_window">
+		<field name="name">Cost and Usage</field>
+		<field name="res_model">aypatech_wooai.session</field>
+		<field name="view_mode">pivot,graph,list</field>
+		<field name="search_view_id" ref="dashboard_view_usage_search"/>
+		<field name="context">{'search_default_this_month': 1}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">No AI chats yet.</p>
+		</field>
+	</record>
+
+</odoo>

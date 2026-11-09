@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_ChatWindow">
+        <div class="ayp_window ayp_chat" t-att-class="this.props.minimized ? 'ayp_window_min' : ''" t-ref="this.rootRef">
+            <button class="ayp_window_header" t-on-click="() => this.props.onToggleMinimized()">
+                <span
+                    class="ayp_avatar rounded-circle"
+                    t-att-class="this.statusBadgeClass(this.session.state.status)"
+                    t-att-title="(this.session.state.agentName ? this.session.state.agentName + ' · ' : '') + this.statusLabel(this.session.state.status)"
+                >
+                    <i class="fa" t-att-class="this.statusIcon(this.session.state.status)"/>
+                </span>
+                <span class="ayp_window_title" t-esc="this.session.state.name || 'WooFusion AI'"/>
+                <span
+                    t-if="this.session.state.status === 'waiting_schedule' and this.session.state.resumeAt"
+                    class="ayp_chat_header_resume small ms-1 opacity-75"
+                    t-att-title="this.formatTimestamp(this.session.state.resumeAt)"
+                >
+                    <t t-esc="this.resumeRelativeText"/>
+                </span>
+                <span class="ayp_window_actions">
+                    <span
+                        class="ayp_window_btn"
+                        title="Open fullscreen"
+                        t-on-click.stop="() => this.onFullscreen()"
+                    >
+                        <i class="fa fa-expand"/>
+                    </span>
+                    <span
+                        class="ayp_window_btn"
+                        t-att-title="this.props.minimized ? 'Expand' : 'Minimize'"
+                        t-on-click.stop="() => this.props.onToggleMinimized()"
+                    >
+                        <i class="fa" t-att-class="this.props.minimized ? 'fa-chevron-up' : 'fa-window-minimize'"/>
+                    </span>
+                    <span
+                        class="ayp_window_btn"
+                        title="Close"
+                        t-on-click.stop="() => this.props.onClose()"
+                    >
+                        <i class="fa fa-times"/>
+                    </span>
+                </span>
+            </button>
+            <t t-if="!this.props.minimized and (this.session.state.viewContext or this.session.state.sessionId)">
+                <div class="ayp_window_subheader">
+                    <button
+                        t-if="this.session.state.sessionId"
+                        class="btn btn-sm ayp_approval_pill rounded-pill border-0 d-inline-flex align-items-center gap-1"
+                        t-att-class="this.approvalPill.className"
+                        t-att-title="this.approvalPill.tooltip"
+                        t-att-disabled="!this.session.canWrite()"
+                        t-on-click="() => this.session.cycleApprovalMode()"
+                    >
+                        <i class="fa" t-att-class="this.approvalPill.icon"/>
+                        <span t-esc="this.approvalPill.label"/>
+                    </button>
+                    <span
+                        class="ayp_chip ayp_ctx_chip rounded-pill d-inline-flex align-items-center"
+                        t-if="this.session.state.viewContext"
+                    >
+                        <button
+                            class="btn btn-link p-0 border-0 text-reset text-decoration-none d-inline-flex align-items-center"
+                            t-att-title="this.viewContextTooltip"
+                            t-on-click="() => this.session.openPinnedContext()"
+                        >
+                            <i class="fa fa-thumb-tack me-1"/><t t-esc="this.viewContextLabel"/>
+                        </button>
+                        <button
+                            class="btn btn-link p-0 border-0 text-reset ms-1 ayp_ctx_unpin"
+                            t-if="this.session.canWrite()"
+                            title="Unpin view context"
+                            t-on-click="() => this.session.runUnpin()"
+                        >
+                            <i class="fa fa-times"/>
+                        </button>
+                    </span>
+                    <span
+                        class="ayp_chip ayp_cost_chip rounded-pill ms-auto"
+                        t-if="this.session.state.sessionId"
+                        t-att-title="this.costPill.tooltip"
+                    >
+                        <i class="fa fa-dollar me-1"/><t t-esc="this.costPill.label"/>
+                    </span>
+                </div>
+            </t>
+            <t t-if="!this.props.minimized">
+                <div class="ayp_window_body position-relative d-flex flex-column">
+                    <button t-if="!this.scrollState.atBottom"
+                            class="ayp_scroll_bottom"
+                            type="button"
+                            title="Scroll to latest"
+                            t-on-click="() => this.scrollToBottom(true)">
+                        <i class="fa fa-arrow-down"/>
+                    </button>
+                    <div class="ayp_messages flex-grow-1" t-ref="this.scrollRef">
+                    <div class="ayp_window_inner">
+                        <div t-if="this.session.state.hasMoreOlder" class="ayp_load_older text-center small text-muted py-2">
+                            <t t-if="this.session.state.loadingOlder">
+                                <i class="fa fa-spinner fa-spin me-1"/>Loading…
+                            </t>
+                            <t t-else="">
+                                <button class="btn btn-link btn-sm" t-on-click="() => this.session.loadMoreEvents()">
+                                    Load older messages
+                                </button>
+                            </t>
+                        </div>
+                        <t t-if="this.session.state.loading">
+                            <div class="text-center text-muted small py-3">
+                                <i class="fa fa-spinner fa-spin me-1"/>Loading…
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <t t-foreach="this.renderedTurns" t-as="turn" t-key="turn.clientKey || (turn.eventId ? 'e' + turn.eventId : turn_index + '-' + (turn.at || ''))">
+                                <t t-call="aypatech_ai_agent.ai_ChatTurn">
+                                    <t t-set="turn" t-value="turn"/>
+                                </t>
+                            </t>
+                            <t t-if="this.session.state.status === 'running'">
+                                <div class="ayp_turn ayp_turn_assistant">
+                                    <t t-foreach="this.session.state.streamingTools" t-as="tool" t-key="tool.callId">
+                                        <ToolCard
+                                            block="{ name: tool.name, arguments: tool.argsBuffer, callId: tool.callId, result: tool.done ? tool.result : null }"
+                                            streaming="!tool.done"
+                                        />
+                                    </t>
+                                    <div
+                                        class="ayp_bubble ayp_bubble_assistant ayp_markdown ayp_streaming"
+                                        t-if="this.session.state.streamingText or this.session.state.streamingReasoning or !this.session.state.streamingTools.length"
+                                    >
+                                        <t t-if="this.session.state.streamingText" t-out="this.renderMarkdown(this.session.state.streamingText)"/>
+                                        <span t-else="" class="ayp_thinking">
+                                            <span class="ayp_dots"><span/><span/><span/></span>
+                                            <span class="ayp_thinking_status" t-esc="this.session.state.streamingReasoning ? this.session.latestReasoningLine() : 'Thinking'"/>
+                                        </span>
+                                        <div t-if="this.session.state.streamIdle and this.session.state.streamingText" class="ayp_thinking ayp_thinking_idle mt-1">
+                                            <span class="ayp_dots"><span/><span/><span/></span>
+                                            <span class="ayp_thinking_status" t-esc="this.session.state.streamingReasoning ? this.session.latestReasoningLine() : 'Still working…'"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-foreach="this.session.state.pendingMessages" t-as="queued" t-key="queued_index">
+                                <div class="ayp_turn ayp_turn_user ayp_turn_queued">
+                                    <div class="ayp_bubble ayp_bubble_user ayp_bubble_queued" t-att-title="queued.queued_at || ''">
+                                        <i class="fa fa-clock-o me-2"/>
+                                        <span t-esc="queued.content"/>
+                                        <button
+                                            class="btn btn-sm ayp_queue_cancel"
+                                            type="button"
+                                            t-if="this.session.canWrite()"
+                                            title="Cancel queued message"
+                                            t-on-click="() => this.session.cancelQueued(queued_index)"
+                                        >
+                                            <i class="fa fa-times"/>
+                                        </button>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.session.state.error">
+                                <div class="alert alert-danger rounded-3 mt-2 small d-flex flex-column align-items-stretch gap-2">
+                                    <div class="text-break">
+                                        <strong><i class="fa fa-exclamation-circle me-1"/>Error:</strong>
+                                        <span t-esc="this.session.state.error"/>
+                                    </div>
+                                    <button t-if="this.session.canRegenerate()"
+                                            class="btn btn-sm btn-outline-danger flex-shrink-0 align-self-end"
+                                            type="button"
+                                            title="Regenerate this answer"
+                                            t-on-click="() => this.session.onRegenerate()">
+                                        <i class="fa fa-refresh me-1"/>Regenerate
+                                    </button>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                    </div>
+                </div>
+                <div class="ayp_window_composer">
+                    <ChatComposer
+                        value="this.session.state.input"
+                        placeholder="this.inputPlaceholder"
+                        readonly="this.session.state.readonly"
+                        readonlyOwner="this.session.state.ownerName"
+                        canSend="this.session.canSend()"
+                        canStop="this.session.canStop()"
+                        canAttach="this.session.canAttach()"
+                        isQueueing="this.isQueueing"
+                        attachments="this.session.state.pendingAttachments"
+                        agents="this.session.state.agents"
+                        sessionId="this.session.state.sessionId"
+                        viewContext="this.session.state.viewContext"
+                        activeAgentId="this.session.state.agentId"
+                        focusToken="this.session.state.focusToken"
+                        onInput.bind="this.onInputChange"
+                        onSend.bind="this.onSend"
+                        onStop.bind="this.onStop"
+                        onAttachFiles.bind="this.onAttachFiles"
+                        onRemoveAttachment.bind="this.onRemoveAttachment"
+                        onOpenAttachment.bind="this.onOpenAttachment"
+                        onSelectAgent="(agentId) => this.session.onSetAgent(agentId)"
+                    />
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

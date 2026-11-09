@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.chatter_WooAISessionBoxList" t-inherit="mail.Chatter" t-inherit-mode="extension">
+        <xpath expr="//FileUploader[1]" position="before">
+            <button
+                t-if="this.wooAiSessions.total"
+                class="o-mail-Chatter-wooAiSessions btn btn-link text-action px-1 d-flex align-items-center"
+                t-att-class="{ 'active': this.wooAiSessions.open }"
+                aria-label="AI Sessions"
+                title="AI Sessions"
+                t-on-click="this.toggleWooAISessions"
+            >
+                <span class="ayp_icon_ai o-mail-Chatter-wooAiSessionsIcon me-1"/>
+                <sup t-esc="this.wooAiSessions.total"/>
+            </button>
+        </xpath>
+        <xpath expr="//SearchMessageResult" position="before">
+            <WooAISessionBox
+                t-if="this.state.thread and this.state.thread.model and this.state.thread.id"
+                threadModel="this.state.thread.model"
+                threadId="this.state.thread.id"
+                open="this.wooAiSessions.open"
+                onLoaded="(total) => this.wooAiSessions.total = total"
+            />
+        </xpath>
+    </t>
+
+</templates>

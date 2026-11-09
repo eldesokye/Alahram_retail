@@ -1,0 +1,78 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: odoo20_enterprise_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-odoo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-odoo} -d ${POSTGRES_DB:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    networks:
+      - odoo_internal_net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  odoo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: odoo20-enterprise:local
+    container_name: odoo20_enterprise_app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      HOST: db
+      PORT: 5432
+      USER: ${POSTGRES_USER:-odoo}
+      PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${ODOO_PORT:-8070}:8069"
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./custom_addons:/mnt/extra-addons
+      - ./ALAhram/alahram_retail_demo:/mnt/extra-addons/alahram_retail_demo
+      - ./ALAhram:/mnt/ALAhram
+      - ./enterprise:/mnt/enterprise
+      - ./patches/tour_plugin.js:/usr/lib/python3/dist-packages/odoo/addons/web_tour/static/src/tour_plugin.js
+      - ./patches/tour_helpers_clipboard.js:/usr/lib/python3/dist-packages/odoo/addons/web_tour/static/src/tour_helpers/tour_helpers_clipboard.js
+      - ./patches/clipboard.js:/usr/lib/python3/dist-packages/odoo/addons/web/static/src/polyfills/clipboard.js
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f -I http://127.0.0.1:8069/web/health || curl -f -I http://127.0.0.1:8069/web/login"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - odoo_internal_net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+volumes:
+  db_data:
+    name: odoo20_enterprise_db_data
+  odoo_data:
+    name: odoo20_enterprise_odoo_data
+
+networks:
+  odoo_internal_net:
+    name: odoo20_enterprise_net
+    driver: bridge
+    internal: false

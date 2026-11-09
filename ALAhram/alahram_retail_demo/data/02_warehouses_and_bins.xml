@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- 1. Central Distribution Warehouse -->
+        <record id="wh_main" model="stock.warehouse">
+            <field name="name">مخزن الإدارة الرئيسي - الأهرام</field>
+            <field name="code">WH-MAIN</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 2. Local Supply Warehouse -->
+        <record id="wh_local" model="stock.warehouse">
+            <field name="name">مخزن التوريد المحلي (WH.LOCAL)</field>
+            <field name="code">WH-LOC</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 3. Flagship Demo Branch - Sidi Gaber -->
+        <record id="wh_sidi_gaber" model="stock.warehouse">
+            <field name="name">فرع سيدي جابر - الإسكندرية</field>
+            <field name="code">WH-SG</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 4. Roshdy / Louran Branch -->
+        <record id="wh_roshdy" model="stock.warehouse">
+            <field name="name">فرع رشدي / لوران</field>
+            <field name="code">WH-ROSHDY</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 5. Smouha / Baccous Branch -->
+        <record id="wh_smouha" model="stock.warehouse">
+            <field name="name">فرع سموحة / باكوس</field>
+            <field name="code">WH-SMOUHA</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 6. El Sekka El Gedeeda Branch (Mansheya) -->
+        <record id="wh_sekka" model="stock.warehouse">
+            <field name="name">فرع السكة الجديدة (المنشية)</field>
+            <field name="code">WH-SEKKA</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 7. El Sekka Economy Branch -->
+        <record id="wh_sekka_eco" model="stock.warehouse">
+            <field name="name">فرع السكة الاقتصادي</field>
+            <field name="code">WH-SK-ECO</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 8. Hanovil Branch (Agami) -->
+        <record id="wh_hanovil" model="stock.warehouse">
+            <field name="name">فرع الهانوفيل (العجمي)</field>
+            <field name="code">WH-HANOVIL</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 9. Shobra Branch (Cairo) -->
+        <record id="wh_shobra" model="stock.warehouse">
+            <field name="name">فرع شبرا (القاهرة)</field>
+            <field name="code">WH-SHOBRA</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 10. Nasr City Branch (Cairo) -->
+        <record id="wh_nasr" model="stock.warehouse">
+            <field name="name">فرع مدينة نصر (القاهرة)</field>
+            <field name="code">WH-NASR</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 11. Faisal Branch (Giza) -->
+        <record id="wh_faisal" model="stock.warehouse">
+            <field name="name">فرع فيصل (الجيزة)</field>
+            <field name="code">WH-FAISAL</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 12. Online Warehouse -->
+        <record id="wh_online" model="stock.warehouse">
+            <field name="name">مخزن مبيعات الأونلاين (Online Store)</field>
+            <field name="code">WH-ONLINE</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 13. Spinneys Corner -->
+        <record id="wh_spinneys" model="stock.warehouse">
+            <field name="name">ركن سبينيس (Spinneys Corner)</field>
+            <field name="code">WH-SPIN</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 14. Transit Transfer Store -->
+        <record id="loc_transit_transfer_store" model="stock.location">
+            <field name="name">Transfer Store (بضاعة بالطريق)</field>
+            <field name="usage">transit</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 15. Scrap Location -->
+        <record id="loc_scrap_defective" model="stock.location">
+            <field name="name">مخزن الهالك والتوالف (هالك)</field>
+            <field name="usage">inventory</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- 3 Expansion Branches Under Construction -->
+        <record id="wh_tagamoa" model="stock.warehouse">
+            <field name="name">فرع التجمع الخامس (تحت الإنشاء)</field>
+            <field name="code">WH-TAG</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="active">True</field>
+        </record>
+
+        <record id="wh_tanta" model="stock.warehouse">
+            <field name="name">فرع طنطا (تحت الإنشاء)</field>
+            <field name="code">WH-TAN</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="active">True</field>
+        </record>
+
+        <record id="wh_raml" model="stock.warehouse">
+            <field name="name">فرع محطة الرمل (تحت الإنشاء)</field>
+            <field name="code">WH-RML</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

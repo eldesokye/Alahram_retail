@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_SourceIcon">
+        <span
+            class="ayp_source_ico d-inline-flex align-items-center justify-content-center"
+            t-att-class="'ayp_source_ico_' + this.props.source.type"
+        >
+            <img
+                t-if="this.iconUrl"
+                class="ayp_source_icon"
+                t-att-src="this.iconUrl"
+                alt=""
+                t-on-error="this.onIconError"
+            />
+            <i t-elif="this.props.source.type === 'web'" class="fa fa-globe"/>
+            <i t-else="" class="fa fa-file-text-o"/>
+        </span>
+    </t>
+
+    <t t-name="aypatech_ai_agent.ai_SourceCard">
+        <a
+            class="ayp_source_card d-flex align-items-center"
+            t-att-class="'ayp_source_' + this.props.source.type"
+            t-att-href="this.href"
+            target="_blank"
+            rel="noopener noreferrer"
+            t-att-title="this.label"
+            t-on-click="this.onSourceClick"
+        >
+            <SourceIcon source="this.props.source"/>
+            <span class="ayp_source_body d-flex flex-column">
+                <span class="ayp_source_title text-truncate" t-esc="this.label"/>
+                <span class="ayp_source_origin text-truncate" t-esc="this.origin"/>
+            </span>
+            <i class="fa fa-external-link ayp_source_go"/>
+        </a>
+    </t>
+
+    <t t-name="aypatech_ai_agent.ai_SourceList">
+        <div class="ayp_source_list">
+            <t t-foreach="this.visible" t-as="src" t-key="src.id">
+                <SourceCard source="src" sessionId="this.props.sessionId"/>
+            </t>
+        </div>
+        <button
+            t-if="this.hiddenCount and !this.state.showAll"
+            class="ayp_sources_more_btn"
+            type="button"
+            t-on-click="this.toggle"
+        >+<t t-esc="this.hiddenCount"/> more</button>
+        <button
+            t-elif="this.state.showAll and this.props.sources.length > this.cap"
+            class="ayp_sources_more_btn"
+            type="button"
+            t-on-click="this.toggle"
+        >Show less</button>
+    </t>
+
+    <t t-name="aypatech_ai_agent.ai_SourcesTab">
+        <t t-if="this.props.items.length">
+            <SourceList
+                sources="this.props.items"
+                sessionId="this.props.session and this.props.session.state.sessionId"
+            />
+        </t>
+        <t t-else="">
+            <div class="ayp_artifacts_empty text-muted small">
+                No sources in this conversation yet.
+            </div>
+        </t>
+    </t>
+
+</templates>

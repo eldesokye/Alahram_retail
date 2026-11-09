@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_RenameDialog">
+        <Dialog size="'sm'" title="this.props.title">
+            <div class="mb-2 text-muted small">Give this chat a descriptive name.</div>
+            <input
+                type="text"
+                class="form-control"
+                t-ref="this.inputRef"
+                t-att-value="this.state.value"
+                t-att-placeholder="this.props.placeholder"
+                t-on-input="(ev) => this.onInput(ev)"
+                t-on-keydown="(ev) => this.onKeydown(ev)"
+            />
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-att-disabled="!this.canConfirm" t-on-click="() => this.confirm()">
+                    Rename
+                </button>
+                <button class="btn btn-secondary" t-on-click="() => this.cancel()">
+                    Cancel
+                </button>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>

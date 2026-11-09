@@ -1,0 +1,16 @@
+id,name,model_id,group_id/id,operation,domain
+mcp_access_aypatech_woomcp_connect,aypatech_woomcp.connect user,aypatech_woomcp.connect,base.group_user,crud,
+mcp_access_aypatech_woomcp_generate_key,aypatech_woomcp.generate_key user,aypatech_woomcp.generate_key,base.group_user,crd,
+mcp_access_aypatech_woomcp_key_admin,aypatech_woomcp.key system,aypatech_woomcp.key,base.group_system,crud,
+mcp_access_aypatech_woomcp_key_user,aypatech_woomcp.key user (restricted),aypatech_woomcp.key,base.group_user,crud,"[('user_id', '=', user.id)]"
+mcp_access_aypatech_woomcp_key_show,aypatech_woomcp.key.show user,aypatech_woomcp.key.show,base.group_user,cr,
+mcp_access_aypatech_woomcp_log_admin,aypatech_woomcp.log system,aypatech_woomcp.log,base.group_system,rud,
+mcp_access_aypatech_woomcp_log_user,aypatech_woomcp.log user (restricted),aypatech_woomcp.log,base.group_user,r,"[('user_id', '=', user.id)]"
+mcp_access_aypatech_woomcp_notification_admin,aypatech_woomcp.notification system,aypatech_woomcp.notification,base.group_system,crud,
+mcp_access_aypatech_woomcp_notification_user,aypatech_woomcp.notification user (restricted),aypatech_woomcp.notification,base.group_user,r,"[('session_id.user_id', '=', user.id)]"
+mcp_access_aypatech_woomcp_prompt_admin,aypatech_woomcp.prompt system,aypatech_woomcp.prompt,base.group_system,crud,
+mcp_access_aypatech_woomcp_prompt_user,aypatech_woomcp.prompt user,aypatech_woomcp.prompt,base.group_user,r,
+mcp_access_aypatech_woomcp_session_admin,aypatech_woomcp.session system,aypatech_woomcp.session,base.group_system,crud,
+mcp_access_aypatech_woomcp_session_user,aypatech_woomcp.session user (restricted),aypatech_woomcp.session,base.group_user,crud,"[('user_id', '=', user.id)]"
+mcp_access_aypatech_woomcp_tool_admin,aypatech_woomcp.tool system,aypatech_woomcp.tool,base.group_system,crud,
+mcp_access_aypatech_woomcp_tool_user,aypatech_woomcp.tool user,aypatech_woomcp.tool,base.group_user,r,

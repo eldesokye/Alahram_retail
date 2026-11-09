@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_ChatShareUsers">
+        <div class="ayp_chat_share d-none d-md-flex align-items-center gap-2">
+            <span class="ayp_chat_share_faces" t-if="this.shareIds.length">
+                <img
+                    t-foreach="this.shareIds.slice(0, 4)" t-as="uid" t-key="uid"
+                    class="ayp_chat_share_avatar"
+                    t-att-src="this.avatar(uid)"
+                    alt=""
+                />
+            </span>
+            <span class="ayp_chat_share_text" t-esc="this.summary"/>
+            <button
+                t-if="this.canShare"
+                class="btn btn-link btn-sm ayp_chat_share_edit"
+                t-on-click="this.openDialog"
+            >
+                <i class="fa fa-user-plus me-1"/>
+                <t t-if="this.shareIds.length">Manage</t>
+                <t t-else="">Share</t>
+            </button>
+        </div>
+    </t>
+
+</templates>

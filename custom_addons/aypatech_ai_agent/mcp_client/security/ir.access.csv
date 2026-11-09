@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+mcp_client_access_server_system,aypatech_wooai.mcp.client.server system,aypatech_wooai.mcp.client.server,base.group_system,crud,
+mcp_client_access_tool_system,aypatech_wooai.mcp.client.tool system,aypatech_wooai.mcp.client.tool,base.group_system,crud,
+mcp_client_access_tool_user,aypatech_wooai.mcp.client.tool user,aypatech_wooai.mcp.client.tool,base.group_user,r,

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- AI Assistant Form View -->
+    <record id="view_alahram_ai_assistant_form" model="ir.ui.view">
+        <field name="name">alahram.ai.assistant.form</field>
+        <field name="model">alahram.ai.assistant</field>
+        <field name="arch" type="xml">
+            <form string="مساعد الذكاء الاصطناعي لإدارة الأهرام للأدوات المنزلية">
+                <header>
+                    <button name="action_execute_ai_query"
+                            string="⚡ تشغيل استفسار الذكاء الاصطناعي وتحليل البيانات"
+                            type="object"
+                            class="btn-primary"
+                            icon="fa-magic"/>
+                    <button name="action_open_generated_order"
+                            string="📝 فتح أمر البيع المنشأ"
+                            type="object"
+                            class="btn-success"
+                            icon="fa-shopping-cart"
+                            invisible="not generated_sale_order_id"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="عنوان جلسة الذكاء الاصطناعي"/>
+                        <h1>
+                            <field name="name" placeholder="استفسار ذكي جديد..."/>
+                        </h1>
+                    </div>
+
+                    <!-- 6 Clickable Executive Question Quick Launch Bar -->
+                    <div class="alert alert-light border p-3 rounded mb-3" role="status">
+                        <h6 class="text-primary mb-2 fw-bold">🎯 الأسئلة الاستراتيجية الستة المعتمدة (نقرة واحدة للتحليل الفوري):</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button name="action_run_q1" type="object" string="1. أقل 5 فروع في المبيعات" class="btn btn-outline-primary btn-sm"/>
+                            <button name="action_run_q2" type="object" string="2. الأصناف الراكدة بدون مبيعات" class="btn btn-outline-danger btn-sm"/>
+                            <button name="action_run_q3" type="object" string="3. نواقص فرع سيدي جابر" class="btn btn-outline-warning btn-sm"/>
+                            <button name="action_run_q4" type="object" string="4. أصناف مرشحة للعروض" class="btn btn-outline-success btn-sm"/>
+                            <button name="action_run_q5" type="object" string="5. الفروع الأعلى مرتجعات" class="btn btn-outline-danger btn-sm"/>
+                            <button name="action_run_q6" type="object" string="6. تجهيز أمر بيع 15,000 ج.م" class="btn btn-outline-info btn-sm"/>
+                        </div>
+                    </div>
+                    <group>
+                        <group string="سؤال الأعمال المختار من اجتماع مجلس الإدارة">
+                            <field name="user_query" widget="radio"/>
+                        </group>
+                        <group string="معاملات السؤال رقم 6 (تجهيز أمر بيع آلي بميزانية)">
+                            <field name="target_budget"/>
+                            <field name="customer_id"/>
+                            <field name="generated_sale_order_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="📊 النتيجة والتحليل التفاعلي للذكاء الاصطناعي" autofocus="autofocus">
+                            <field name="ai_response_html" widget="html" nolabel="1"/>
+                        </page>
+                        <page string="ℹ️ ملخص الإجراء المنفذ">
+                            <field name="action_executed_summary" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- AI Assistant Tree View -->
+    <record id="view_alahram_ai_assistant_tree" model="ir.ui.view">
+        <field name="name">alahram.ai.assistant.list</field>
+        <field name="model">alahram.ai.assistant</field>
+        <field name="arch" type="xml">
+            <list string="استفسارات الذكاء الاصطناعي للأهرام">
+                <field name="name"/>
+                <field name="user_query"/>
+                <field name="target_budget"/>
+                <field name="action_executed_summary"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- AI Assistant Action: Scene 13 -->
+    <record id="action_alahram_ai_assistant" model="ir.actions.act_window">
+        <field name="name">المشهد 13 — مساعد الأهرام الذكي للإدارة العليا</field>
+        <field name="res_model">alahram.ai.assistant</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                مرحباً بك في مساعد أودو 20 الذكي لإدارة شركة الأهرام للأدوات المنزلية!
+            </p>
+            <p>
+                اختر أي سؤال من الأسئلة الـ 6 المتفق عليها واضغط على <strong>تشغيل استفسار الذكاء الاصطناعي</strong> للحصول على تحليل تفاعلي دقيق ومباشر.
+            </p>
+        </field>
+    </record>
+</odoo>
+

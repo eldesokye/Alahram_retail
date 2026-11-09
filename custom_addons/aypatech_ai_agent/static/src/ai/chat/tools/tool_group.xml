@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_ToolGroup">
+        <div class="ayp_tool_group"
+             t-att-class="this.errCount ? 'ayp_tool_group_has_error' : ''"
+             t-att-data-expanded="this.state.expanded ? 1 : 0">
+            <button type="button" class="ayp_tool_group_head" t-on-click="() => this.toggle()">
+                <i class="fa fa-chevron-right ayp_chevron"/>
+                <span class="ayp_tool_group_icon d-inline-flex align-items-center justify-content-center">
+                    <i class="fa fa-wrench"/>
+                </span>
+                <span class="ayp_tool_group_label">Used <t t-esc="this.count"/> tools</span>
+                <span class="ayp_tool_group_chips" t-if="!this.props.compact">
+                    <t t-foreach="this.chips.shown" t-as="nm" t-key="nm_index">
+                        <span class="ayp_tool_group_chip" t-esc="nm"/>
+                    </t>
+                    <span t-if="this.chips.hasMore" class="ayp_tool_group_chip ayp_tool_group_chip_more">…</span>
+                </span>
+                <span t-else="" class="ayp_tool_group_spacer"/>
+                <span class="ayp_tool_group_status">
+                    <span t-if="this.okCount" class="ayp_tg_badge ayp_tg_ok">
+                        <i class="fa fa-check"/> <t t-esc="this.okCount"/>
+                    </span>
+                    <span t-if="this.errCount" class="ayp_tg_badge ayp_tg_err">
+                        <i class="fa fa-times"/> <t t-esc="this.errCount"/>
+                    </span>
+                </span>
+            </button>
+            <div class="ayp_tool_group_body" t-if="this.state.expanded">
+                <t t-foreach="this.props.tools" t-as="tool" t-key="tool.block.callId || tool_index">
+                    <ToolCard
+                        block="tool.block"
+                        expanded="this.props.isToolExpanded(tool.block.callId)"
+                        streaming="false"
+                        onToggle="this.props.onToggleTool"
+                    />
+                </t>
+            </div>
+        </div>
+    </t>
+
+</templates>

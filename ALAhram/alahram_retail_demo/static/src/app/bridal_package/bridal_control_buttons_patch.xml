@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- 1. Top Navbar: Always visible on tablet navbar -->
+    <t t-name="alahram_retail_demo.BridalNavbar" t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('navbar-menu')]" position="inside">
+            <button class="bridal-package-btn btn btn-outline-light btn-lg lh-lg fw-bold d-flex align-items-center gap-1 text-nowrap"
+                    t-on-click="() => this.onClickBridalPackage()"
+                    style="background: linear-gradient(135deg, #c2185b 0%, #880e4f 100%); color: #fff; border: 1px solid rgba(255,255,255,0.4);"
+                    title="باكدج العروسة الذكي">
+                <i class="oi oi-fw" data-icon="star" aria-hidden="true"/>
+                <span>باكدج العروسة الذكي</span>
+            </button>
+        </xpath>
+    </t>
+
+    <!-- 2. Burger Menu: Accessible via top-right hamburger menu -->
+    <t t-name="alahram_retail_demo.BridalBurgerMenuDialog" t-inherit="point_of_sale.BurgerMenuDialog" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('o_pos_burger_menu_buttons')]" position="inside">
+            <t t-call="point_of_sale.BurgerDialogMenuButton"
+               dataIcon="'star'"
+               onClick="() => this.openBridalPackage()"
+               btnLabel="'باكدج العروسة الذكي (Smart Bridal)'"
+               btnClasses="'btn-danger fw-bold text-start'"
+            />
+        </xpath>
+    </t>
+
+    <!-- 3. Tablet Actionpad: Next to Customer Button on Tablet -->
+    <t t-name="alahram_retail_demo.BridalActionpadWidget" t-inherit="point_of_sale.ActionpadWidget" t-inherit-mode="extension">
+        <xpath expr="//SelectPartnerButton" position="after">
+            <button class="bridal-package-actionpad-btn btn btn-danger btn-lg d-flex align-items-center gap-1 text-nowrap fw-bold"
+                    t-on-click="() => this.onClickBridalPackage()"
+                    style="background: linear-gradient(135deg, #ad1457 0%, #6a1b9a 100%); color: #fff;"
+                    title="باكدج العروسة الذكي">
+                <i class="oi oi-fw" data-icon="star" aria-hidden="true"/>
+                <span>باكدج العروسة</span>
+            </button>
+        </xpath>
+    </t>
+
+    <!-- 4. Control Buttons -->
+    <t t-name="alahram_retail_demo.BridalControlButtons" t-inherit="point_of_sale.ControlButtons" t-inherit-mode="extension">
+        <xpath expr="//t[@t-if='!this.props.showRemainingButtons']" position="inside">
+            <button
+                class="bridal-package-control-btn btn btn-danger btn-lg lh-lg fw-bold text-nowrap d-flex align-items-center gap-2 px-3"
+                t-on-click="() => this.onClickBridalPackage()"
+                style="background: linear-gradient(135deg, #ad1457 0%, #6a1b9a 100%); color: #fff;"
+                title="باكدج العروسة الذكي">
+                <i class="oi oi-fw" data-icon="star" aria-hidden="true"/>
+                <span>باكدج العروسة</span>
+            </button>
+        </xpath>
+        <xpath expr="//t[@t-if='this.props.showRemainingButtons']/div" position="inside">
+            <t t-call="point_of_sale.controlButton"
+                icon="'star'"
+                btnText="'باكدج العروسة الذكي'"
+                btnClasses="'btn-danger fw-bold '"
+                onClick="() => this.onClickBridalPackage()">
+            </t>
+        </xpath>
+    </t>
+
+</templates>
+

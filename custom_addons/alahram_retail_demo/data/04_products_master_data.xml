@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Categories -->
+        <record id="categ_bridal_sets" model="product.category">
+            <field name="name">أطقم حلل وتجهيز عرائس</field>
+            <field name="parent_id" ref="product.product_category_goods"/>
+        </record>
+        <record id="categ_pots_individual" model="product.category">
+            <field name="name">قسم الحلل الفرداني</field>
+            <field name="parent_id" ref="product.product_category_goods"/>
+        </record>
+        <record id="categ_pans_woks" model="product.category">
+            <field name="name">قسم المقلايات والووك</field>
+            <field name="parent_id" ref="product.product_category_goods"/>
+        </record>
+        <record id="categ_trays_casseroles" model="product.category">
+            <field name="name">قسم الصواني والطواجن</field>
+            <field name="parent_id" ref="product.product_category_goods"/>
+        </record>
+        <record id="categ_saucepans_colanders" model="product.category">
+            <field name="name">قسم الكسرولات والمصافي</field>
+            <field name="parent_id" ref="product.product_category_goods"/>
+        </record>
+        <record id="categ_kitchen_tools" model="product.category">
+            <field name="name">إكسسوارات ومفروشات المطبخ</field>
+            <field name="parent_id" ref="product.product_category_goods"/>
+        </record>
+
+        <!-- Product 1 -->
+        <record id="prod_01" model="product.template">
+            <field name="name">الأهرام طقم الأهرام ماكس ألومنيوم كلاسيك 30 قطعة</field>
+            <field name="default_code">6221049410474</field>
+            <field name="barcode">6221049410474</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">6794.21</field>
+            <field name="list_price">12383.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 1 - الرف 1 - م1</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pot-sets/aluminum-pot-set-classic-16-pcs-16-30-half-satin-finish/</field>
+        </record>
+
+        <!-- Product 2 -->
+        <record id="prod_02" model="product.template">
+            <field name="name">الأهرام طقم حلة صحي و مفيد ألومنيوم كلاسيك 16 قطعة (16/30)</field>
+            <field name="default_code">6221049300409</field>
+            <field name="barcode">6221049300409</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">4733.54</field>
+            <field name="list_price">8651.10</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 1 - الرف 1 - م2</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pot-sets/aluminum-pot-set-classic-10-pcs-16-18-20-24-28-mirror-finish/</field>
+        </record>
+
+        <!-- Product 3 -->
+        <record id="prod_03" model="product.template">
+            <field name="name">الأهرام طقم حلة ويركت ألومنيوم كلاسيك 16 قطعة (16/30)</field>
+            <field name="default_code">6221049303509</field>
+            <field name="barcode">6221049303509</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">4939.69</field>
+            <field name="list_price">8937.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 1 - الرف 1 - م3</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pot-sets/aluminum-pot-set-classic-16-pcs-16-30-half-satin-finish/</field>
+        </record>
+
+        <!-- Product 4 -->
+        <record id="prod_04" model="product.template">
+            <field name="name">الأهرام طقم حلة ويركت ألومنيوم كلاسيك 10 قطع (16/18/20/24/28)</field>
+            <field name="default_code">6221049430625</field>
+            <field name="barcode">6221049430625</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">2449.90</field>
+            <field name="list_price">4110.46</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 1 - الرف 2 - م1</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pot-sets/aluminum-pot-set-classic-10-pcs-16-18-20-24-28-half-satin-finish/</field>
+        </record>
+
+        <!-- Product 5 -->
+        <record id="prod_05" model="product.template">
+            <field name="name">الأهرام طقم حلة صحي و مفيد ألومنيوم كلاسيك 10 قطع (16/18/20/24/28)</field>
+            <field name="default_code">6221049428172</field>
+            <field name="barcode">6221049428172</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">2366.29</field>
+            <field name="list_price">4322.95</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 1 - الرف 2 - م2</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pot-sets/aluminum-pot-set-classic-10-pcs-16-18-20-24-28-mirror-finish/</field>
+        </record>
+
+        <!-- Product 6 -->
+        <record id="prod_06" model="product.template">
+            <field name="name">الأهرام طقم حلة صحي و مفيد ألومنيوم كلاسيك 6 قطع (16/18/22)</field>
+            <field name="default_code">6221049432001</field>
+            <field name="barcode">6221049432001</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">1180.00</field>
+            <field name="list_price">2171.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 1 - الرف 2 - م3</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pot-sets/aluminum-pot-set-classic-10-pcs-16-18-20-24-28-mirror-finish/</field>
+        </record>
+
+        <!-- Product 7 -->
+        <record id="prod_07" model="product.template">
+            <field name="name">الأهرام طقم حلة ستانلس ستيل سيجنتشر ستايل ترنتو 10 قطع (18/20/22/24/30)</field>
+            <field name="default_code">6221049431738</field>
+            <field name="barcode">6221049431738</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">4000.00</field>
+            <field name="list_price">8450.00</field>
+            <field name="material_type">stainless</field>
+            <field name="bin_location">الممر 1 - الرف 3 - م1</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pot-sets/signature-style-stainless-steel-pot-trento-set-10-pcs-18-20-22-24-30/</field>
+        </record>
+
+        <!-- Product 8 -->
+        <record id="prod_08" model="product.template">
+            <field name="name">الأهرام طقم حلة ستانلس ستيل سيجنتشر ستايل لارج 10 قطع (18/20/22/24/32)</field>
+            <field name="default_code">6221049431721</field>
+            <field name="barcode">6221049431721</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">4119.79</field>
+            <field name="list_price">9099.00</field>
+            <field name="material_type">stainless</field>
+            <field name="bin_location">الممر 1 - الرف 3 - م2</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pot-sets/signature-style-stainless-steel-pot-trento-set-10-pcs-18-20-22-24-30/</field>
+        </record>
+
+        <!-- Product 9 -->
+        <record id="prod_09" model="product.template">
+            <field name="name">طقم حلة ستانلس ستيل سيجنتشر ستايل 6 قطع (18/20/22)</field>
+            <field name="default_code">1433000000050</field>
+            <field name="barcode">1433000000050</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">1321.87</field>
+            <field name="list_price">3463.82</field>
+            <field name="material_type">stainless</field>
+            <field name="bin_location">الممر 1 - الرف 3 - م3</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pot-sets/prime-stainless-steel-set-11-pcs18-20-24-28-frying-pan-24-sauce-pan-16/</field>
+        </record>
+
+        <!-- Product 10 -->
+        <record id="prod_10" model="product.template">
+            <field name="name">طقم حلة جرانيت 9 قطعة بيج 4 مم اكسسوار سوفت (ح18-20-24-28-ج28)</field>
+            <field name="default_code">1430000003784</field>
+            <field name="barcode">1430000003784</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">3554.45</field>
+            <field name="list_price">7600.00</field>
+            <field name="material_type">granite</field>
+            <field name="bin_location">الممر 2 - الرف 1 - م1</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-home/cookware/al-ahram-home-mini-prime-granite-set-16-pcs/?attribute_pa_%25d8%25a7%25d9%2584%25d9%2584%25d9%2588%25d9%2586=%25d8%25a8%25d9%258a%25d8%25ac</field>
+        </record>
+
+        <!-- Product 11 -->
+        <record id="prod_11" model="product.template">
+            <field name="name">طقم حلة جرانيت 7 قطع سماوي 4 مم اكسسوار تركي (ح20-26-28-م28)</field>
+            <field name="default_code">1430000003975</field>
+            <field name="barcode">1430000003975</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">3016.45</field>
+            <field name="list_price">5199.00</field>
+            <field name="material_type">granite</field>
+            <field name="bin_location">الممر 2 - الرف 1 - م2</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-home/cookware/al-ahram-home-mini-prime-granite-set-16-pcs/?attribute_pa_%25d8%25a7%25d9%2584%25d9%2584%25d9%2588%25d9%2586=%25d8%25a8%25d9%258a%25d8%25ac</field>
+        </record>
+
+        <!-- Product 12 -->
+        <record id="prod_12" model="product.template">
+            <field name="name">طقم حلة تيفال 9ق اسود 4مم اكسسوار سوفت</field>
+            <field name="default_code">1430000003630</field>
+            <field name="barcode">1430000003630</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">3520.00</field>
+            <field name="list_price">7600.00</field>
+            <field name="material_type">tefal</field>
+            <field name="bin_location">الممر 2 - الرف 1 - م3</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-home/cookware/al-ahram-home-mini-prime-granite-set-16-pcs/?attribute_pa_%25d8%25a7%25d9%2584%25d9%2584%25d9%2588%25d9%2586=%25d8%25a8%25d9%258a%25d8%25ac</field>
+        </record>
+
+        <!-- Product 13 -->
+        <record id="prod_13" model="product.template">
+            <field name="name">الأهرام حلة صحي و مفيد ألومنيوم كلاسيك 16</field>
+            <field name="default_code">6221049011664</field>
+            <field name="barcode">6221049011664</field>
+            <field name="categ_id" ref="categ_pots_individual"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">314.95</field>
+            <field name="list_price">538.18</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 2 - الرف 2 - م1</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%A9/%D8%A3%D9%84%D9%88%D9%85%D9%86%D9%8A%D9%88%D9%85/</field>
+        </record>
+
+        <!-- Product 14 -->
+        <record id="prod_14" model="product.template">
+            <field name="name">الأهرام حلة صحي و مفيد ألومنيوم كلاسيك 18</field>
+            <field name="default_code">6221049011671</field>
+            <field name="barcode">6221049011671</field>
+            <field name="categ_id" ref="categ_pots_individual"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">389.20</field>
+            <field name="list_price">709.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 2 - الرف 2 - م1</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%A9/%D8%A3%D9%84%D9%88%D9%85%D9%86%D9%8A%D9%88%D9%85/</field>
+        </record>
+
+        <!-- Product 15 -->
+        <record id="prod_15" model="product.template">
+            <field name="name">الأهرام حلة صحي و مفيد ألومنيوم كلاسيك 20</field>
+            <field name="default_code">6221049011688</field>
+            <field name="barcode">6221049011688</field>
+            <field name="categ_id" ref="categ_pots_individual"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">448.90</field>
+            <field name="list_price">819.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 2 - الرف 2 - م2</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%A9/%D8%A3%D9%84%D9%88%D9%85%D9%86%D9%8A%D9%88%D9%85/</field>
+        </record>
+
+        <!-- Product 16 -->
+        <record id="prod_16" model="product.template">
+            <field name="name">الأهرام حلة صحي و مفيد ألومنيوم كلاسيك 22</field>
+            <field name="default_code">6221049011695</field>
+            <field name="barcode">6221049011695</field>
+            <field name="categ_id" ref="categ_pots_individual"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">514.51</field>
+            <field name="list_price">930.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 2 - الرف 2 - م2</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%A9/%D8%A3%D9%84%D9%88%D9%85%D9%86%D9%8A%D9%88%D9%85/</field>
+        </record>
+
+        <!-- Product 17 (Zero in SG, Cross-branch candidate) -->
+        <record id="prod_17" model="product.template">
+            <field name="name">الأهرام حلة صحي و مفيد ألومنيوم كلاسيك 24</field>
+            <field name="default_code">6221049011701</field>
+            <field name="barcode">6221049011701</field>
+            <field name="categ_id" ref="categ_pots_individual"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">649.50</field>
+            <field name="list_price">1170.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 2 - الرف 2 - م3</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%A9/%D8%A3%D9%84%D9%88%D9%85%D9%86%D9%8A%D9%88%D9%85/</field>
+        </record>
+
+        <!-- Product 18 -->
+        <record id="prod_18" model="product.template">
+            <field name="name">الأهرام حلة صحي و مفيد ألومنيوم كلاسيك 26</field>
+            <field name="default_code">6221049011718</field>
+            <field name="barcode">6221049011718</field>
+            <field name="categ_id" ref="categ_pots_individual"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">740.00</field>
+            <field name="list_price">1365.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 2 - الرف 2 - م3</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%A9/%D8%A3%D9%84%D9%88%D9%85%D9%86%D9%8A%D9%88%D9%85/</field>
+        </record>
+
+        <!-- Product 19 -->
+        <record id="prod_19" model="product.template">
+            <field name="name">الأهرام حلة صحي و مفيد ألومنيوم كلاسيك 30</field>
+            <field name="default_code">6221049011732</field>
+            <field name="barcode">6221049011732</field>
+            <field name="categ_id" ref="categ_pots_individual"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">940.00</field>
+            <field name="list_price">1566.36</field>
+            <field name="material_type">aluminum</field>
+            <field name="bin_location">الممر 2 - الرف 2 - م3</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%A9/%D8%A3%D9%84%D9%88%D9%85%D9%86%D9%8A%D9%88%D9%85/</field>
+        </record>
+
+        <!-- Product 20 -->
+        <record id="prod_20" model="product.template">
+            <field name="name">حلة سيجنتشر ستايل ستانلس ستيل أيادي و غطا ستانلس 18</field>
+            <field name="default_code">1433000000029</field>
+            <field name="barcode">1433000000029</field>
+            <field name="categ_id" ref="categ_pots_individual"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">383.76</field>
+            <field name="list_price">773.00</field>
+            <field name="material_type">stainless</field>
+            <field name="bin_location">الممر 2 - الرف 3 - م1</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-home/cookware/stainless-steel-pot-home-life/</field>
+        </record>
+
+        <!-- Product 23 (Dead Stock 317 pcs) -->
+        <record id="prod_23" model="product.template">
+            <field name="name">حلة سيجنتشر ستايل ستانلس ستيل أيادي و غطا ستانلس 24</field>
+            <field name="default_code">1433000000067</field>
+            <field name="barcode">1433000000067</field>
+            <field name="categ_id" ref="categ_pots_individual"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">556.29</field>
+            <field name="list_price">1124.00</field>
+            <field name="material_type">stainless</field>
+            <field name="is_dead_stock">True</field>
+            <field name="bin_location">الممر 2 - الرف 3 - م2</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-home/cookware/stainless-steel-pot-home-life/</field>
+        </record>
+
+        <!-- Product 27 (Dead Stock 357 pcs) -->
+        <record id="prod_27" model="product.template">
+            <field name="name">حلة جرانيت Bio trade grip غطا ستانلس 24</field>
+            <field name="default_code">1414000000035</field>
+            <field name="barcode">1414000000035</field>
+            <field name="categ_id" ref="categ_pots_individual"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">486.84</field>
+            <field name="list_price">1112.79</field>
+            <field name="material_type">granite</field>
+            <field name="is_dead_stock">True</field>
+            <field name="bin_location">الممر 2 - الرف 4 - م2</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A5%D8%B2%D8%A7%D9%8A-%D8%AA%D8%AE%D8%AA%D8%A7%D8%B1%D9%8A-%D8%B7%D9%82%D9%85-%D8%AD%D9%84%D9%84-%D8%A7%D9%84%D9%85%D8%B7%D8%A8%D8%AE-%D8%A7%D9%84%D9%85%D8%AB%D8%A7%D9%84%D9%8A/</field>
+        </record>
+
+        <!-- Product 31 (Zero in SG, High demand: Oct sold 107 pcs) -->
+        <record id="prod_31" model="product.template">
+            <field name="name">الاهرام مقلايه جرانيت BIO TRADE GRIP دارك سيلفر يد بكاليت 20</field>
+            <field name="default_code">6221049803894</field>
+            <field name="barcode">6221049803894</field>
+            <field name="categ_id" ref="categ_pans_woks"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">359.82</field>
+            <field name="list_price">835.13</field>
+            <field name="material_type">granite</field>
+            <field name="october_sold_qty">107</field>
+            <field name="bin_location">الممر 3 - الرف 1 - م1</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pans/aluminum-hybrid-frying-pan-classic-with-stainless-handle/</field>
+        </record>
+
+        <!-- Product 32 (Top Seller: Oct sold 232 pcs) -->
+        <record id="prod_32" model="product.template">
+            <field name="name">الاهرام مقلايه جرانيت BIO TRADE GRIP دارك سيلفر يد بكاليت 24</field>
+            <field name="default_code">6221049803900</field>
+            <field name="barcode">6221049803900</field>
+            <field name="categ_id" ref="categ_pans_woks"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">424.88</field>
+            <field name="list_price">680.49</field>
+            <field name="material_type">granite</field>
+            <field name="october_sold_qty">232</field>
+            <field name="bin_location">الممر 3 - الرف 1 - م2</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pans/aluminum-hybrid-frying-pan-classic-with-stainless-handle/</field>
+        </record>
+
+        <!-- Product 33 (Second Top Seller: Oct sold 171 pcs) -->
+        <record id="prod_33" model="product.template">
+            <field name="name">الاهرام مقلايه جرانيت BIO TRADE GRIP دارك سيلفر يد بكاليت 28</field>
+            <field name="default_code">6221049803917</field>
+            <field name="barcode">6221049803917</field>
+            <field name="categ_id" ref="categ_pans_woks"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">499.75</field>
+            <field name="list_price">962.53</field>
+            <field name="material_type">granite</field>
+            <field name="october_sold_qty">171</field>
+            <field name="bin_location">الممر 3 - الرف 1 - م3</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pans/aluminum-hybrid-frying-pan-classic-with-stainless-handle/</field>
+        </record>
+
+        <!-- Product 35 (Dead Stock: 438 pcs) -->
+        <record id="prod_35" model="product.template">
+            <field name="name">شواية جرانيت Bio trade grip يد بكاليت 28</field>
+            <field name="default_code">1414000000042</field>
+            <field name="barcode">1414000000042</field>
+            <field name="categ_id" ref="categ_pans_woks"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">434.21</field>
+            <field name="list_price">1102.69</field>
+            <field name="material_type">granite</field>
+            <field name="is_dead_stock">True</field>
+            <field name="bin_location">الممر 3 - الرف 2 - م2</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/pans/aluminum-fried-wok-basket-classic-with-stainless-handle/</field>
+        </record>
+
+        <!-- Product 39 (High Stock Promo: 580 pcs, 50.6% Margin) -->
+        <record id="prod_39" model="product.template">
+            <field name="name">صينية فرن جرانيت Bio grip trade 30</field>
+            <field name="default_code">1414000000073</field>
+            <field name="barcode">1414000000073</field>
+            <field name="categ_id" ref="categ_trays_casseroles"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">350.88</field>
+            <field name="list_price">811.03</field>
+            <field name="material_type">granite</field>
+            <field name="october_sold_qty">156</field>
+            <field name="bin_location">الممر 4 - الرف 1 - م1</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%A9/%D8%A3%D9%84%D9%88%D9%85%D9%86%D9%8A%D9%88%D9%85/</field>
+        </record>
+
+        <!-- Product 42 (Showroom=0, Backroom=6) -->
+        <record id="prod_42" model="product.template">
+            <field name="name">الأهرام طقم طاجن فرن ألومنيوم كلاسيك 3 قطع (30/35/40)</field>
+            <field name="default_code">6221049430762</field>
+            <field name="barcode">6221049430762</field>
+            <field name="categ_id" ref="categ_trays_casseroles"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">994.85</field>
+            <field name="list_price">1853.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="october_sold_qty">45</field>
+            <field name="bin_location">الممر 4 - الرف 2 - م1 (المخزن الخلفي)</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%A9/%D8%A3%D9%84%D9%88%D9%85%D9%86%D9%8A%D9%88%D9%85/</field>
+        </record>
+
+        <!-- Product 43 -->
+        <record id="prod_43" model="product.template">
+            <field name="name">الأهرام طقم صينية فرن ألومنيوم كلاسيك 3 قطع (24/26/30)</field>
+            <field name="default_code">6221049302519</field>
+            <field name="barcode">6221049302519</field>
+            <field name="categ_id" ref="categ_trays_casseroles"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">819.77</field>
+            <field name="list_price">1515.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="october_sold_qty">34</field>
+            <field name="bin_location">الممر 4 - الرف 2 - م2</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/colander/aluminum-trio-colander-set-classic-3-pcs/</field>
+        </record>
+
+        <!-- Product 45 (Dead Stock: 266 pcs) -->
+        <record id="prod_45" model="product.template">
+            <field name="name">صينية بيتزا بان ألومنيوم كلاسيك 30</field>
+            <field name="default_code">1431000000124</field>
+            <field name="barcode">1431000000124</field>
+            <field name="categ_id" ref="categ_trays_casseroles"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">417.96</field>
+            <field name="list_price">898.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="is_dead_stock">True</field>
+            <field name="bin_location">الممر 4 - الرف 3 - م1</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%A9/%D8%A3%D9%84%D9%88%D9%85%D9%86%D9%8A%D9%88%D9%85/</field>
+        </record>
+
+        <!-- Product 46 -->
+        <record id="prod_46" model="product.template">
+            <field name="name">كسرولة سيجنتشر ستايل ستانلس ستيل يد و غطا ستانلس ستيل 16</field>
+            <field name="default_code">1433000000005</field>
+            <field name="barcode">1433000000005</field>
+            <field name="categ_id" ref="categ_saucepans_colanders"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">340.45</field>
+            <field name="list_price">683.00</field>
+            <field name="material_type">stainless</field>
+            <field name="october_sold_qty">123</field>
+            <field name="bin_location">الممر 5 - الرف 1 - م1</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-cookware/signature-style/signature-style-stainless-steel-saucepan/</field>
+        </record>
+
+        <!-- Product 49 -->
+        <record id="prod_49" model="product.template">
+            <field name="name">طقم مطبخ جوانتى وماسك وفوطه AH-50</field>
+            <field name="default_code">1474000000527</field>
+            <field name="barcode">1474000000527</field>
+            <field name="categ_id" ref="categ_kitchen_tools"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">55.79</field>
+            <field name="list_price">206.93</field>
+            <field name="material_type">accessories</field>
+            <field name="october_sold_qty">53</field>
+            <field name="bin_location">الممر 5 - الرف 3 - م1</field>
+            <field name="official_url">https://alahramcookware.com/%D8%A5%D8%B2%D8%A7%D9%8A-%D8%AA%D8%AE%D8%AA%D8%A7%D8%B1%D9%8A-%D8%B7%D9%82%D9%85-%D8%AD%D9%84%D9%84-%D8%A7%D9%84%D9%85%D8%B7%D8%A8%D8%AE-%D8%A7%D9%84%D9%85%D8%AB%D8%A7%D9%84%D9%8A/</field>
+        </record>
+
+        <!-- Product 50 -->
+        <record id="prod_50" model="product.template">
+            <field name="name">طقم ادوات مطبخ سيلكون منقط 2قطعة AH-82</field>
+            <field name="default_code">1474000002552</field>
+            <field name="barcode">1474000002552</field>
+            <field name="categ_id" ref="categ_kitchen_tools"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">50.00</field>
+            <field name="list_price">106.58</field>
+            <field name="material_type">accessories</field>
+            <field name="october_sold_qty">29</field>
+            <field name="bin_location">الممر 5 - الرف 3 - م2</field>
+            <field name="official_url">https://alahramcookware.com/shop/alahram-home/cutlery-kitchen-tools/super-rio-spoon-stand-set-24-pcs/</field>
+        </record>
+
+        <!-- Dead Stock 51: Shawarma Set 5 pcs -->
+        <record id="prod_51" model="product.template">
+            <field name="name">الأهرام طقم شاورما ألومنيوم كلاسيك 5 قطع</field>
+            <field name="default_code">1431000000278</field>
+            <field name="barcode">1431000000278</field>
+            <field name="categ_id" ref="categ_bridal_sets"/>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="standard_price">1995.00</field>
+            <field name="list_price">3620.00</field>
+            <field name="material_type">aluminum</field>
+            <field name="is_dead_stock">True</field>
+            <field name="october_sold_qty">0</field>
+            <field name="bin_location">مخزن الإدارة الرئيسي</field>
+            <field name="official_url">https://alahramcookware.com</field>
+        </record>
+    </data>
+</odoo>

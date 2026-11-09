@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ai_app_page" name="AypaTech AI Agent">
+        <t t-out="doctype"/>
+        <html t-att-lang="html_lang" t-att-dir="direction">
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <meta name="theme-color" content="#1b1033"/>
+                <title>AypaTech AI Agent</title>
+                <link rel="icon" type="image/png" href="/aypatech_ai_agent/static/description/icon.png"/>
+                <link rel="stylesheet" t-attf-href="/aypatech_ai_agent/static/app/app.css?v={{ asset_version }}"/>
+            </head>
+            <body>
+                <div id="aa-root">
+                    <div class="aa-boot">
+                        <img class="aa-boot-mark" src="/aypatech_ai_agent/static/description/icon.png" alt=""/>
+                    </div>
+                </div>
+                <script type="application/json" id="aa-config" t-out="config_json"/>
+                <script t-attf-src="/aypatech_ai_agent/static/app/core.js?v={{ asset_version }}"/>
+                <script src="/aypatech_ai_agent/static/lib/ai/markdown-it/markdown-it.js"/>
+                <script t-attf-src="/aypatech_ai_agent/static/app/markdown.js?v={{ asset_version }}"/>
+                <script t-attf-src="/aypatech_ai_agent/static/app/shell.js?v={{ asset_version }}"/>
+                <script t-attf-src="/aypatech_ai_agent/static/app/screens/chat.js?v={{ asset_version }}"/>
+                <script t-attf-src="/aypatech_ai_agent/static/app/screens/agents.js?v={{ asset_version }}"/>
+                <script t-attf-src="/aypatech_ai_agent/static/app/screens/providers.js?v={{ asset_version }}"/>
+                <script t-attf-src="/aypatech_ai_agent/static/app/screens/reports.js?v={{ asset_version }}"/>
+                <script t-attf-src="/aypatech_ai_agent/static/app/screens/dashboard.js?v={{ asset_version }}"/>
+                <script t-attf-src="/aypatech_ai_agent/static/app/screens/automation.js?v={{ asset_version }}"/>
+                <script t-attf-src="/aypatech_ai_agent/static/app/main.js?v={{ asset_version }}"/>
+            </body>
+        </html>
+    </template>
+</odoo>

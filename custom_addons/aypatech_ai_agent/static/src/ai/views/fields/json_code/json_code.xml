@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_JsonCodeField">
+        <div class="ayp_json_code_wrapper" t-att-style="this.wrapperStyle">
+            <CodeEditor
+                value="this.state.initialValue"
+                mode="this.props.mode"
+                readonly="this.props.readonly"
+                onBlur.bind="this.commitChanges"
+                onChange.bind="this.handleChange"
+                class="'ayp_json_code_editor'"
+            />
+        </div>
+    </t>
+
+</templates>

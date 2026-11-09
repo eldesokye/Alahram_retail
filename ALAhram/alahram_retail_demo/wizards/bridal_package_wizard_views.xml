@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_alahram_bridal_package_wizard_form" model="ir.ui.view">
+        <field name="name">alahram.bridal.package.wizard.form</field>
+        <field name="model">alahram.bridal.package.wizard</field>
+        <field name="arch" type="xml">
+            <form string="معالج باكدج العروسة السريع بصالة العرض">
+                <sheet>
+                    <group string="بيانات العروسة والميزانية">
+                        <field name="partner_id"/>
+                        <field name="tier"/>
+                        <field name="target_budget"/>
+                    </group>
+                    <group string="🎯 اختر القطاعات والمكونات المطلوب تجهيزها في الباكدج">
+                        <group>
+                            <field name="sector_granite"/>
+                            <field name="sector_stainless"/>
+                            <field name="sector_aluminum"/>
+                            <field name="sector_bakeware"/>
+                            <field name="sector_frypans"/>
+                        </group>
+                        <group>
+                            <field name="sector_appliances"/>
+                            <field name="sector_cutlery"/>
+                            <field name="sector_serveware"/>
+                            <field name="sector_accessories"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_generate_and_open_configurator"
+                            string="✨ اقتراح التشكيلة الذكية وفتح شاشة الباكدج"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="إلغاء" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_alahram_bridal_package_wizard" model="ir.actions.act_window">
+        <field name="name">معالج باكدج العروسة السريع</field>
+        <field name="res_model">alahram.bridal.package.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

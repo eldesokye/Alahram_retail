@@ -1,0 +1,17 @@
+from __future__ import annotations
+
+DEFAULT_MAX_RESUMES = 50
+DEFAULT_MAX_LIFETIME_HOURS = 720
+DEFAULT_MAX_TOTAL_TOKENS = 1_000_000
+DEFAULT_MAX_COST_EUR = 5.0
+
+SCHEDULE_PICKUP_LIMIT = 50
+
+MIN_DELAY_SECONDS = 60
+MAX_DELAY_SECONDS = 30 * 24 * 3600
+MAX_PROMPT_CHARS = 4000
+
+SCHEDULE_TERMINATING_TOOLS = frozenset({'schedule_resume', 'schedule_recurring'})
+
+# a turn nobody watches stops at this cost unless its schedule or action sets its own cap
+UNATTENDED_TURN_COST_LIMIT = 0.5

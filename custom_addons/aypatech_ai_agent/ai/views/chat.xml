@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<record id="ai_action_ai_chat" model="ir.actions.client">
+		<field name="name">WooFusion AI Chat</field>
+		<field name="tag">aypatech_ai_agent.ai_chat</field>
+		<field name="path">commerce-ai</field>
+	</record>
+
+</odoo>

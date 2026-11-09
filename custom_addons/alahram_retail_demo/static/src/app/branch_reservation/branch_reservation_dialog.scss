@@ -1,0 +1,50 @@
+/* Touchscreen-optimized styling for Al Ahram Branch Reservation */
+
+.alahram-reservation-modal {
+    direction: rtl;
+    font-family: inherit;
+
+    .product-search-list {
+        scrollbar-width: thin;
+        .product-item {
+            transition: all 0.15s ease-in-out;
+            border-color: #e9ecef;
+            &:hover {
+                background-color: #f8f9fa !important;
+                border-color: #0d6efd;
+            }
+        }
+    }
+
+    .item-allocation-card {
+        border-color: #dee2e6;
+        transition: border-color 0.2s ease;
+        &:hover {
+            border-color: #adb5bd;
+        }
+    }
+
+    .branch-stock-badges {
+        border: 1px solid #e9ecef;
+        .badge {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+    }
+
+    /* Tablet and Touch Targets */
+    button {
+        min-height: 38px;
+        touch-action: manipulation;
+    }
+
+    .form-control-lg {
+        min-height: 48px;
+        font-size: 1.05rem;
+    }
+
+    .form-select-sm {
+        min-height: 36px;
+    }
+}
+

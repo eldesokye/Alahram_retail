@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- 1. Owner / Chairman -->
+        <record id="user_alahram_owner" model="res.users">
+            <field name="name">م. أحمد الأهرام (رئيس مجلس الإدارة)</field>
+            <field name="login">owner@alahram.com</field>
+            <field name="email">owner@alahram.com</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="group_ids" eval="[
+                (6, 0, [
+                    ref('base.group_user'),
+                    ref('group_alahram_owner'),
+                    ref('sales_team.group_sale_manager'),
+                    ref('stock.group_stock_manager'),
+                    ref('point_of_sale.group_pos_manager'),
+                    ref('account.group_account_manager')
+                ])
+            ]"/>
+        </record>
+
+        <!-- 2. Operations Manager -->
+        <record id="user_alahram_ops_manager" model="res.users">
+            <field name="name">أ. سامح عبد الرازق (مدير العمليات)</field>
+            <field name="login">ops.manager@alahram.com</field>
+            <field name="email">ops.manager@alahram.com</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="group_ids" eval="[
+                (6, 0, [
+                    ref('base.group_user'),
+                    ref('group_alahram_ops_manager'),
+                    ref('stock.group_stock_manager'),
+                    ref('purchase.group_purchase_manager'),
+                    ref('sales_team.group_sale_manager')
+                ])
+            ]"/>
+        </record>
+
+        <!-- 3. Branch Manager (Sidi Gaber) -->
+        <record id="user_alahram_bm_sidigaber" model="res.users">
+            <field name="name">أ. طارق إبراهيم (مدير فرع سيدي جابر)</field>
+            <field name="login">bm.sidigaber@alahram.com</field>
+            <field name="email">bm.sidigaber@alahram.com</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="group_ids" eval="[
+                (6, 0, [
+                    ref('base.group_user'),
+                    ref('group_alahram_branch_manager'),
+                    ref('point_of_sale.group_pos_manager'),
+                    ref('stock.group_stock_user')
+                ])
+            ]"/>
+        </record>
+
+        <!-- 4. Salesperson (Sidi Gaber Showroom Tablet) -->
+        <record id="user_alahram_sales_sidigaber" model="res.users">
+            <field name="name">كريم ممدوح (مسؤول مبيعات صالة سيدي جابر)</field>
+            <field name="login">sales.sidigaber@alahram.com</field>
+            <field name="email">sales.sidigaber@alahram.com</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="group_ids" eval="[
+                (6, 0, [
+                    ref('base.group_user'),
+                    ref('group_alahram_salesperson'),
+                    ref('point_of_sale.group_pos_user'),
+                    ref('sales_team.group_sale_salesman')
+                ])
+            ]"/>
+        </record>
+
+        <!-- 5. Cashier 1 (Sidi Gaber) -->
+        <record id="user_alahram_cashier1" model="res.users">
+            <field name="name">محمود حسن (كاشير 1 سيدي جابر)</field>
+            <field name="login">cashier1.sidigaber@alahram.com</field>
+            <field name="email">cashier1.sidigaber@alahram.com</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="group_ids" eval="[
+                (6, 0, [
+                    ref('base.group_user'),
+                    ref('group_alahram_cashier1'),
+                    ref('point_of_sale.group_pos_user')
+                ])
+            ]"/>
+        </record>
+
+        <!-- 6. Cashier 2 (Sidi Gaber) -->
+        <record id="user_alahram_cashier2" model="res.users">
+            <field name="name">سارة عادل (كاشير 2 سيدي جابر)</field>
+            <field name="login">cashier2.sidigaber@alahram.com</field>
+            <field name="email">cashier2.sidigaber@alahram.com</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="group_ids" eval="[
+                (6, 0, [
+                    ref('base.group_user'),
+                    ref('group_alahram_cashier2'),
+                    ref('point_of_sale.group_pos_user')
+                ])
+            ]"/>
+        </record>
+
+        <!-- 7. Warehouseman (Roshdy / Louran) -->
+        <record id="user_alahram_wh_roshdy" model="res.users">
+            <field name="name">عماد فؤاد (أمين مخزن فرع رشدي)</field>
+            <field name="login">warehouse.roshdy@alahram.com</field>
+            <field name="email">warehouse.roshdy@alahram.com</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="group_ids" eval="[
+                (6, 0, [
+                    ref('base.group_user'),
+                    ref('group_alahram_warehouseman'),
+                    ref('stock.group_stock_user')
+                ])
+            ]"/>
+        </record>
+    </data>
+</odoo>

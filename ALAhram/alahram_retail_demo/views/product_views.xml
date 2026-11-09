@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherited Product Template Form View -->
+    <record id="view_alahram_product_template_form" model="ir.ui.view">
+        <field name="name">alahram.product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Add header button for Cross-Branch Reserve & Backroom Pull -->
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_pull_from_backroom"
+                            string="📦 سحب من المخزن الخلفي لصالة العرض (WH-SG)"
+                            type="object"
+                            class="btn-primary"
+                            icon="fa-arrow-down"/>
+                    <button name="action_reserve_from_another_branch"
+                            string="🚚 طلب حجز وتحويل فوري من فرع آخر"
+                            type="object"
+                            class="btn-secondary"
+                            icon="fa-exchange"/>
+                </header>
+            </xpath>
+
+            <!-- Add Al Ahram Retail Details page -->
+            <xpath expr="//notebook" position="inside">
+                <page string="🍳 بيانات وتخزين الأهرام بالتجزئة" name="alahram_retail">
+                    <group>
+                        <group string="📍 الموقع والتصنيف الدقيق بالمعرض">
+                            <field name="bin_location"/>
+                            <field name="material_type"/>
+                            <field name="official_url" widget="url"/>
+                            <field name="is_dead_stock"/>
+                            <field name="october_sold_qty"/>
+                        </group>
+                        <group string="🏬 بيان تفصيلي للأرصدة بين الصالة والمخازن">
+                            <field name="qty_sg_showroom" widget="badge" decoration-success="qty_sg_showroom &gt; 0" decoration-danger="qty_sg_showroom == 0"/>
+                            <field name="qty_sg_backroom" widget="badge" decoration-info="qty_sg_backroom &gt; 0"/>
+                            <field name="qty_wh_main" widget="badge"/>
+                            <field name="qty_wh_roshdy" widget="badge"/>
+                            <field name="cross_branch_stock_summary" invisible="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherited Product Template Tree View -->
+    <record id="view_alahram_product_template_tree" model="ir.ui.view">
+        <field name="name">alahram.product.template.list</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="bin_location" optional="show"/>
+                <field name="qty_sg_showroom" optional="show" string="معرض سيدي جابر" decoration-danger="qty_sg_showroom == 0" decoration-success="qty_sg_showroom &gt; 0"/>
+                <field name="qty_sg_backroom" optional="show" string="مخزن سيدي جابر"/>
+                <field name="qty_wh_roshdy" optional="show" string="فرع رشدي"/>
+                <field name="is_dead_stock" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+    <!-- Action: Scene 3 — Branch Availability & Reservation -->
+    <record id="action_alahram_scene3_availability" model="ir.actions.act_window">
+        <field name="name">المشهد 3 — التوافر والحجز من الفروع</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', ('categ_id.name', 'in', ['أطقم حلل وتجهيز عرائس', 'قسم الحلل الفرداني', 'قسم المقلايات والووك', 'قسم الصواني والطواجن', 'قسم الكسرولات والمصافي', 'إكسسوارات ومفروشات المطبخ']), ('name', 'ilike', 'الأهرام')]</field>
+        <field name="context">{'search_default_filter_to_sell': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                شاشة التوافر والحجز من الفروع — بائع سيدي جابر
+            </p>
+            <p>
+                ابحث عن الصنف بالباركود أو الاسم لمعاينة الرصيد بصالة العرض مقابل المخزن الخلفي وفروع الجمهورية، وسحب البضاعة أو طلب حجز فوري عبر WH-TRANSIT.
+            </p>
+        </field>
+    </record>
+</odoo>

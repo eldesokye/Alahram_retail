@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.chatter_ComposerFieldAI">
+        <button
+            class="btn btn-light w-auto"
+            t-ref="this.buttonRef"
+            title="Write with AI"
+            t-on-click="this.onClick"
+        >
+            <span class="ayp_icon_ai"/>
+        </button>
+    </t>
+
+</templates>

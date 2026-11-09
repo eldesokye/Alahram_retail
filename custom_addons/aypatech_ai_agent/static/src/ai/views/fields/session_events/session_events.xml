@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_SessionEventsField">
+        <div class="ayp_chat ayp_session_events">
+            <t t-if="this.turns.length">
+                <t t-foreach="this.turns" t-as="turn" t-key="turn_index">
+                    <t t-call="aypatech_ai_agent.ai_ChatTurn">
+                        <t t-set="turn" t-value="turn"/>
+                    </t>
+                </t>
+            </t>
+            <t t-else="">
+                <div class="ayp_session_events_empty text-muted">
+                    <i class="fa fa-inbox me-2"/>No entries yet.
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

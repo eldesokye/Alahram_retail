@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_ChatWindowContainer">
+        <div
+            class="ayp_window_dock"
+            t-attf-style="--ayp-discuss-reserved: {{ this.discussReservedWidth }}px; --ayp-dock-width: {{ this.dockWidth }}px"
+        >
+            <t t-foreach="this.state.windows" t-as="w" t-key="w.sessionId">
+                <ChatWindow
+                    sessionId="w.sessionId"
+                    minimized="w.minimized"
+                    onClose="() => this.cw.close(w.sessionId)"
+                    onToggleMinimized="() => this.cw.toggleMinimized(w.sessionId)"
+                />
+            </t>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+reports_access_schedule_system,aypatech_wooai.report.schedule system,aypatech_wooai.report.schedule,base.group_system,crud,
+reports_access_schedule_user,aypatech_wooai.report.schedule user,aypatech_wooai.report.schedule,base.group_user,r,
+reports_access_run_system,aypatech_wooai.report.run system,aypatech_wooai.report.run,base.group_system,crud,
+reports_access_run_user,aypatech_wooai.report.run user,aypatech_wooai.report.run,base.group_user,r,

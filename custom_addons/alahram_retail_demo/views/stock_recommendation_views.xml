@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Scene 11: Form View for Stock Recommendation -->
+    <record id="view_alahram_stock_recommendation_form" model="ir.ui.view">
+        <field name="name">alahram.stock.recommendation.form</field>
+        <field name="model">alahram.stock.recommendation</field>
+        <field name="arch" type="xml">
+            <form string="توصية النقل المخزني وتدوير الركود">
+                <header>
+                    <button name="action_approve_recommendation"
+                            string="✅ اعتماد التوصية وإنشاء أمر النقل"
+                            type="object"
+                            class="btn-success"
+                            invisible="state != 'pending'"/>
+                    <button name="action_reject_recommendation"
+                            string="❌ تجاهل التوصية"
+                            type="object"
+                            class="btn-danger"
+                            invisible="state != 'pending'"/>
+                    <button name="action_view_picking"
+                            string="📦 فتح مستند التحويل المخزني"
+                            type="object"
+                            class="btn-info"
+                            invisible="not picking_id"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,approved,rejected"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="كود التوصية"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <span class="badge bg-secondary">
+                            <field name="data_source_indicator" readonly="1"/>
+                        </span>
+                    </div>
+                    <group>
+                        <group string="بيانات الصنف المرشح">
+                            <field name="product_id"/>
+                            <field name="product_code"/>
+                            <field name="product_barcode"/>
+                            <field name="categ_id"/>
+                            <field name="list_price" widget="monetary"/>
+                            <field name="standard_price" widget="monetary"/>
+                        </group>
+                        <group string="مسار التحويل والأولوية">
+                            <field name="src_warehouse_id"/>
+                            <field name="dest_warehouse_id"/>
+                            <field name="suggested_qty" style="font-weight: bold; font-size: 16px;"/>
+                            <field name="priority" widget="badge"
+                                   decoration-danger="priority == 'urgent'"
+                                   decoration-warning="priority == 'high'"
+                                   decoration-info="priority in ('medium', 'low')"/>
+                            <field name="picking_id" readonly="1" invisible="not picking_id"/>
+                        </group>
+                    </group>
+                    <group string="📊 مؤشرات حركة المخزون والركود (تحليلات أكتوبر 2026)">
+                        <group>
+                            <field name="dead_stock_qty"/>
+                            <field name="dead_stock_cost" widget="monetary"/>
+                        </group>
+                        <group>
+                            <field name="october_sales"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="💡 مبررات التوصية والتحليل الذكي">
+                            <field name="reason" placeholder="تفاصيل التحليل الذكي للركود والطلب..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Scene 11: List View for Stock Recommendation -->
+    <record id="view_alahram_stock_recommendation_list" model="ir.ui.view">
+        <field name="name">alahram.stock.recommendation.list</field>
+        <field name="model">alahram.stock.recommendation</field>
+        <field name="arch" type="xml">
+            <list string="لوحة توصيات نقل المخزون الذكي" decoration-danger="priority == 'urgent' and state == 'pending'">
+                <field name="name"/>
+                <field name="priority" widget="badge"
+                       decoration-danger="priority == 'urgent'"
+                       decoration-warning="priority == 'high'"
+                       decoration-info="priority in ('medium', 'low')"/>
+                <field name="product_id"/>
+                <field name="src_warehouse_id"/>
+                <field name="dest_warehouse_id"/>
+                <field name="suggested_qty"/>
+                <field name="dead_stock_qty" optional="show"/>
+                <field name="dead_stock_cost" widget="monetary" optional="show"/>
+                <field name="october_sales" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-warning="state == 'pending'"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'rejected'"/>
+                <button name="action_approve_recommendation"
+                        string="اعتماد"
+                        type="object"
+                        class="btn-success btn-sm"
+                        invisible="state != 'pending'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Scene 11: Kanban View for Stock Recommendation -->
+    <record id="view_alahram_stock_recommendation_kanban" model="ir.ui.view">
+        <field name="name">alahram.stock.recommendation.kanban</field>
+        <field name="model">alahram.stock.recommendation</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="priority" quick_create="false" class="o_kanban_dashboard">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="product_barcode"/>
+                <field name="src_warehouse_id"/>
+                <field name="dest_warehouse_id"/>
+                <field name="suggested_qty"/>
+                <field name="priority"/>
+                <field name="state"/>
+                <field name="dead_stock_cost"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-primary"><field name="name"/></span>
+                            <field name="state" widget="badge"
+                                   decoration-warning="state == 'pending'"
+                                   decoration-success="state == 'approved'"
+                                   decoration-danger="state == 'rejected'"/>
+                        </div>
+                        <div class="mb-2">
+                            <strong class="fs-6 text-dark"><field name="product_id"/></strong><br/>
+                            <small class="text-muted">باركود: <field name="product_barcode"/></small>
+                        </div>
+                        <div class="p-2 bg-light rounded mb-2 small border">
+                            <div><strong>من:</strong> <field name="src_warehouse_id"/></div>
+                            <div><strong>إلى:</strong> <field name="dest_warehouse_id"/></div>
+                            <div class="text-primary fw-bold mt-1"><strong>الكمية المقترحة:</strong> <field name="suggested_qty"/> قطعة</div>
+                            <div class="text-danger small"><strong>قيمة مجمدة:</strong> <field name="dead_stock_cost" widget="monetary"/></div>
+                        </div>
+                        <footer class="pt-1 d-flex justify-content-end" invisible="state != 'pending'">
+                            <button name="action_approve_recommendation" type="object" class="btn btn-sm btn-success">
+                                اعتماد ونقل 🚚
+                            </button>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Scene 11: Action Window -->
+    <record id="action_alahram_stock_recommendation" model="ir.actions.act_window">
+        <field name="name">المشهد 11 — التوصيات الذكية لنقل المخزون</field>
+        <field name="res_model">alahram.stock.recommendation</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                لوحة توصيات نقل المخزون الذكي — مدير العمليات
+            </p>
+            <p>
+                تحليل تلقائي للمخزون الراكد والفائض في مخازن الإدارة والمحافظات لتوجيهه فوراً إلى المعارض ذات الإقبال العالي مثل سيدي جابر.
+            </p>
+        </field>
+    </record>
+</odoo>
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_AttachmentsTab">
+        <t t-if="this.props.items.length">
+            <div class="ayp_artifacts_attachments_list">
+                <t t-foreach="this.props.items" t-as="item" t-key="item.id || item_index">
+                    <AttachmentCard
+                        attachment="item"
+                        onOpen.bind="this.onOpen"
+                    />
+                </t>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="ayp_artifacts_empty text-muted small">
+                No attachments in this conversation yet.
+            </div>
+        </t>
+    </t>
+
+</templates>

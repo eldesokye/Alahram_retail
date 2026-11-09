@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Journals for Cashier 1, Cashier 2 & Bank Visa -->
+        <record id="journal_pos_cashier1" model="account.journal">
+            <field name="name">خزينة كاشير 1 (سيدي جابر)</field>
+            <field name="type">cash</field>
+            <field name="code">AH_C1</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="journal_pos_cashier2" model="account.journal">
+            <field name="name">خزينة كاشير 2 (سيدي جابر)</field>
+            <field name="type">cash</field>
+            <field name="code">AH_C2</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="journal_pos_bank_visa" model="account.journal">
+            <field name="name">فيزا بنك - سيدي جابر</field>
+            <field name="type">bank</field>
+            <field name="code">AH_VS</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- POS Payment Methods -->
+        <record id="pos_pay_method_cash1" model="pos.payment.method">
+            <field name="name">نقدي (خزينة كاشير 1)</field>
+            <field name="type">cash</field>
+            <field name="journal_id" ref="journal_pos_cashier1"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="pos_pay_method_cash2" model="pos.payment.method">
+            <field name="name">نقدي (خزينة كاشير 2)</field>
+            <field name="type">cash</field>
+            <field name="journal_id" ref="journal_pos_cashier2"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="pos_pay_method_visa" model="pos.payment.method">
+            <field name="name">فيزا / بطاقة بنكية (سيدي جابر)</field>
+            <field name="type">bank</field>
+            <field name="journal_id" ref="journal_pos_bank_visa"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- POS Configuration 1: Cashier 1 Sidi Gaber -->
+        <record id="pos_config_cashier1" model="pos.config">
+            <field name="name">كاشير 1 - سيدي جابر (Terminal 1)</field>
+            <field name="payment_method_ids" eval="[(6, 0, [ref('pos_pay_method_cash1'), ref('pos_pay_method_visa')])]"/>
+            <field name="down_payment_product_id" ref="pos_sale.default_downpayment_product"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- POS Configuration 2: Cashier 2 Sidi Gaber -->
+        <record id="pos_config_cashier2" model="pos.config">
+            <field name="name">كاشير 2 - سيدي جابر (Terminal 2)</field>
+            <field name="payment_method_ids" eval="[(6, 0, [ref('pos_pay_method_cash2'), ref('pos_pay_method_visa')])]"/>
+            <field name="down_payment_product_id" ref="pos_sale.default_downpayment_product"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- POS Configuration 3: Salesperson Tablet (Order taker) -->
+        <record id="pos_config_tablet_sales" model="pos.config">
+            <field name="name">تابلت مبيعات صالة العرض (سيدي جابر)</field>
+            <field name="payment_method_ids" eval="[(6, 0, [ref('pos_pay_method_visa')])]"/>
+            <field name="down_payment_product_id" ref="pos_sale.default_downpayment_product"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- Pricelists -->
+        <record id="pricelist_retail_standard" model="product.pricelist">
+            <field name="name">قائمة أسعار التجزئة الرسمية (14% ضريبة)</field>
+            <field name="currency_id" ref="base.EGP"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="pricelist_bridal_special" model="product.pricelist">
+            <field name="name">قائمة باكدج العروسة والعروض الترويجية</field>
+            <field name="currency_id" ref="base.EGP"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+    </data>
+</odoo>

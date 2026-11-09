@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_ShareDialog">
+        <Dialog size="'md'" title="this.title">
+            <div class="ayp_share_dialog" t-if="this.state.fieldInfo">
+                <label class="ayp_share_label">Who may read it</label>
+                <div class="ayp_share_field">
+                    <Record
+                        resModel="'aypatech_wooai.session'"
+                        resId="this.props.sessionId"
+                        fieldNames="['share_user_ids']"
+                        activeFields="this.activeFields"
+                        mode="'edit'"
+                        hooks="this.hooks"
+                        t-slot-scope="data"
+                    >
+                        <Field
+                            name="'share_user_ids'"
+                            record="data.record"
+                            fieldInfo="this.state.fieldInfo"
+                        />
+                    </Record>
+                </div>
+                <div class="ayp_share_note">
+                    <i class="fa fa-eye me-1"/>
+                    They see the whole transcript, including what the tools returned.
+                    They cannot reply, rename or re-share it.
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="this.save">Save</button>
+                <button class="btn btn-secondary" t-on-click="() => this.props.close()">
+                    <t t-if="this.state.dirty">Discard</t>
+                    <t t-else="">Close</t>
+                </button>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>

@@ -1,0 +1,357 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*{box-sizing:border-box}img{max-width:100%;height:auto}</style>
+<div style="width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); overflow-x: hidden; box-sizing: border-box;">
+
+<section style="background-color: #12404a; background: linear-gradient(135deg, #0b1f24 0%, #12404a 55%, #3b2a6e 100%); border-radius: 18px; padding: clamp(32px, 9vw, 56px) clamp(16px, 6vw, 32px); margin: 0; text-align: center; overflow: hidden;">
+    <p style="display: inline-block; margin: 0 0 18px; padding: 6px 16px; border-radius: 30px; background: rgba(94, 214, 199, 0.15); color: #5ed6c7; font-size: 15.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">
+        AI Agents for Odoo
+    </p>
+    <h1 style="color: #ffffff; font-size: clamp(28px, 9vw, 44px); line-height: 1.15; font-weight: 700; margin: 0 auto 18px; max-width: 820px;">
+        An AI agent that reads and acts on your own Odoo data.
+    </h1>
+    <p style="color: #e2e8f0; font-size: clamp(16px, 4.5vw, 19px); line-height: 1.6; margin: 0 auto 28px; max-width: 760px;">
+        Chat with agents that can look up records, draft replies, run reports and work
+        from your Spaces - backed by nine LLM providers of your choice, an MCP server
+        and client, reusable skills, and schedule or server-action automation.
+    </p>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+        <span style="padding: 8px 16px; border-radius: 8px; background-color: #1b4a52; color: #f1f5f9; font-size: 15.5px;">9 LLM providers</span>
+        <span style="padding: 8px 16px; border-radius: 8px; background-color: #1b4a52; color: #f1f5f9; font-size: 15.5px;">MCP server and client</span>
+        <span style="padding: 8px 16px; border-radius: 8px; background-color: #1b4a52; color: #f1f5f9; font-size: 15.5px;">Scheduled reports by e-mail and Telegram</span>
+        <span style="padding: 8px 16px; border-radius: 8px; background-color: #1b4a52; color: #f1f5f9; font-size: 15.5px;">Chatter and automation</span>
+        <span style="padding: 8px 16px; border-radius: 8px; background-color: #1b4a52; color: #f1f5f9; font-size: 15.5px;">Voice input and output</span>
+    </div>
+</section>
+
+<section style="max-width: 980px; margin: 28px auto 48px;">
+    <div style="border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);">
+        <div style="display: flex; align-items: center; gap: 7px; padding: 10px 14px; background-color: #f1f5f9; border-bottom: 1px solid #e2e8f0;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #fca5a5; display: inline-block;"></span>
+            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #fcd34d; display: inline-block;"></span>
+            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #86efac; display: inline-block;"></span>
+        </div>
+        <img src="AI chat .png" alt="AI Agent chat, answering an outstanding invoices question with live Odoo data" style="display: block; width: 100%;"/>
+    </div>
+</section>
+
+<section style="max-width: 1040px; margin: 0 auto 48px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; border-bottom: 1px solid #e2e8f0;">
+        <a href="#overview" style="padding: 14px clamp(10px, 3vw, 24px); color: #1f6f78; font-weight: 700; font-size: 15.5px; letter-spacing: 0.04em; border-bottom: 3px solid #1f6f78; text-decoration: none;">OVERVIEW</a>
+        <a href="#setup" style="padding: 14px clamp(10px, 3vw, 24px); color: #1e293b; font-weight: 700; font-size: 15.5px; letter-spacing: 0.04em; text-decoration: none;">SETUP</a>
+        <a href="#faqs" style="padding: 14px clamp(10px, 3vw, 24px); color: #1e293b; font-weight: 700; font-size: 15.5px; letter-spacing: 0.04em; text-decoration: none;">FAQS</a>
+        <a href="#releases" style="padding: 14px clamp(10px, 3vw, 24px); color: #1e293b; font-weight: 700; font-size: 15.5px; letter-spacing: 0.04em; text-decoration: none;">RELEASES</a>
+    </div>
+    <div style="padding: 22px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px;">
+        <div style="flex: 1 1 320px; min-width: 0;">
+            <p style="margin: 0 0 4px; font-size: 17px; font-weight: 700; color: #0f172a;">Want to see it on your own data first?</p>
+            <p style="margin: 0; font-size: 15.5px; color: #334155;">Questions about setup, providers or a specific use case - reach us directly.</p>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="https://itisabedi.com" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px clamp(14px, 4vw, 22px); border-radius: 10px; background-color: #1f6f78; color: #ffffff; font-weight: 700; text-decoration: none; font-size: clamp(13.5px, 3.6vw, 15.5px);">
+                <span style="font-size: 17px; line-height: 1;">&#127760;</span> itisabedi.com
+            </a>
+            <a href="mailto:itisabedi@outlook.com?subject=AI%20Agent" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px clamp(14px, 4vw, 22px); border-radius: 10px; background-color: #0f172a; color: #ffffff; font-weight: 700; text-decoration: none; font-size: clamp(13.5px, 3.6vw, 15.5px);">
+                <span style="font-size: 17px; line-height: 1;">&#9993;</span> itisabedi@outlook.com
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="overview">
+
+<section style="max-width: 1040px; margin: 0 auto 64px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+        <div style="flex: 1 1 150px; min-width: 0; padding: 22px 14px; border-radius: 14px; background-color: #f0fdfa; text-align: center;">
+            <div style="font-size: clamp(22px, 6vw, 30px); font-weight: 700; color: #1f6f78;">9</div>
+            <div style="font-size: 14.5px; color: #334155;">LLM providers</div>
+        </div>
+        <div style="flex: 1 1 150px; min-width: 0; padding: 22px 14px; border-radius: 14px; background-color: #f0fdfa; text-align: center;">
+            <div style="font-size: clamp(22px, 6vw, 30px); font-weight: 700; color: #1f6f78;">70+</div>
+            <div style="font-size: 14.5px; color: #334155;">curated models</div>
+        </div>
+        <div style="flex: 1 1 150px; min-width: 0; padding: 22px 14px; border-radius: 14px; background-color: #f0fdfa; text-align: center;">
+            <div style="font-size: clamp(22px, 6vw, 30px); font-weight: 700; color: #1f6f78;">1</div>
+            <div style="font-size: 14.5px; color: #334155;">MCP server, and a client</div>
+        </div>
+        <div style="flex: 1 1 150px; min-width: 0; padding: 22px 14px; border-radius: 14px; background-color: #f0fdfa; text-align: center;">
+            <div style="font-size: clamp(22px, 6vw, 30px); font-weight: 700; color: #1f6f78;">2</div>
+            <div style="font-size: 14.5px; color: #334155;">report channels: e-mail, Telegram</div>
+        </div>
+        <div style="flex: 1 1 150px; min-width: 0; padding: 22px 14px; border-radius: 14px; background-color: #f0fdfa; text-align: center;">
+            <div style="font-size: clamp(22px, 6vw, 30px); font-weight: 700; color: #1f6f78;">11</div>
+            <div style="font-size: 14.5px; color: #334155;">languages</div>
+        </div>
+        <div style="flex: 1 1 150px; min-width: 0; padding: 22px 14px; border-radius: 14px; background-color: #f0fdfa; text-align: center;">
+            <div style="font-size: clamp(22px, 6vw, 30px); font-weight: 700; color: #1f6f78;">0</div>
+            <div style="font-size: 14.5px; color: #334155;">forced providers</div>
+        </div>
+    </div>
+</section>
+
+<section style="max-width: 1040px; margin: 0 auto 64px;">
+    <h2 style="font-size: clamp(22px, 6vw, 30px); color: #0f172a; text-align: center; margin: 0 0 28px;">Nine providers, one agent</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+        <div style="flex: 1 1 140px; min-width: 0; padding: 20px 10px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; text-align: center;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; padding: 10px;">
+                <img src="logos/openai.svg" alt="OpenAI" style="width: 100%; height: 100%;"/>
+            </div>
+            <div style="font-size: 14px; color: #0f172a; font-weight: 600;">OpenAI</div>
+        </div>
+        <div style="flex: 1 1 140px; min-width: 0; padding: 20px 10px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; text-align: center;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; padding: 10px;">
+                <img src="logos/anthropic.svg" alt="Anthropic Claude" style="width: 100%; height: 100%;"/>
+            </div>
+            <div style="font-size: 14px; color: #0f172a; font-weight: 600;">Anthropic Claude</div>
+        </div>
+        <div style="flex: 1 1 140px; min-width: 0; padding: 20px 10px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; text-align: center;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; padding: 10px;">
+                <img src="logos/google.svg" alt="Google Gemini" style="width: 100%; height: 100%;"/>
+            </div>
+            <div style="font-size: 14px; color: #0f172a; font-weight: 600;">Google Gemini</div>
+        </div>
+        <div style="flex: 1 1 140px; min-width: 0; padding: 20px 10px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; text-align: center;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; padding: 8px; overflow: hidden;">
+                <img src="logos/groq.svg" alt="Groq" style="width: 100%; height: 100%; border-radius: 50%;"/>
+            </div>
+            <div style="font-size: 14px; color: #0f172a; font-weight: 600;">Groq</div>
+        </div>
+        <div style="flex: 1 1 140px; min-width: 0; padding: 20px 10px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; text-align: center;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; padding: 10px;">
+                <img src="logos/mistral.svg" alt="Mistral" style="width: 100%; height: 100%;"/>
+            </div>
+            <div style="font-size: 14px; color: #0f172a; font-weight: 600;">Mistral</div>
+        </div>
+        <div style="flex: 1 1 140px; min-width: 0; padding: 20px 10px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; text-align: center;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; padding: 12px;">
+                <img src="logos/xai.svg" alt="xAI Grok" style="width: 100%; height: 100%;"/>
+            </div>
+            <div style="font-size: 14px; color: #0f172a; font-weight: 600;">xAI Grok</div>
+        </div>
+        <div style="flex: 1 1 140px; min-width: 0; padding: 20px 10px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; text-align: center;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; padding: 10px;">
+                <img src="logos/deepseek.svg" alt="DeepSeek" style="width: 100%; height: 100%;"/>
+            </div>
+            <div style="font-size: 14px; color: #0f172a; font-weight: 600;">DeepSeek</div>
+        </div>
+        <div style="flex: 1 1 140px; min-width: 0; padding: 20px 10px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; text-align: center;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; padding: 10px;">
+                <img src="logos/openrouter.svg" alt="OpenRouter" style="width: 100%; height: 100%;"/>
+            </div>
+            <div style="font-size: 14px; color: #0f172a; font-weight: 600;">OpenRouter</div>
+        </div>
+        <div style="flex: 1 1 140px; min-width: 0; padding: 20px 10px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; text-align: center;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; padding: 8px;">
+                <img src="logos/ollama.svg" alt="Ollama" style="width: 100%; height: 100%;"/>
+            </div>
+            <div style="font-size: 14px; color: #0f172a; font-weight: 600;">Ollama (local)</div>
+        </div>
+    </div>
+</section>
+
+<section style="max-width: 1040px; margin: 0 auto 64px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 40px;">
+        <div style="flex: 1 1 320px; min-width: 0;">
+            <h2 style="font-size: clamp(22px, 6vw, 30px); color: #0f172a; margin: 0 0 14px;">Bring your own provider, or several</h2>
+            <p style="color: #334155; font-size: 16.5px; line-height: 1.7; margin: 0 0 18px;">
+                OpenAI, Anthropic, Google, Groq, Mistral, xAI, DeepSeek, OpenRouter and a local
+                Ollama server - switch per agent, per space or per conversation, with a curated
+                model catalog kept current for each one.
+            </p>
+            <ul style="padding-left: 20px; color: #334155; font-size: 15.5px; line-height: 1.9; margin: 0;">
+                <li>Streaming replies with tool calls, reasoning effort and vision where the model supports it</li>
+                <li>Cost and token usage tracked on every turn, per agent and per user</li>
+                <li>An MCP client lets an agent reach tools on other MCP servers, alongside its own</li>
+                <li>Your own MCP server, so Claude Desktop, Claude Code, Cursor or Codex CLI can reach your Odoo too</li>
+            </ul>
+        </div>
+        <div style="flex: 1 1 320px; min-width: 0;">
+            <img src="Provisers.png" alt="Providers screen listing OpenAI, Anthropic, Google, Groq, Mistral, xAI, DeepSeek and OpenRouter" style="display: block; width: 100%; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);"/>
+        </div>
+    </div>
+</section>
+
+<section style="max-width: 1040px; margin: 0 auto 64px;">
+    <div style="display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 40px;">
+        <div style="flex: 1 1 320px; min-width: 0;">
+            <h2 style="font-size: clamp(22px, 6vw, 30px); color: #0f172a; margin: 0 0 14px;">Agents that work inside Odoo, not beside it</h2>
+            <p style="color: #334155; font-size: 16.5px; line-height: 1.7; margin: 0 0 18px;">
+                Spaces organise chats by default agent and standing instructions. A session
+                can be forked, rewound, or regenerated, and one agent can hand off to a
+                specialist mid-conversation, in the same session or a fresh one.
+            </p>
+            <ul style="padding-left: 20px; color: #334155; font-size: 15.5px; line-height: 1.9; margin: 0;">
+                <li>Approval cards for risky writes - approve once, allow for the session, or reject</li>
+                <li>@-mention an agent anywhere in Discuss or a record's chatter</li>
+                <li>Server actions and automation rules can run an agent, once or per record</li>
+                <li>Sessions can pause themselves and wake up later, once or on a recurring cadence</li>
+            </ul>
+        </div>
+        <div style="flex: 1 1 320px; min-width: 0;">
+            <img src="Agent.png" alt="Agents screen with Router, Customer Support, General Assistant and Research Analyst cards" style="display: block; width: 100%; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);"/>
+        </div>
+    </div>
+</section>
+
+<section style="max-width: 1040px; margin: 0 auto 64px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 40px;">
+        <div style="flex: 1 1 320px; min-width: 0;">
+            <h2 style="font-size: clamp(22px, 6vw, 30px); color: #0f172a; margin: 0 0 14px;">Reports an agent writes, and delivers itself</h2>
+            <p style="color: #334155; font-size: 16.5px; line-height: 1.7; margin: 0 0 18px;">
+                Point a schedule at an agent and a prompt. It runs on your cadence, renders
+                the answer as a letter-headed PDF with HTML fallback, and sends it by e-mail
+                in each recipient's language, or straight to a Telegram chat.
+            </p>
+            <ul style="padding-left: 20px; color: #334155; font-size: 15.5px; line-height: 1.9; margin: 0;">
+                <li>Full history of every report sent, resendable without regenerating it</li>
+                <li>Run on demand or on a daily, weekly or monthly schedule, any time zone</li>
+                <li>A cost and usage dashboard breaks spend down by agent and by user over time</li>
+            </ul>
+        </div>
+        <div style="flex: 1 1 320px; min-width: 0;">
+            <img src="report.png" alt="Reports screen with a daily Research Brief and a weekly Support Digest, each with its own next run time" style="display: block; width: 100%; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);"/>
+        </div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 32px;">
+        <div style="flex: 1 1 300px; min-width: 0;">
+            <img src="Create report.png" alt="Creating a new scheduled report: pick an agent, a system prompt and a frequency" style="display: block; width: 100%; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);"/>
+            <p style="text-align: center; margin: 10px 0 0; font-size: 14px; color: #64748b;">New report in a few fields</p>
+        </div>
+        <div style="flex: 1 1 300px; min-width: 0;">
+            <img src="usage.png" alt="Usage dashboard with total cost, total tokens and sessions, broken down by agent and by user" style="display: block; width: 100%; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);"/>
+            <p style="text-align: center; margin: 10px 0 0; font-size: 14px; color: #64748b;">Cost and usage, by agent and by user</p>
+        </div>
+    </div>
+</section>
+
+<section style="max-width: 1040px; margin: 0 auto 64px;">
+    <div style="display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 40px;">
+        <div style="flex: 1 1 320px; min-width: 0;">
+            <h2 style="font-size: clamp(22px, 6vw, 30px); color: #0f172a; margin: 0 0 14px;">Automation rules an agent carries out</h2>
+            <p style="color: #334155; font-size: 16.5px; line-height: 1.7; margin: 0 0 18px;">
+                Watch a model for a creation, update or a date field coming due, add an
+                optional domain, and hand it to an agent - in one record at a time or the
+                whole batch at once. No server action to write by hand.
+            </p>
+            <ul style="padding-left: 20px; color: #334155; font-size: 15.5px; line-height: 1.9; margin: 0;">
+                <li>Triggers: on creation, on update, or a configurable offset from a date field</li>
+                <li>An optional condition domain narrows which records actually fire the agent</li>
+                <li>Runs per record or on the whole matched set, your choice per rule</li>
+            </ul>
+        </div>
+        <div style="flex: 1 1 320px; min-width: 0;">
+            <img src="Automation.png" alt="Creating an automation rule: target model, trigger, date field and condition domain" style="display: block; width: 100%; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);"/>
+        </div>
+    </div>
+</section>
+
+<section style="max-width: 1040px; margin: 0 auto 64px;">
+    <h2 style="font-size: clamp(22px, 6vw, 30px); color: #0f172a; text-align: center; margin: 0 0 28px;">Also included</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+        <div style="flex: 1 1 320px; min-width: 0; padding: 24px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 17px; color: #0f172a; margin: 0 0 8px;">Skills</h3>
+            <p style="color: #1e293b; font-size: 15.5px; line-height: 1.6; margin: 0;">Reusable instructions an agent or a user can switch into, shared privately, with named users, or everyone.</p>
+        </div>
+        <div style="flex: 1 1 320px; min-width: 0; padding: 24px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 17px; color: #0f172a; margin: 0 0 8px;">Voice in, voice out</h3>
+            <p style="color: #1e293b; font-size: 15.5px; line-height: 1.6; margin: 0;">Speech-to-text and text-to-speech through the providers that offer it, such as OpenAI and Google.</p>
+        </div>
+        <div style="flex: 1 1 320px; min-width: 0; padding: 24px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 17px; color: #0f172a; margin: 0 0 8px;">Audited MCP server</h3>
+            <p style="color: #1e293b; font-size: 15.5px; line-height: 1.6; margin: 0;">Scoped, rate-limited API keys and a full request log on an independent cursor.</p>
+        </div>
+        <div style="flex: 1 1 320px; min-width: 0; padding: 24px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 17px; color: #0f172a; margin: 0 0 8px;">Eleven languages</h3>
+            <p style="color: #1e293b; font-size: 15.5px; line-height: 1.6; margin: 0;">English, German, Italian, French, Portuguese, Spanish, Arabic, Persian, Turkish, Chinese and Japanese.</p>
+        </div>
+    </div>
+</section>
+
+</section>
+
+<section id="setup" style="max-width: 1040px; margin: 0 auto 64px;">
+    <h2 style="font-size: clamp(22px, 6vw, 30px); color: #0f172a; text-align: center; margin: 0 0 10px;">Up and running</h2>
+    <p style="text-align: center; color: #334155; font-size: 16.5px; max-width: 680px; margin: 0 auto 32px;">
+        Install it, add one provider's API key, and start chatting - no connector to configure.
+    </p>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+        <div style="flex: 1 1 220px; min-width: 0; padding: 20px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 17px; color: #0f172a; margin: 0 0 8px;">1. Install</h3>
+            <p style="color: #1e293b; font-size: 15.5px; line-height: 1.6; margin: 0;">Apps - Update Apps List - install AI Agent.</p>
+        </div>
+        <div style="flex: 1 1 220px; min-width: 0; padding: 20px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 17px; color: #0f172a; margin: 0 0 8px;">2. Add a key</h3>
+            <p style="color: #1e293b; font-size: 15.5px; line-height: 1.6; margin: 0;">Settings - AI Agent - paste one provider's API key and pick a model.</p>
+        </div>
+        <div style="flex: 1 1 220px; min-width: 0; padding: 20px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 17px; color: #0f172a; margin: 0 0 8px;">3. Open Chat</h3>
+            <p style="color: #1e293b; font-size: 15.5px; line-height: 1.6; margin: 0;">A new app appears in the main menu; start talking to the default agent right away.</p>
+        </div>
+        <div style="flex: 1 1 220px; min-width: 0; padding: 20px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 17px; color: #0f172a; margin: 0 0 8px;">4. Shape it</h3>
+            <p style="color: #1e293b; font-size: 15.5px; line-height: 1.6; margin: 0;">Add agents, skills, a report schedule or an automation rule as you need them.</p>
+        </div>
+    </div>
+    <div style="margin-top: 16px; padding: 22px 24px; border-radius: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+        <p style="margin: 0 0 8px; font-weight: 700; color: #0f172a; font-size: 15.5px;">What you need</p>
+        <p style="margin: 0 0 16px; color: #334155; font-size: 15px;">Just base Odoo and Discuss - no other app is required, and no WooCommerce connection is involved.</p>
+        <p style="margin: 0 0 8px; font-weight: 700; color: #0f172a; font-size: 15.5px;">What is optional</p>
+        <p style="margin: 0; color: #334155; font-size: 15px;">A Telegram bot token for report delivery by Telegram, and wkhtmltopdf on the server for PDF reports.</p>
+    </div>
+    <p style="text-align: center; margin-top: 24px; font-size: 15.5px; color: #334155;">
+        Prefer we set it up for you? <a href="mailto:itisabedi@outlook.com?subject=AI%20Agent%20setup" style="color: #1f6f78; font-weight: 700; text-decoration: none;">Write to us</a> or <a href="https://wa.me/393294363637">message us on WhatsApp</a>.
+    </p>
+</section>
+
+<section id="faqs" style="max-width: 1040px; margin: 0 auto 64px;">
+    <h2 style="font-size: clamp(22px, 6vw, 30px); color: #0f172a; text-align: center; margin: 0 0 24px;">Questions</h2>
+
+    <div style="padding: 20px 24px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px;">
+        <p style="margin: 0 0 8px; font-weight: 700; color: #0f172a; font-size: 16px;">Do I need to pick one provider?</p>
+        <p style="margin: 0; color: #334155; font-size: 15px; line-height: 1.6;">No. Configure as many as you like and assign a different one to each agent - a customer-facing agent on a fast, cheap model, a research agent on a stronger one, a private agent on a local Ollama server with no data ever leaving your network.</p>
+    </div>
+
+    <div style="padding: 20px 24px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px;">
+        <p style="margin: 0 0 8px; font-weight: 700; color: #0f172a; font-size: 16px;">Does this connect to WooCommerce?</p>
+        <p style="margin: 0; color: #334155; font-size: 15px; line-height: 1.6;">No. This module works on Odoo data alone. If you also run a WooCommerce store, our other module, WooFusion, adds a full WooCommerce connection on top of the same kind of AI agent, BI and reports, in one app.</p>
+    </div>
+
+    <div style="padding: 20px 24px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px;">
+        <p style="margin: 0 0 8px; font-weight: 700; color: #0f172a; font-size: 16px;">Can a risky action run without anyone noticing?</p>
+        <p style="margin: 0; color: #334155; font-size: 15px; line-height: 1.6;">No. Writes that an agent's approval mode flags show a diff card first - approve once, allow it for the rest of the session, or reject it. A read-only agent never needs approval at all.</p>
+    </div>
+
+    <div style="padding: 20px 24px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px;">
+        <p style="margin: 0 0 8px; font-weight: 700; color: #0f172a; font-size: 16px;">Which Odoo versions are supported?</p>
+        <p style="margin: 0; color: #334155; font-size: 15px; line-height: 1.6;">Odoo 20.0 Community and Enterprise, today. Earlier versions are not covered by this build.</p>
+    </div>
+
+    <div style="padding: 20px 24px; border: 1px solid #e2e8f0; border-radius: 12px;">
+        <p style="margin: 0 0 8px; font-weight: 700; color: #0f172a; font-size: 16px;">Can I try it before committing to a provider?</p>
+        <p style="margin: 0; color: #334155; font-size: 15px; line-height: 1.6;">Yes - the module installs free, and most providers offer a small free or trial credit, enough to see it work on your own data before you decide which one to keep using.</p>
+    </div>
+</section>
+
+<section id="releases" style="max-width: 1040px; margin: 0 auto 64px;">
+    <h2 style="font-size: clamp(22px, 6vw, 30px); color: #0f172a; text-align: center; margin: 0 0 24px;">Releases</h2>
+    <div style="max-width: 680px; margin: 0 auto; padding: 22px 24px; border: 1px solid #e2e8f0; border-radius: 14px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px;">
+            <h3 style="font-size: 17px; color: #0f172a; margin: 0;">20.0.1.0.0</h3>
+            <span style="padding: 4px 10px; border-radius: 20px; background-color: #ecfdf5; color: #047857; font-size: 13px; font-weight: 700;">Current</span>
+        </div>
+        <p style="margin: 0; color: #334155; font-size: 15px;">First release: chat agents, MCP server and client, skills, chatter, automation, schedules, scheduled reports, cost dashboard and voice.</p>
+    </div>
+</section>
+
+<section style="max-width: 1040px; margin: 0 auto 24px; padding: 48px 32px; border-radius: 18px; background-color: #12404a; background: linear-gradient(135deg, #1f6f78 0%, #12404a 55%, #3b2a6e 100%); text-align: center;">
+    <h2 style="font-size: clamp(22px, 6vw, 30px); color: #ffffff; margin: 0 0 12px;">Questions, a demo, or custom work?</h2>
+    <p style="color: #e8f6f2; font-size: 17px; margin: 0 0 28px;">AI Agent is developed and supported directly by the developer.</p>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+        <a href="https://wa.me/393294363637?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20AI%20Agent" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 26px; border-radius: 10px; background-color: #25d366; color: #ffffff; font-weight: 700; text-decoration: none;">
+            <span style="font-size: 17px; line-height: 1;">&#128172;</span> +39 329 43 63 637
+        </a>
+        <a href="https://itisabedi.com" style="display: inline-block; padding: 12px 28px; border-radius: 10px; background-color: #ffffff; color: #1f6f78; font-weight: 600; text-decoration: none;">itisabedi.com</a>
+        <a href="mailto:itisabedi@outlook.com" style="display: inline-block; padding: 12px 28px; border-radius: 10px; background-color: #12404a; border: 1px solid rgba(255, 255, 255, 0.6); color: #ffffff; font-weight: 600; text-decoration: none;">itisabedi@outlook.com</a>
+    </div>
+</section>
+
+</div>

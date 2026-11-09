@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.chatter_ChatMsgInsert" t-inherit="aypatech_ai_agent.ai_ChatMsgMeta" t-inherit-mode="extension">
+        <xpath expr="//button[hasclass('ayp_msg_copy')]" position="after">
+            <button class="ayp_msg_btn ayp_msg_insert" type="button"
+                    t-if="this.session.insertText and !meta_side"
+                    title="Use this — put it back where you were writing"
+                    t-on-click="() => this.session.insertText(meta_text)">
+                <i class="fa fa-arrow-circle-o-left"/>
+            </button>
+        </xpath>
+    </t>
+
+</templates>

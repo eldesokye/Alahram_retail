@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_ToolPickerField">
+        <div class="o_field_tags d-inline-flex flex-wrap gap-1 mw-100"
+             t-att-class="{'o_tags_input o_input': !this.props.readonly}">
+            <TagsList tags="this.tagListItems"/>
+            <div t-if="!this.props.readonly"
+                 class="o_field_many2many_selection d-inline-flex w-100">
+                <AutoComplete
+                    value="''"
+                    sources="this.autocompleteSources"
+                    placeholder="this.state.selected.length ? '' : (this.props.placeholder || 'Add a tool...')"
+                    resetOnSelect="true"
+                    class="'o_input'"/>
+            </div>
+        </div>
+    </t>
+
+</templates>

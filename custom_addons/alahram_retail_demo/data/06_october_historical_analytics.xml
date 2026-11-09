@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="analytics_wh_sg" model="alahram.branch.analytics">
+            <field name="branch_name">فرع سيدي جابر (WH-SG)</field>
+            <field name="warehouse_code">WH-SG</field>
+            <field name="net_sold_qty">2067</field>
+            <field name="gross_sales">1197099.97</field>
+            <field name="discount_given">602084.28</field>
+            <field name="vat_14_amount">175649.98</field>
+            <field name="return_qty">-100</field>
+            <field name="return_value">-111006.20</field>
+            <field name="net_sales_inc_vat">1430292.06</field>
+            <field name="net_sales_exc_vat">1254642.08</field>
+            <field name="cogs_cost">994049.35</field>
+            <field name="net_profit">260592.73</field>
+            <field name="return_rate">8.49</field>
+        </record>
+
+        <record id="analytics_wh_shobra" model="alahram.branch.analytics">
+            <field name="branch_name">فرع شبرا (WH-SHOBRA)</field>
+            <field name="warehouse_code">WH-SHOBRA</field>
+            <field name="net_sold_qty">1361</field>
+            <field name="gross_sales">871192.05</field>
+            <field name="discount_given">461192.19</field>
+            <field name="vat_14_amount">140925.43</field>
+            <field name="return_qty">-180</field>
+            <field name="return_value">-280232.34</field>
+            <field name="net_sales_inc_vat">1147535.30</field>
+            <field name="net_sales_exc_vat">1006609.88</field>
+            <field name="cogs_cost">752820.44</field>
+            <field name="net_profit">253789.44</field>
+            <field name="return_rate">24.34</field>
+        </record>
+
+        <record id="analytics_wh_sekka" model="alahram.branch.analytics">
+            <field name="branch_name">فرع السكة الجديدة (WH-SEKKA)</field>
+            <field name="warehouse_code">WH-SEKKA</field>
+            <field name="net_sold_qty">1310</field>
+            <field name="gross_sales">826874.57</field>
+            <field name="discount_given">383077.24</field>
+            <field name="vat_14_amount">120990.64</field>
+            <field name="return_qty">-53</field>
+            <field name="return_value">-76890.28</field>
+            <field name="net_sales_inc_vat">985209.07</field>
+            <field name="net_sales_exc_vat">864218.43</field>
+            <field name="cogs_cost">685660.17</field>
+            <field name="net_profit">178558.26</field>
+            <field name="return_rate">8.51</field>
+        </record>
+
+        <record id="analytics_wh_hanovil" model="alahram.branch.analytics">
+            <field name="branch_name">فرع الهانوفيل (WH-HANOVIL)</field>
+            <field name="warehouse_code">WH-HANOVIL</field>
+            <field name="net_sold_qty">755</field>
+            <field name="gross_sales">516384.23</field>
+            <field name="discount_given">263468.41</field>
+            <field name="vat_14_amount">76754.17</field>
+            <field name="return_qty">-46</field>
+            <field name="return_value">-69494.46</field>
+            <field name="net_sales_inc_vat">624998.05</field>
+            <field name="net_sales_exc_vat">548243.88</field>
+            <field name="cogs_cost">403521.12</field>
+            <field name="net_profit">144722.76</field>
+            <field name="return_rate">11.86</field>
+        </record>
+
+        <record id="analytics_wh_nasr" model="alahram.branch.analytics">
+            <field name="branch_name">فرع مدينة نصر (WH-NASR)</field>
+            <field name="warehouse_code">WH-NASR</field>
+            <field name="net_sold_qty">853</field>
+            <field name="gross_sales">452683.31</field>
+            <field name="discount_given">288643.90</field>
+            <field name="vat_14_amount">74031.43</field>
+            <field name="return_qty">-86</field>
+            <field name="return_value">-140141.55</field>
+            <field name="net_sales_inc_vat">602827.03</field>
+            <field name="net_sales_exc_vat">528795.60</field>
+            <field name="cogs_cost">434204.77</field>
+            <field name="net_profit">94590.83</field>
+            <field name="return_rate">23.64</field>
+        </record>
+
+        <record id="analytics_wh_faisal" model="alahram.branch.analytics">
+            <field name="branch_name">فرع فيصل (WH-FAISAL)</field>
+            <field name="warehouse_code">WH-FAISAL</field>
+            <field name="net_sold_qty">904</field>
+            <field name="gross_sales">481394.38</field>
+            <field name="discount_given">206991.09</field>
+            <field name="vat_14_amount">70817.61</field>
+            <field name="return_qty">-58</field>
+            <field name="return_value">-55726.22</field>
+            <field name="net_sales_inc_vat">576657.59</field>
+            <field name="net_sales_exc_vat">505839.98</field>
+            <field name="cogs_cost">416486.26</field>
+            <field name="net_profit">89353.71</field>
+            <field name="return_rate">10.37</field>
+        </record>
+
+        <record id="analytics_wh_roshdy" model="alahram.branch.analytics">
+            <field name="branch_name">فرع لوران / رشدي (WH-ROSHDY)</field>
+            <field name="warehouse_code">WH-ROSHDY</field>
+            <field name="net_sold_qty">919</field>
+            <field name="gross_sales">429978.05</field>
+            <field name="discount_given">232593.89</field>
+            <field name="vat_14_amount">65082.96</field>
+            <field name="return_qty">-59</field>
+            <field name="return_value">-66769.80</field>
+            <field name="net_sales_inc_vat">529961.02</field>
+            <field name="net_sales_exc_vat">464878.06</field>
+            <field name="cogs_cost">374644.96</field>
+            <field name="net_profit">90233.10</field>
+            <field name="return_rate">13.44</field>
+        </record>
+
+        <record id="analytics_wh_smouha" model="alahram.branch.analytics">
+            <field name="branch_name">فرع باكوس / سموحة (WH-SMOUHA)</field>
+            <field name="warehouse_code">WH-SMOUHA</field>
+            <field name="net_sold_qty">591</field>
+            <field name="gross_sales">312486.85</field>
+            <field name="discount_given">162169.32</field>
+            <field name="vat_14_amount">47290.19</field>
+            <field name="return_qty">-75</field>
+            <field name="return_value">-53489.89</field>
+            <field name="net_sales_inc_vat">385077.03</field>
+            <field name="net_sales_exc_vat">337786.84</field>
+            <field name="cogs_cost">270825.84</field>
+            <field name="net_profit">66961.00</field>
+            <field name="return_rate">14.62</field>
+        </record>
+
+        <record id="analytics_wh_online" model="alahram.branch.analytics">
+            <field name="branch_name">مبيعات الأونلاين (WH-ONLINE)</field>
+            <field name="warehouse_code">WH-ONLINE</field>
+            <field name="net_sold_qty">414</field>
+            <field name="gross_sales">228849.13</field>
+            <field name="discount_given">120728.96</field>
+            <field name="vat_14_amount">37804.68</field>
+            <field name="return_qty">-47</field>
+            <field name="return_value">-69589.10</field>
+            <field name="net_sales_inc_vat">307838.02</field>
+            <field name="net_sales_exc_vat">270033.34</field>
+            <field name="cogs_cost">206799.65</field>
+            <field name="net_profit">63233.69</field>
+            <field name="return_rate">23.32</field>
+        </record>
+
+        <record id="analytics_wh_main" model="alahram.branch.analytics">
+            <field name="branch_name">مخزن الإدارة (WH-MAIN)</field>
+            <field name="warehouse_code">WH-MAIN</field>
+            <field name="net_sold_qty">-40</field>
+            <field name="gross_sales">62606.24</field>
+            <field name="discount_given">0.00</field>
+            <field name="vat_14_amount">8764.87</field>
+            <field name="return_qty">-73</field>
+            <field name="return_value">-40948.01</field>
+            <field name="net_sales_inc_vat">71371.11</field>
+            <field name="net_sales_exc_vat">62606.24</field>
+            <field name="cogs_cost">49208.57</field>
+            <field name="net_profit">13397.68</field>
+            <field name="return_rate">39.54</field>
+        </record>
+    </data>
+</odoo>
+

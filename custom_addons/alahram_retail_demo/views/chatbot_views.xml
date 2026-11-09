@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- URL Action to open interactive web Chatbot -->
+    <record id="action_alahram_web_chatbot" model="ir.actions.act_url">
+        <field name="name">شات بوت الأهرام التفاعلي (Live AI Chatbot)</field>
+        <field name="url">/alahram/chat</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Chat History List View -->
+    <record id="view_alahram_chat_history_tree" model="ir.ui.view">
+        <field name="name">alahram.chat.history.tree</field>
+        <field name="model">alahram.chat.history</field>
+        <field name="arch" type="xml">
+            <list string="سجل محادثات الذكاء الاصطناعي">
+                <field name="create_date" string="التاريخ والوقت"/>
+                <field name="user_id"/>
+                <field name="channel"/>
+                <field name="name" string="السؤال"/>
+                <field name="response_plain" string="ملخص الإجابة"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Chat History Form View -->
+    <record id="view_alahram_chat_history_form" model="ir.ui.view">
+        <field name="name">alahram.chat.history.form</field>
+        <field name="model">alahram.chat.history</field>
+        <field name="arch" type="xml">
+            <form string="جلسة محادثة ذكاء اصطناعي">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="create_date" string="التاريخ" readonly="1"/>
+                            <field name="user_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="channel" readonly="1"/>
+                        </group>
+                    </group>
+                    <separator string="سؤال المستخدم (User Query)"/>
+                    <field name="question" readonly="1" widget="text"/>
+                    <separator string="إجابة Google Gemini AI التفاعلية"/>
+                    <field name="response" readonly="1" widget="html"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for Chat History -->
+    <record id="action_alahram_chat_history" model="ir.actions.act_window">
+        <field name="name">سجل استفسارات ومحادثات الذكاء الاصطناعي</field>
+        <field name="res_model">alahram.chat.history</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                لا توجد محادثات مسجلة حتى الآن.
+            </p>
+        </field>
+    </record>
+</odoo>
+

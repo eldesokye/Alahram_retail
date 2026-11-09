@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.schedule_ScheduleCountdownField">
+        <span class="ayp_schedule_countdown" t-att-title="this.tooltip">
+            <t t-if="this.isEmpty">
+                <span class="text-muted">—</span>
+            </t>
+            <t t-elif="this.isPast">
+                <span t-esc="this.absoluteText"/>
+                <span class="ayp_schedule_countdown_due text-muted ms-1" t-esc="this.pastLabel"/>
+            </t>
+            <t t-else="">
+                <span t-esc="this.countdownText"/>
+            </t>
+        </span>
+    </t>
+
+</templates>

@@ -1,0 +1,21 @@
+id,name,model_id,group_id/id,operation,domain
+ai_access_ai_agent_admin,aypatech_wooai.agent system,aypatech_wooai.agent,base.group_system,crud,
+ai_access_ai_agent_user,aypatech_wooai.agent user,aypatech_wooai.agent,base.group_user,r,
+ai_access_ai_agent_suggestion_admin,aypatech_wooai.agent.suggestion system,aypatech_wooai.agent.suggestion,base.group_system,crud,
+ai_access_ai_agent_suggestion_user,aypatech_wooai.agent.suggestion user,aypatech_wooai.agent.suggestion,base.group_user,r,
+ai_access_aypatech_wooai_approval_system,aypatech_wooai.approval system,aypatech_wooai.approval,base.group_system,r,
+ai_access_ai_approval_user,aypatech_wooai.approval user (restricted),aypatech_wooai.approval,base.group_user,r,"[('user_id', '=', user.id)]"
+ai_access_ai_model_admin,aypatech_wooai.model system,aypatech_wooai.model,base.group_system,ru,
+ai_access_ai_model_user,aypatech_wooai.model user,aypatech_wooai.model,base.group_user,r,
+ai_access_ai_provider_admin,aypatech_wooai.provider system,aypatech_wooai.provider,base.group_system,ru,
+ai_access_ai_provider_user,aypatech_wooai.provider user,aypatech_wooai.provider,base.group_user,r,
+ai_access_aypatech_wooai_session_system,aypatech_wooai.session system,aypatech_wooai.session,base.group_system,crud,
+ai_access_ai_session_user,aypatech_wooai.session user (restricted),aypatech_wooai.session,base.group_user,cud,"[('user_id', '=', user.id)]"
+ai_access_ai_session_user_r,aypatech_wooai.session user (restricted),aypatech_wooai.session,base.group_user,r,"['|', ('share_user_ids', 'in', user.id), ('user_id', '=', user.id)]"
+ai_access_aypatech_wooai_session_event_system,aypatech_wooai.session.event system,aypatech_wooai.session.event,base.group_system,crud,
+ai_access_ai_session_event_user,aypatech_wooai.session.event user (restricted),aypatech_wooai.session.event,base.group_user,crud,"[('session_id.user_id', '=', user.id)]"
+ai_access_aypatech_wooai_session_pending_system,aypatech_wooai.session.pending system,aypatech_wooai.session.pending,base.group_system,crud,
+ai_access_ai_session_pending_user,aypatech_wooai.session.pending user (restricted),aypatech_wooai.session.pending,base.group_user,crud,"[('session_id.user_id', '=', user.id)]"
+ai_access_aypatech_wooai_space_system,aypatech_wooai.space system,aypatech_wooai.space,base.group_system,crud,
+ai_access_ai_space_user,aypatech_wooai.space user (restricted),aypatech_wooai.space,base.group_user,cud,"[('user_id', '=', user.id)]"
+ai_access_ai_space_user_r,aypatech_wooai.space user (restricted),aypatech_wooai.space,base.group_user,r,"['|', ('user_id', '=', user.id), ('user_id', '=', False)]"

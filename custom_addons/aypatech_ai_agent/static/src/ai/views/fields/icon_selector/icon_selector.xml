@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_IconSelectorField">
+        <div t-if="this.props.readonly" class="ayp_icon_selector_value">
+            <i class="fa fa-fw" t-att-class="this.icon"/>
+            <span class="ms-2" t-esc="this.icon"/>
+        </div>
+        <SelectMenu t-else=""
+            choices="this.choices"
+            value="this.icon"
+            required="this.props.required"
+            placeholder="this.props.placeholder"
+            searchPlaceholder="this.searchPlaceholder"
+            onSelect.bind="this.onSelect"
+            class="'ayp_icon_selector_field'"
+            togglerClass="'o_input'"
+            menuClass="'ayp_icon_selector_menu'">
+            <span t-if="this.icon" class="ayp_icon_selector_value">
+                <i class="fa fa-fw" t-att-class="this.icon"/>
+                <span class="ms-2 text-truncate" t-esc="this.icon"/>
+            </span>
+            <t t-set-slot="choice" t-slot-scope="scope">
+                <i class="fa fa-fw" t-att-class="scope.data.value" t-att-title="scope.data.label"/>
+            </t>
+        </SelectMenu>
+    </t>
+
+</templates>

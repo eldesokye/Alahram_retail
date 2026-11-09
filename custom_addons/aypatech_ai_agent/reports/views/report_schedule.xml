@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<record id="reports_view_report_schedule_list" model="ir.ui.view">
+		<field name="name">aypatech_wooai.report.schedule.list</field>
+		<field name="model">aypatech_wooai.report.schedule</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="name"/>
+				<field name="agent_id"/>
+				<field name="frequency"/>
+				<field name="next_run"/>
+				<field name="last_run"/>
+				<field name="telegram_enabled" widget="boolean_toggle"/>
+				<field name="active" widget="boolean_toggle"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="reports_view_report_schedule_form" model="ir.ui.view">
+		<field name="name">aypatech_wooai.report.schedule.form</field>
+		<field name="model">aypatech_wooai.report.schedule</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_run_now" type="object" string="Run Now" class="btn-primary"/>
+				</header>
+				<sheet>
+					<div class="oe_title">
+						<label for="name"/>
+						<h1><field name="name"/></h1>
+					</div>
+					<group>
+						<group string="Agent">
+							<field name="agent_id" options="{'no_create': True}"/>
+							<field name="prompt"/>
+						</group>
+						<group string="Schedule">
+							<field name="frequency"/>
+							<field name="weekday" invisible="frequency != 'weekly'"/>
+							<field name="monthday" invisible="frequency != 'monthly'"/>
+							<field name="hour"/>
+							<field name="tz"/>
+							<field name="active"/>
+							<field name="next_run" readonly="1"/>
+							<field name="last_run" readonly="1"/>
+						</group>
+					</group>
+					<group>
+						<group string="E-mail Recipients">
+							<field name="user_ids" widget="many2many_tags"/>
+							<field name="emails"/>
+							<field name="lang"/>
+						</group>
+						<group string="Telegram">
+							<field name="telegram_enabled"/>
+							<field name="telegram_bot_token" password="True" invisible="not telegram_enabled"/>
+							<field name="telegram_chat_ids" invisible="not telegram_enabled"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Runs" name="runs">
+							<field name="run_ids" readonly="1">
+								<list>
+									<field name="create_date"/>
+									<field name="lang"/>
+									<field name="state"/>
+									<field name="sent_to"/>
+									<field name="telegram_sent_to"/>
+									<field name="pdf_error"/>
+									<button name="action_resend" type="object" string="Resend" icon="fa-paper-plane"/>
+								</list>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="reports_action_report_schedule" model="ir.actions.act_window">
+		<field name="name">Report Schedules</field>
+		<field name="res_model">aypatech_wooai.report.schedule</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+</odoo>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_agent.ai_ToolCard">
+        <div class="ayp_tool"
+             t-att-class="(this.props.streaming ? 'ayp_tool_streaming ' : '') + 'ayp_tool_' + this.kind + (this.scheduleModifierClass ? ' ' + this.scheduleModifierClass : '')"
+             t-att-data-expanded="this.props.expanded ? 1 : 0">
+            <button type="button" class="ayp_tool_head" t-on-click="() => this.onHeadClick()">
+                <t t-if="this.props.streaming">
+                    <span class="ayp_tool_icon d-inline-flex align-items-center justify-content-center">
+                        <i class="fa fa-circle-o-notch fa-spin" />
+                    </span>
+                </t>
+                <t t-elif="this.scheduleSummary">
+                    <i class="fa fa-chevron-right ayp_chevron" />
+                    <span class="ayp_tool_icon ayp_tool_schedule_icon d-inline-flex align-items-center justify-content-center">
+                        <i class="fa" t-att-class="this.scheduleSummary.icon" />
+                    </span>
+                </t>
+                <t t-else="">
+                    <i class="fa fa-chevron-right ayp_chevron" />
+                    <span class="ayp_tool_icon d-inline-flex align-items-center justify-content-center">
+                        <i class="fa fa-wrench" />
+                    </span>
+                </t>
+                <span class="ayp_tool_name" t-esc="this.props.block.label or this.props.block.name" />
+                <t t-if="this.scheduleSummary">
+                    <t t-if="!this.scheduleSummary.ok">
+                        <span class="ayp_tool_schedule_band ayp_tool_schedule_error text-danger small ms-2">
+                            <t t-esc="this.scheduleSummary.error"/>
+                            <t t-if="this.scheduleSummary.cap">: <t t-esc="this.scheduleSummary.cap"/></t>
+                        </span>
+                    </t>
+                    <t t-elif="this.scheduleSummary.name === 'schedule_resume'">
+                        <span class="ayp_tool_schedule_band small ms-2">
+                            <span class="text-muted">Paused — resumes </span>
+                            <span t-if="this.scheduleSummary.resumeAbsolute" t-esc="this.scheduleSummary.resumeAbsolute"/>
+                            <span t-if="this.scheduleSummary.resumeRelative" class="text-muted ms-1">
+                                (<t t-esc="this.scheduleSummary.resumeRelative"/>)
+                            </span>
+                            <span t-if="this.scheduleSummary.promptPreview"
+                                  class="ayp_tool_schedule_prompt d-block text-muted small mt-1"
+                                  t-att-title="this.scheduleSummary.promptFull">
+                                <span class="text-muted">Will ask: </span>
+                                <span>"<t t-esc="this.scheduleSummary.promptPreview"/>"</span>
+                            </span>
+                        </span>
+                    </t>
+                    <t t-elif="this.scheduleSummary.name === 'schedule_recur'">
+                        <span class="ayp_tool_schedule_band small ms-2">
+                            <span class="text-muted">Every </span>
+                            <span t-esc="this.scheduleSummary.everyText"/>
+                            <span class="text-muted"> · run </span>
+                            <span t-esc="this.scheduleSummary.runsDone"/>
+                            <span class="text-muted">/</span>
+                            <span t-if="this.scheduleSummary.maxRuns" t-esc="this.scheduleSummary.maxRuns"/>
+                            <span t-else="">∞</span>
+                            <t t-if="this.scheduleSummary.resumeAbsolute">
+                                <span class="text-muted"> · next </span>
+                                <span t-esc="this.scheduleSummary.resumeAbsolute"/>
+                                <span t-if="this.scheduleSummary.resumeRelative" class="text-muted ms-1">
+                                    (<t t-esc="this.scheduleSummary.resumeRelative"/>)
+                                </span>
+                            </t>
+                            <span t-if="this.scheduleSummary.promptPreview"
+                                  class="ayp_tool_schedule_prompt d-block text-muted small mt-1"
+                                  t-att-title="this.scheduleSummary.promptFull">
+                                <span class="text-muted">Each fire asks: </span>
+                                <span>"<t t-esc="this.scheduleSummary.promptPreview"/>"</span>
+                            </span>
+                        </span>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="ayp_tool_preview" t-esc="this.summary" />
+                </t>
+                <span class="ayp_tool_status" t-if="this.props.streaming">running…</span>
+            </button>
+            <t t-if="this.props.expanded and !this.props.streaming">
+                <div class="ayp_tool_body">
+                    <div class="ayp_tool_section" t-if="this.props.block.arguments">
+                        <div class="ayp_tool_section_label mb-1">Arguments</div>
+                        <pre class="language-json"><code class="language-json" t-out="this.renderedArgs"/></pre>
+                    </div>
+                    <div class="ayp_tool_section" t-if="this.props.block.result">
+                        <div class="ayp_tool_section_label mb-1">Result</div>
+                        <pre t-att-class="'language-' + this.resultLang"><code t-att-class="'language-' + this.resultLang" t-out="this.renderedResult"/></pre>
+                    </div>
+                    <div class="ayp_tool_section text-muted small" t-if="!this.props.block.result">
+                        <i class="fa fa-spinner fa-spin me-1" />Running…
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

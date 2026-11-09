@@ -218,3 +218,26 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Production secrets
+.env
+.env.*
+!.env.example
+
+# Database backups
+backups/
+*.dump
+*.sql
+*.sql.gz
+
+# Private keys
+*.pem
+*.key
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Odoo Enterprise source code
+odoo_20.0+e.20261003_all/

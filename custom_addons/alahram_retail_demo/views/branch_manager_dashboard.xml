@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cross Branch Reserve Form View -->
+    <record id="view_alahram_cross_branch_reserve_form" model="ir.ui.view">
+        <field name="name">alahram.cross.branch.reserve.form</field>
+        <field name="model">alahram.cross.branch.reserve</field>
+        <field name="arch" type="xml">
+            <form string="طلب حجز وتحويل مخزني فوري بين الفروع">
+                <header>
+                    <button name="action_confirm_reservation"
+                            string="1. تأكيد الحجز المبدئي"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_ship_to_transit"
+                            string="2. شحن البضاعة بالطريق (WH-TRANSIT)"
+                            type="object"
+                            class="btn-warning"
+                            invisible="state != 'reserved'"/>
+                    <button name="action_receive_at_branch"
+                            string="3. تأكيد الاستلام في صالة العرض"
+                            type="object"
+                            class="btn-success"
+                            invisible="state != 'shipped'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,reserved,shipped,received"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="رقم طلب التحويل"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="بيانات الصنف والعميل">
+                            <field name="partner_id"/>
+                            <field name="product_id"/>
+                            <field name="product_code"/>
+                            <field name="product_barcode"/>
+                            <field name="quantity"/>
+                        </group>
+                        <group string="مسار التحويل الثنائي (2-Step Transit)">
+                            <field name="src_warehouse_id"/>
+                            <field name="transit_location_id"/>
+                            <field name="dest_warehouse_id"/>
+                            <field name="picking_out_id"/>
+                            <field name="picking_in_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="ملاحظات التحويل">
+                            <field name="notes" placeholder="ملاحظات البائع وتفاصيل حجز العميل..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Cross Branch Reserve Tree View -->
+    <record id="view_alahram_cross_branch_reserve_tree" model="ir.ui.view">
+        <field name="name">alahram.cross.branch.reserve.list</field>
+        <field name="model">alahram.cross.branch.reserve</field>
+        <field name="arch" type="xml">
+            <list string="طلبات الحجز والتحويل بين الفروع">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="src_warehouse_id"/>
+                <field name="dest_warehouse_id"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state in ('reserved', 'shipped')"
+                       decoration-success="state == 'received'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action for Cross Branch Reserve -->
+    <record id="action_alahram_cross_branch_reserve" model="ir.actions.act_window">
+        <field name="name">طلبات الحجز والتحويل المخزني بين الفروع</field>
+        <field name="res_model">alahram.cross.branch.reserve</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                لا توجد طلبات تحويل جارية!
+            </p>
+            <p>
+                استخدم هذا النظام عند عجز أي صنف في صالة عرض سيدي جابر لطلب تحويله فوراً من مخزن فرع رشدي أو مخزن الإدارة عبر مسار البضاعة بالطريق.
+            </p>
+        </field>
+    </record>
+
+    <!-- Bridal Configurator Form View (Upgraded with Sector Selection, No Auto Discount, Multi-tier Approvals & POS Integration) -->
+    <record id="view_alahram_bridal_configurator_form" model="ir.ui.view">
+        <field name="name">alahram.bridal.configurator.form</field>
+        <field name="model">alahram.bridal.configurator</field>
+        <field name="arch" type="xml">
+            <form string="مُهيئ باكدج العروسة وتوليد عروض المبيعات الذكية">
+                <header>
+                    <button name="action_suggest_package_from_sectors"
+                            string="✨ اقتراح التشكيلة الذكية (بناءً على القطاعات والأسعار)"
+                            type="object"
+                            class="btn-primary"
+                            icon="fa-magic"
+                            invisible="state == 'sent_to_pos'"/>
+                    <button name="action_request_discount"
+                            string="📩 إرسال طلب اعتماد الخصم"
+                            type="object"
+                            class="btn-warning"
+                            icon="fa-paper-plane"
+                            invisible="state not in ('calculated', 'draft') or requested_discount_pct == 0 or discount_state in ('approved', 'pending_bm', 'pending_ops')"/>
+                    <button name="action_approve_discount_branch_manager"
+                            string="✅ اعتماد الخصم (مدير الفرع حتى 5%)"
+                            type="object"
+                            class="btn-success"
+                            icon="fa-check"
+                            invisible="discount_state != 'pending_bm'"/>
+                    <button name="action_approve_discount_ops_manager"
+                            string="🌟 اعتماد الخصم الاستثنائي (مدير العمليات حتى 7%)"
+                            type="object"
+                            class="btn-success"
+                            icon="fa-shield"
+                            invisible="discount_state not in ('pending_ops', 'pending_bm')"/>
+                    <button name="action_refuse_discount"
+                            string="❌ رفض طلب الخصم"
+                            type="object"
+                            class="btn-danger"
+                            icon="fa-times"
+                            invisible="discount_state not in ('pending_bm', 'pending_ops')"/>
+                    <button name="action_create_sale_order"
+                            string="📝 إصدار أمر البيع الرسمي"
+                            type="object"
+                            class="btn-secondary"
+                            icon="fa-shopping-cart"
+                            invisible="state != 'calculated' or discount_state in ('pending_bm', 'pending_ops')"/>
+                    <button name="action_send_to_pos"
+                            string="💳 تحويل مباشر للكاشير والـ POS (سيدي جابر)"
+                            type="object"
+                            class="btn-info"
+                            icon="fa-credit-card"
+                            invisible="state not in ('calculated', 'order_created') or discount_state in ('pending_bm', 'pending_ops')"/>
+                    <button name="action_cancel_package_and_reservation"
+                            string="❌ إلغاء الباكدج وحجز المخزون"
+                            type="object"
+                            class="btn-outline-danger"
+                            icon="fa-ban"
+                            invisible="state == 'draft'"
+                            confirm="هل أنت متأكد من إلغاء الباكدج وإلغاء حجز المخزون بالفروع المرتبطة؟"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,calculated,order_created,sent_to_pos"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="كود الباكدج"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <!-- Budget Feedback Alert Banner -->
+                    <div class="alert alert-info text-center" role="alert" invisible="not budget_feedback_message" style="font-weight: bold; font-size: 15px; margin-bottom: 12px; border-right: 5px solid #17a2b8;">
+                        <field name="budget_feedback_message" readonly="1"/>
+                    </div>
+
+                    <!-- Discount State Notification Banners -->
+                    <div class="alert alert-warning text-center" role="alert" invisible="discount_state != 'pending_bm'" style="font-weight: bold; font-size: 14px; margin-bottom: 12px; border-right: 5px solid #ffc107;">
+                        📢 طلب خصم بنسبة <strong><field name="requested_discount_pct" readonly="1"/>%</strong> بانتظار موافقة <strong>مدير الفرع (سيدي جابر)</strong> للاعتماد أو الرفض.
+                    </div>
+                    <div class="alert alert-danger text-center" role="alert" invisible="discount_state != 'pending_ops'" style="font-weight: bold; font-size: 14px; margin-bottom: 12px; border-right: 5px solid #dc3545;">
+                        🚨 طلب خصم استثنائي بنسبة <strong><field name="requested_discount_pct" readonly="1"/>%</strong> يتجاوز 5% ويتطلب حصرياً اعتماد <strong>مدير العمليات والتوسع (Operations Manager)</strong>.
+                    </div>
+                    <div class="alert alert-success text-center" role="alert" invisible="discount_state != 'approved'" style="font-weight: bold; font-size: 14px; margin-bottom: 12px; border-right: 5px solid #28a745;">
+                        ✅ تم اعتماد الخصم رسمياً بنسبة <strong><field name="requested_discount_pct" readonly="1"/>%</strong> بواسطة <field name="discount_approver_id" readonly="1"/>.
+                    </div>
+                    <div class="alert alert-dark text-center" role="alert" invisible="discount_state != 'refused'" style="font-weight: bold; font-size: 14px; margin-bottom: 12px; border-right: 5px solid #6c757d;">
+                        ❌ تم رفض طلب الخصم من قبل الإدارة. يطبق السعر الأصلي للباكدج كاملاً دون أي خصم.
+                    </div>
+
+                    <group>
+                        <group string="بيانات العميل والميزانية المستهدفة">
+                            <field name="partner_id"/>
+                            <field name="package_tier"/>
+                            <field name="target_budget"/>
+                            <field name="lower_bound"/>
+                            <field name="preferred_upper_bound"/>
+                            <field name="absolute_upper_bound"/>
+                            <field name="recommendation_type"/>
+                            <field name="budget_match_status" widget="badge"
+                                   decoration-success="budget_match_status in ('matches_budget', 'within_preferred')"
+                                   decoration-info="budget_match_status == 'below_budget'"
+                                   decoration-warning="budget_match_status == 'slightly_above_preferred'"
+                                   decoration-danger="budget_match_status in ('out_of_bounds', 'no_solution')"/>
+                        </group>
+                        <group string="الحساب المالي وحوكمة الخصومات">
+                            <field name="total_original_price"/>
+                            <field name="tax_amount"/>
+                            <field name="tax_included_total"/>
+                            <field name="budget_variance"/>
+                            <field name="requested_discount_pct"/>
+                            <field name="discount_state" widget="badge"
+                                   decoration-info="discount_state == 'no_discount'"
+                                   decoration-warning="discount_state == 'pending_bm'"
+                                   decoration-danger="discount_state == 'pending_ops'"
+                                   decoration-success="discount_state == 'approved'"
+                                   decoration-muted="discount_state == 'refused'"/>
+                            <field name="package_discount_amount" invisible="package_discount_amount == 0"/>
+                            <field name="final_package_price" widget="monetary" style="font-weight: bold; font-size: 17px; color: #1b5e20;"/>
+                            <field name="total_savings_percentage" widget="percentage" invisible="total_savings_percentage == 0"/>
+                            <field name="recommendation_reason" readonly="1" invisible="not recommendation_reason"/>
+                        </group>
+                    </group>
+
+                    <!-- Sector / Category Selection Section -->
+                    <group string="🎯 اختيار القطاعات والمكونات المطلوب تجهيزها في جهاز العروسة (حدد القطاعات المطلوبة)">
+                        <group string="🍳 قطاعات الطهي والحلل وصواني الفرن">
+                            <field name="sector_granite"/>
+                            <field name="sector_stainless"/>
+                            <field name="sector_aluminum"/>
+                            <field name="sector_bakeware"/>
+                            <field name="sector_frypans"/>
+                        </group>
+                        <group string="🔌 الأجهزة الكهربائية وأدوات التقديم والمائدة">
+                            <field name="sector_appliances"/>
+                            <field name="sector_cutlery"/>
+                            <field name="sector_serveware"/>
+                            <field name="sector_accessories"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="🍳 تشكيلة أصناف الباكدج والتوافر بالفروع">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="product_barcode"/>
+                                    <field name="category_name"/>
+                                    <field name="quantity"/>
+                                    <field name="unit_price"/>
+                                    <field name="price_subtotal"/>
+                                    <field name="is_alternative"/>
+                                    <field name="original_product_id" invisible="not is_alternative"/>
+                                    <field name="source_warehouse_id"/>
+                                    <field name="fulfillment_type"/>
+                                    <field name="sourcing_status" widget="badge"
+                                           decoration-success="sourcing_status in ('local_available', 'local_reserved', 'received')"
+                                           decoration-info="sourcing_status in ('remote_available', 'transfer_requested', 'in_transit')"
+                                           decoration-warning="sourcing_status in ('source_pickup_ready', 'direct_delivery_ready')"
+                                           decoration-danger="sourcing_status in ('waitlisted', 'exception')"/>
+                                    <field name="allocation_id" readonly="1" optional="hide"/>
+                                    <field name="picking_id" readonly="1" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="🚚 تفاصيل التجهيز وحجز الفروع">
+                            <group>
+                                <group string="استراتيجية التجهيز والتسليم">
+                                    <field name="warehouse_id" readonly="1"/>
+                                    <field name="reservation_id" readonly="1"/>
+                                    <field name="fulfillment_strategy"/>
+                                    <field name="delivery_preference"/>
+                                    <field name="expected_delivery_date"/>
+                                </group>
+                                <group string="أوامر البيع والكاشير">
+                                    <field name="sale_order_id" readonly="1"/>
+                                    <field name="pos_order_id" readonly="1"/>
+                                    <field name="pos_session_id" readonly="1"/>
+                                    <field name="salesperson_id" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="🔒 سجل الاعتمادات وحوكمة الخصم">
+                            <group>
+                                <group string="بيانات اعتماد الخصم">
+                                    <field name="discount_approver_id" readonly="1"/>
+                                    <field name="discount_approval_date" readonly="1"/>
+                                    <field name="discount_refusal_reason" readonly="1" invisible="not discount_refusal_reason"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="توصيات وملاحظات">
+                            <field name="customer_notes" placeholder="ملاحظات العميل الخاصة..."/>
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Bridal Configurator Tree View -->
+    <record id="view_alahram_bridal_configurator_tree" model="ir.ui.view">
+        <field name="name">alahram.bridal.configurator.list</field>
+        <field name="model">alahram.bridal.configurator</field>
+        <field name="arch" type="xml">
+            <list string="باكدجات العرائس الذكية">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="target_budget"/>
+                <field name="total_original_price"/>
+                <field name="budget_variance"/>
+                <field name="budget_match_status" widget="badge"
+                       decoration-success="budget_match_status in ('matches_budget', 'within_preferred')"
+                       decoration-info="budget_match_status == 'below_budget'"
+                       decoration-warning="budget_match_status == 'slightly_above_preferred'"
+                       decoration-danger="budget_match_status in ('out_of_bounds', 'no_solution')"/>
+                <field name="recommendation_type" optional="show"/>
+                <field name="discount_state" widget="badge"
+                       decoration-info="discount_state == 'no_discount'"
+                       decoration-warning="discount_state == 'pending_bm'"
+                       decoration-danger="discount_state == 'pending_ops'"
+                       decoration-success="discount_state == 'approved'"/>
+                <field name="final_package_price"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'calculated'"
+                       decoration-success="state in ('order_created', 'sent_to_pos')"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action for Bridal Configurator: Scene 4 -->
+    <record id="action_alahram_bridal_configurator" model="ir.actions.act_window">
+        <field name="name">المشهد 4 — تجهيز باكدج العروسة الذكي</field>
+        <field name="res_model">alahram.bridal.configurator</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
+

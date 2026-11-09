@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<record id="reports_view_report_run_list" model="ir.ui.view">
+		<field name="name">aypatech_wooai.report.run.list</field>
+		<field name="model">aypatech_wooai.report.run</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="name"/>
+				<field name="agent_id"/>
+				<field name="schedule_id"/>
+				<field name="create_date"/>
+				<field name="state"/>
+				<field name="sent_at"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="reports_view_report_run_form" model="ir.ui.view">
+		<field name="name">aypatech_wooai.report.run.form</field>
+		<field name="model">aypatech_wooai.report.run</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_resend" type="object" string="Resend" class="btn-primary"/>
+				</header>
+				<sheet>
+					<div class="oe_title">
+						<h1><field name="name"/></h1>
+					</div>
+					<group>
+						<field name="agent_id" readonly="1"/>
+						<field name="schedule_id" readonly="1"/>
+						<field name="state"/>
+						<field name="pdf_id" readonly="1"/>
+						<field name="pdf_error" invisible="not pdf_error"/>
+						<field name="sent_to" invisible="not sent_to"/>
+						<field name="telegram_sent_to" invisible="not telegram_sent_to"/>
+						<field name="error" invisible="not error"/>
+					</group>
+					<field name="body_html" readonly="1"/>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="reports_action_report_run" model="ir.actions.act_window">
+		<field name="name">AI Reports</field>
+		<field name="res_model">aypatech_wooai.report.run</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+</odoo>

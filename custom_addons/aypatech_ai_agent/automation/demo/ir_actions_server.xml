@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo noupdate="1">
+
+    <record id="automation_demo_agent_action_partner_summary" model="ir.actions.server">
+        <field name="name">Summarize New Partner</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="state">wooai_agent</field>
+        <field name="agent_id" ref="aypatech_ai_agent.ai_agent_general"/>
+        <field name="wooai_agent_prompt">Summarize this new partner: {{ record.display_name }} ({{ record.email }})</field>
+        <field name="wooai_agent_dispatch_mode">per_record</field>
+    </record>
+
+</odoo>

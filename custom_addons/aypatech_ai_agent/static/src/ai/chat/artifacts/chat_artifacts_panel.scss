@@ -1,0 +1,164 @@
+.ayp_chat {
+    .ayp_artifacts_panel {
+        flex: 0 0 340px;
+        min-width: 0;
+        border-left: 1px solid var(--ayp-border);
+        background: var(--ayp-bg);
+        z-index: 4;
+    }
+    .ayp_artifacts_header {
+        min-height: 45px;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--ayp-border);
+        background: var(--ayp-bg-muted);
+        gap: 0.5rem;
+    }
+    .ayp_artifacts_title {
+        font-size: 0.85rem;
+        color: var(--ayp-text);
+    }
+    .ayp_artifacts_close {
+        color: var(--ayp-text-muted);
+        text-decoration: none;
+        line-height: 1;
+        &:hover {
+            color: var(--ayp-text);
+        }
+    }
+    .ayp_artifacts_tabs {
+        gap: 0.25rem;
+        padding: 0.4rem 0.5rem 0;
+        border-bottom: 1px solid var(--ayp-border);
+        background: var(--ayp-bg);
+    }
+    .ayp_artifacts_tab {
+        font-size: 0.78rem;
+        color: var(--ayp-text-muted);
+        text-decoration: none;
+        padding: 0.3rem 0.55rem;
+        border-radius: 6px 6px 0 0;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+        &:hover {
+            color: var(--ayp-text);
+        }
+        &.active {
+            color: var(--ayp-primary);
+            border-bottom-color: var(--ayp-primary);
+        }
+    }
+    .ayp_artifacts_body {
+        overflow-y: auto;
+        min-height: 0;
+        padding: 0.6rem;
+    }
+    .ayp_artifacts_attachments_list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        .ayp_att_card {
+            width: 100%;
+        }
+    }
+    .ayp_source_list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 0.4rem;
+    }
+    .ayp_sources_more_btn {
+        margin-top: 0.45rem;
+        padding: 0.25rem 0.65rem;
+        border: 1px dashed var(--ayp-border);
+        border-radius: 8px;
+        background: transparent;
+        color: var(--ayp-text-muted);
+        font-size: 0.74rem;
+        cursor: pointer;
+        transition:
+            color 0.12s ease,
+            border-color 0.12s ease;
+        &:hover {
+            color: var(--ayp-text);
+            border-color: var(--ayp-primary);
+        }
+    }
+    .ayp_source_card {
+        gap: 0.55rem;
+        padding: 0.5rem 0.6rem;
+        border: 1px solid var(--ayp-border);
+        border-radius: 10px;
+        background: var(--ayp-bg);
+        text-decoration: none;
+        color: var(--ayp-text);
+        min-width: 0;
+        transition:
+            border-color 0.12s ease,
+            box-shadow 0.12s ease,
+            transform 0.12s ease;
+        &:hover {
+            border-color: var(--ayp-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
+            color: var(--ayp-text);
+            .ayp_source_go {
+                opacity: 1;
+            }
+        }
+    }
+    .ayp_source_ico {
+        flex: 0 0 auto;
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        background: var(--ayp-bg-muted);
+        color: var(--ayp-text-muted);
+        overflow: hidden;
+        font-size: 0.8rem;
+        .ayp_source_icon {
+            width: 100%;
+            height: 100%;
+            padding: 2px;
+            object-fit: contain;
+        }
+    }
+    .ayp_source_ico_web {
+        color: var(--ayp-primary);
+    }
+    .ayp_source_body {
+        min-width: 0;
+        gap: 0.05rem;
+    }
+    .ayp_source_title {
+        font-size: 0.8rem;
+        font-weight: 500;
+        line-height: 1.25;
+    }
+    .ayp_source_origin {
+        font-size: 0.7rem;
+        line-height: 1.2;
+        color: var(--ayp-text-muted);
+    }
+    .ayp_source_go {
+        flex: 0 0 auto;
+        margin-left: auto;
+        color: var(--ayp-text-muted);
+        font-size: 0.72rem;
+        opacity: 0;
+        transition: opacity 0.12s ease;
+    }
+    .ayp_artifacts_empty {
+        text-align: center;
+    }
+    @media (max-width: 1199px) {
+        .ayp_artifacts_panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 340px;
+            max-width: 90vw;
+            box-shadow: -2px 0 12px rgba(0, 0, 0, 0.12);
+            z-index: 25;
+        }
+    }
+}
