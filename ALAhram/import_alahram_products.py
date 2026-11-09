@@ -67,8 +67,9 @@ def main():
     config.parse_config(["-c", "/etc/odoo/odoo.conf", "-d", "odoo20"])
     registry = Registry("odoo20")
 
-    csv_b64_path = "/mnt/ALAhram/scraped_products/alahram_odoo_products_with_base64_50.csv"
-    csv_url_path = "/mnt/ALAhram/scraped_products/alahram_odoo_products_50.csv"
+    export_dir = "/mnt/ALAhram/alahram_odoo_export" if os.path.exists("/mnt/ALAhram/alahram_odoo_export") else "/mnt/ALAhram/scraped_products"
+    csv_b64_path = os.path.join(export_dir, "alahram_odoo_products_with_base64_50.csv")
+    csv_url_path = os.path.join(export_dir, "alahram_odoo_products_50.csv")
 
     if not os.path.exists(csv_b64_path):
         print(f"[!] Error: File not found: {csv_b64_path}")

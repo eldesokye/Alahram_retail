@@ -6,6 +6,8 @@ import { useService } from "@web/core/utils/hooks";
 import { usePos } from "@point_of_sale/app/hooks/pos_hook";
 import { useBarcodeReader } from "@point_of_sale/app/hooks/barcode_reader_hook";
 import { _t } from "@web/core/l10n/translation";
+import { PartnerList } from "@point_of_sale/app/screens/partner_list/partner_list";
+import { makeAwaitable } from "@point_of_sale/app/utils/make_awaitable_dialog";
 
 export class BranchReservationDialog extends Component {
     static template = "alahram_retail_demo.BranchReservationDialog";
@@ -16,17 +18,24 @@ export class BranchReservationDialog extends Component {
         this.pos = usePos();
         this.orm = useService("orm");
         this.notification = useService("notification");
+        this.dialog = useService("dialog");
         this.ui = useService("ui");
 
         const props = this.props || {};
         const currentOrder = this.pos.getOrder ? this.pos.getOrder() : null;
         const initialPartner = currentOrder && currentOrder.getPartner ? currentOrder.getPartner() : null;
 
+        const customerName = props.customerName || (initialPartner ? (initialPartner.name || "") : "");
+        const customerPhone = props.customerPhone || (initialPartner ? (initialPartner.phone || initialPartner.mobile || "") : "");
+        const partnerId = props.partnerId || (initialPartner ? initialPartner.id : false);
+
+        this.lastSelectedPartnerName = partnerId ? customerName : "";
+
         this.state = proxy({
             searchQuery: "",
-            customerName: props.customerName || (initialPartner ? (initialPartner.name || "") : ""),
-            customerPhone: props.customerPhone || (initialPartner ? (initialPartner.phone || initialPartner.mobile || "") : ""),
-            partnerId: props.partnerId || (initialPartner ? initialPartner.id : false),
+            customerName: customerName,
+            customerPhone: customerPhone,
+            partnerId: partnerId,
             bridalPackageId: props.bridalPackageId || false,
             bridalPackageName: props.bridalPackageName || "",
             addToCart: props.bridalPackageId ? false : true,
@@ -62,6 +71,66 @@ export class BranchReservationDialog extends Component {
     closeDialog() {
         if (typeof this.props?.close === "function") {
             this.props.close();
+        }
+    }
+
+    onCustomerNameInput(value) {
+        this.state.customerName = value;
+        if (this.state.partnerId && this.lastSelectedPartnerName && value.trim() !== this.lastSelectedPartnerName.trim()) {
+            this.state.partnerId = false;
+        }
+    }
+
+    onCustomerPhoneInput(value) {
+        this.state.customerPhone = value;
+    }
+
+    clearPartner() {
+        this.state.partnerId = false;
+        this.lastSelectedPartnerName = "";
+    }
+
+    async selectPartner() {
+        const dialogService = this.dialog || this.env?.services?.dialog || this.pos?.dialog;
+        if (!dialogService) {
+            console.error("Dialog service not found on component:", this);
+            return;
+        }
+
+        const currentOrder = this.pos.getOrder ? this.pos.getOrder() : null;
+        let currentPartner = null;
+        if (this.state.partnerId) {
+            currentPartner = (this.pos.models?.["res.partner"]?.get ? this.pos.models["res.partner"].get(this.state.partnerId) : null) ||
+                             (this.pos.models?.["res.partner"]?.records ? this.pos.models["res.partner"].records.find(p => p.id === this.state.partnerId) : null) ||
+                             (currentOrder?.getPartner?.()?.id === this.state.partnerId ? currentOrder.getPartner() : null);
+        } else if (currentOrder?.getPartner) {
+            currentPartner = currentOrder.getPartner();
+        }
+
+        try {
+            const partner = await makeAwaitable(dialogService, PartnerList, {
+                partner: currentPartner || null,
+            });
+
+            if (partner) {
+                this.state.customerName = partner.name || "";
+                this.state.customerPhone = partner.phone || partner.mobile || "";
+                this.state.partnerId = partner.id;
+                this.lastSelectedPartnerName = partner.name || "";
+
+                // Synchronize with the current POS order
+                if (currentOrder && currentOrder.getPartner?.()?.id !== partner.id) {
+                    if (typeof currentOrder.setPartner === "function") {
+                        currentOrder.setPartner(partner);
+                    } else if (typeof currentOrder.set_partner === "function") {
+                        currentOrder.set_partner(partner);
+                    } else if (typeof this.pos.setPartnerToCurrentOrder === "function") {
+                        this.pos.setPartnerToCurrentOrder(partner);
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Error in selectPartner dialog:", err);
         }
     }
 
@@ -361,6 +430,17 @@ export class BranchReservationDialog extends Component {
                         order = this.pos.addNewOrder();
                     }
                     if (order) {
+                        if (this.state.partnerId && order.getPartner?.()?.id !== this.state.partnerId) {
+                            const partner = (this.pos.models?.["res.partner"]?.get ? this.pos.models["res.partner"].get(this.state.partnerId) : null) ||
+                                            (this.pos.models?.["res.partner"]?.records ? this.pos.models["res.partner"].records.find(p => p.id === this.state.partnerId) : null);
+                            if (partner) {
+                                if (typeof order.setPartner === "function") {
+                                    order.setPartner(partner);
+                                } else if (typeof order.set_partner === "function") {
+                                    order.set_partner(partner);
+                                }
+                            }
+                        }
                         for (const item of this.state.selectedItems) {
                             for (const alloc of item.allocations) {
                                 if (alloc.qty > 0) {

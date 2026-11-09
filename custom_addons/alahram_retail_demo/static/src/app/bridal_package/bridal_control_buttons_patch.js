@@ -3,8 +3,6 @@
 import { patch } from "@web/core/utils/patch";
 import { Navbar } from "@point_of_sale/app/components/navbar/navbar";
 import { BurgerMenuDialog } from "@point_of_sale/app/components/navbar/burger_menu/burger_menu_dialog";
-import { ControlButtons } from "@point_of_sale/app/screens/product_screen/control_buttons/control_buttons";
-import { ActionpadWidget } from "@point_of_sale/app/screens/product_screen/action_pad/action_pad";
 import { BridalPackageDialog } from "@alahram_retail_demo/app/bridal_package/bridal_package_dialog";
 
 function launchBridalPackageDialog(componentInstance) {
@@ -35,16 +33,3 @@ patch(BurgerMenuDialog.prototype, {
         launchBridalPackageDialog(this);
     },
 });
-
-patch(ActionpadWidget.prototype, {
-    onClickBridalPackage() {
-        launchBridalPackageDialog(this);
-    },
-});
-
-patch(ControlButtons.prototype, {
-    onClickBridalPackage() {
-        launchBridalPackageDialog(this);
-    },
-});
-

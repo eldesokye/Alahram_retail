@@ -37,6 +37,26 @@
                         </li>
                     </ul>
 
+                    <!-- Customer Quick Selection Pill -->
+                    <div class="d-flex align-items-center bg-white px-2 py-1 rounded border shadow-sm me-2">
+                        <button type="button" 
+                                class="btn btn-sm d-flex align-items-center gap-1 text-nowrap"
+                                t-att-class="this.state.partnerId ? 'btn-outline-success fw-bold' : 'btn-outline-danger'"
+                                t-on-click="() => this.selectPartner()"
+                                title="اختيار / تغيير العميل من نقطة البيع">
+                            <i class="oi oi-user"/>
+                            <span t-if="this.state.customerName" class="text-truncate" style="max-width: 140px;" t-esc="this.state.customerName"/>
+                            <span t-else="">اختيار عميل / العروسة</span>
+                        </button>
+                        <button t-if="this.state.partnerId" 
+                                type="button" 
+                                class="btn btn-sm btn-link text-muted p-0 ms-1" 
+                                t-on-click="() => this.clearPartner()" 
+                                title="إلغاء ربط العميل">
+                            <i class="oi oi-close"/>
+                        </button>
+                    </div>
+
                     <!-- Summary Widget -->
                     <div class="d-flex align-items-center gap-3 bg-white px-3 py-1 rounded border shadow-sm">
                         <div class="text-center">
@@ -345,17 +365,44 @@
                         <!-- Left Column: Customer & Target Budget -->
                         <div class="col-md-5">
                             <div class="card h-100 shadow-sm border">
-                                <div class="card-header bg-light fw-bold text-dark">
-                                    <i class="oi oi-user me-1"/> بيانات العروسة والميزانية المستهدفة
+                                <div class="card-header bg-light fw-bold text-dark d-flex justify-content-between align-items-center">
+                                    <span><i class="oi oi-user me-1"/> بيانات العروسة والميزانية المستهدفة</span>
+                                    <span t-if="this.state.partnerId" class="badge bg-success-subtle text-success border border-success-subtle py-1 px-2">
+                                        <i class="oi oi-check-circle me-1"/>مسجل بالنظام
+                                    </span>
                                 </div>
                                 <div class="card-body d-flex flex-column gap-3">
                                     <div>
-                                        <label class="form-label fw-bold small text-muted">اسم العروسة / العميل:</label>
-                                        <input type="text" class="form-control" placeholder="اسم العميل الكامل..." t-model.proxy="this.state.customerName"/>
+                                        <label class="form-label fw-bold small text-muted mb-1">اسم العروسة / العميل:</label>
+                                        <div class="input-group">
+                                            <button type="button" 
+                                                    class="btn btn-danger d-flex align-items-center gap-1"
+                                                    t-on-click="() => this.selectPartner()"
+                                                    title="فتح شاشة العملاء لاختيار أو إنشاء عميل جديد">
+                                                <i class="oi oi-user"/>
+                                                <span t-if="!this.state.customerName" class="d-none d-sm-inline">اختيار عميل</span>
+                                            </button>
+                                            <input type="text" 
+                                                   class="form-control" 
+                                                   placeholder="اختيار أو كتابة اسم العروسة..." 
+                                                   t-att-value="this.state.customerName"
+                                                   t-on-input="(e) => this.onCustomerNameInput(e.target.value)"/>
+                                            <button t-if="this.state.partnerId" 
+                                                    type="button" 
+                                                    class="btn btn-outline-secondary" 
+                                                    t-on-click="() => this.clearPartner()" 
+                                                    title="إلغاء الربط">
+                                                <i class="oi oi-close"/>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div>
-                                        <label class="form-label fw-bold small text-muted">رقم الهاتف:</label>
-                                        <input type="text" class="form-control" placeholder="01xxxxxxxxx" t-model.proxy="this.state.customerPhone"/>
+                                        <label class="form-label fw-bold small text-muted mb-1">رقم الهاتف:</label>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               placeholder="01xxxxxxxxx" 
+                                               t-att-value="this.state.customerPhone"
+                                               t-on-input="(e) => this.onCustomerPhoneInput(e.target.value)"/>
                                     </div>
                                     <div>
                                         <label class="form-label fw-bold small text-muted">الميزانية المستهدفة (ج.م):</label>

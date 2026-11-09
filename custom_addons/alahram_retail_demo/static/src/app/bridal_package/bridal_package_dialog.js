@@ -6,6 +6,8 @@ import { useService } from "@web/core/utils/hooks";
 import { usePos } from "@point_of_sale/app/hooks/pos_hook";
 import { _t } from "@web/core/l10n/translation";
 import { BranchReservationDialog } from "@alahram_retail_demo/app/branch_reservation/branch_reservation_dialog";
+import { PartnerList } from "@point_of_sale/app/screens/partner_list/partner_list";
+import { makeAwaitable } from "@point_of_sale/app/utils/make_awaitable_dialog";
 
 export class BridalPackageDialog extends Component {
     static template = "alahram_retail_demo.BridalPackageDialog";
@@ -21,11 +23,17 @@ export class BridalPackageDialog extends Component {
         const currentOrder = this.pos.getOrder ? this.pos.getOrder() : null;
         const initialPartner = currentOrder && currentOrder.getPartner ? currentOrder.getPartner() : null;
 
+        const customerName = initialPartner ? (initialPartner.name || "") : "";
+        const customerPhone = initialPartner ? (initialPartner.phone || initialPartner.mobile || "") : "";
+        const partnerId = initialPartner ? initialPartner.id : false;
+
+        this.lastSelectedPartnerName = partnerId ? customerName : "";
+
         this.state = proxy({
             activeTab: "lines", // "setup", "lines", "discount"
-            customerName: initialPartner ? (initialPartner.name || "") : "",
-            customerPhone: initialPartner ? (initialPartner.phone || initialPartner.mobile || "") : "",
-            partnerId: initialPartner ? initialPartner.id : false,
+            customerName: customerName,
+            customerPhone: customerPhone,
+            partnerId: partnerId,
             targetBudget: 20000.0,
             packageTier: "gold_20k",
             lowerBound: 18000.0,
@@ -119,6 +127,66 @@ export class BridalPackageDialog extends Component {
             return (0).toFixed(decimals);
         }
         return num.toFixed(decimals);
+    }
+
+    onCustomerNameInput(value) {
+        this.state.customerName = value;
+        if (this.state.partnerId && this.lastSelectedPartnerName && value.trim() !== this.lastSelectedPartnerName.trim()) {
+            this.state.partnerId = false;
+        }
+    }
+
+    onCustomerPhoneInput(value) {
+        this.state.customerPhone = value;
+    }
+
+    clearPartner() {
+        this.state.partnerId = false;
+        this.lastSelectedPartnerName = "";
+    }
+
+    async selectPartner() {
+        const dialogService = this.dialog || this.env?.services?.dialog || this.pos?.dialog;
+        if (!dialogService) {
+            console.error("Dialog service not found on component:", this);
+            return;
+        }
+
+        const currentOrder = this.pos.getOrder ? this.pos.getOrder() : null;
+        let currentPartner = null;
+        if (this.state.partnerId) {
+            currentPartner = (this.pos.models?.["res.partner"]?.get ? this.pos.models["res.partner"].get(this.state.partnerId) : null) ||
+                             (this.pos.models?.["res.partner"]?.records ? this.pos.models["res.partner"].records.find(p => p.id === this.state.partnerId) : null) ||
+                             (currentOrder?.getPartner?.()?.id === this.state.partnerId ? currentOrder.getPartner() : null);
+        } else if (currentOrder?.getPartner) {
+            currentPartner = currentOrder.getPartner();
+        }
+
+        try {
+            const partner = await makeAwaitable(dialogService, PartnerList, {
+                partner: currentPartner || null,
+            });
+
+            if (partner) {
+                this.state.customerName = partner.name || "";
+                this.state.customerPhone = partner.phone || partner.mobile || "";
+                this.state.partnerId = partner.id;
+                this.lastSelectedPartnerName = partner.name || "";
+
+                // Synchronize with the current POS order
+                if (currentOrder && currentOrder.getPartner?.()?.id !== partner.id) {
+                    if (typeof currentOrder.setPartner === "function") {
+                        currentOrder.setPartner(partner);
+                    } else if (typeof currentOrder.set_partner === "function") {
+                        currentOrder.set_partner(partner);
+                    } else if (typeof this.pos.setPartnerToCurrentOrder === "function") {
+                        this.pos.setPartnerToCurrentOrder(partner);
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Error in selectPartner dialog:", err);
+        }
     }
 
     onTargetBudgetChange(newBudget) {
