@@ -173,9 +173,13 @@ def main():
     config.parse_config(["-c", "/etc/odoo/odoo.conf", "-d", "odoo20"])
     registry = Registry("odoo20")
 
-    csv_path = "/mnt/ALAhram/scraped_products/products_with_base64.csv"
-    if not os.path.exists(csv_path):
-        csv_path = "/mnt/ALAhram/scraped_products/alahram_odoo_products_with_base64_50.csv"
+    candidates = [
+        "/mnt/ALAhram/alahram_odoo_export/alahram_odoo_products_with_base64_50.csv",
+        "/mnt/ALAhram/alahram_odoo_export/products.csv",
+        "/mnt/ALAhram/scraped_products/products_with_base64.csv",
+        "/mnt/ALAhram/scraped_products/alahram_odoo_products_with_base64_50.csv",
+    ]
+    csv_path = next((p for p in candidates if os.path.exists(p)), candidates[0])
 
     print(f"[*] Reading products from: {csv_path}")
 
