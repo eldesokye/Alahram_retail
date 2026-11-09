@@ -20,12 +20,41 @@
                 <div class="card bg-light p-3 border-0 shadow-sm">
                     <div class="row g-2 align-items-center">
                         <div class="col-md-5">
-                            <label class="form-label fw-bold text-muted small">اسم العميل</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="اسم العميل أو العروسة..." t-model.proxy="this.state.customerName"/>
+                            <label class="form-label fw-bold text-muted small d-flex justify-content-between align-items-center mb-1">
+                                <span>اسم العميل / العروسة</span>
+                                <span t-if="this.state.partnerId" class="badge bg-success-subtle text-success border border-success-subtle py-1 px-2">
+                                    <i class="oi oi-check-circle me-1"/>مسجل بالنظام
+                                </span>
+                            </label>
+                            <div class="input-group">
+                                <button type="button" 
+                                        class="btn btn-primary d-flex align-items-center gap-1"
+                                        t-on-click="() => this.selectPartner()"
+                                        title="اختيار / إضافة عميل من قاعدة بيانات نقطة البيع">
+                                    <i class="oi oi-user"/>
+                                    <span t-if="!this.state.customerName" class="d-none d-sm-inline">اختيار عميل</span>
+                                </button>
+                                <input type="text" 
+                                       class="form-control form-control-lg" 
+                                       placeholder="اختيار عميل أو كتابة الاسم..." 
+                                       t-att-value="this.state.customerName" 
+                                       t-on-input="(e) => this.onCustomerNameInput(e.target.value)"/>
+                                <button t-if="this.state.partnerId" 
+                                        type="button" 
+                                        class="btn btn-outline-secondary" 
+                                        t-on-click="() => this.clearPartner()" 
+                                        title="إلغاء ربط العميل">
+                                    <i class="oi oi-close"/>
+                                </button>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold text-muted small">رقم الهاتف</label>
-                            <input type="text" class="form-control form-control-lg text-start" placeholder="01xxxxxxxxx" t-model.proxy="this.state.customerPhone"/>
+                            <label class="form-label fw-bold text-muted small mb-1">رقم الهاتف</label>
+                            <input type="text" 
+                                   class="form-control form-control-lg text-start" 
+                                   placeholder="01xxxxxxxxx" 
+                                   t-att-value="this.state.customerPhone"
+                                   t-on-input="(e) => this.onCustomerPhoneInput(e.target.value)"/>
                         </div>
                         <div class="col-md-3 d-flex align-items-end">
                             <div class="form-check form-switch fs-5 pb-1">
