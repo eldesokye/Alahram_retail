@@ -12,4 +12,5 @@ access_alahram_branch_reservation_user,alahram.branch.reservation.user,alahram.b
 access_alahram_branch_reservation_line_user,alahram.branch.reservation.line.user,alahram.branch.reservation.line,base.group_user,crud,
 access_alahram_branch_reservation_allocation_user,alahram.branch.reservation.allocation.user,alahram.branch.reservation.allocation,base.group_user,crud,
 access_alahram_branch_waitlist_line_user,alahram.branch.waitlist.line.user,alahram.branch.waitlist.line,base.group_user,crud,
+access_alahram_executive_dashboard_user,alahram.executive.dashboard.user,alahram.executive.dashboard,base.group_user,crud,
 rule_pos_order_branch_manager,POS Order Sidi Gaber BM,pos.order,alahram_retail_demo.group_alahram_branch_manager,r,"[('config_id.name', 'ilike', 'سيدي جابر')]"

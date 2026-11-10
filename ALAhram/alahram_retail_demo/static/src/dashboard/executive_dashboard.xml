@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="alahram_retail_demo.ExecutiveDashboard">
+        <div class="o_action alahram_dashboard_action o_action_delegate_scroll" t-att-class="this.props?.className">
+            <div class="o_content alahram-dashboard-container p-3 p-md-4" dir="rtl">
+
+            <!-- 1. EXECUTIVE HEADER -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 bg-white p-3 p-md-4 rounded-3 shadow-sm border-start border-primary border-5">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="badge bg-primary px-2 py-1 fs-6">شركة الأهرام للرعاية المنزلية والأدوات المنزلية</span>
+                        <span class="badge bg-dark px-2 py-1 fs-6">Odoo 20 Enterprise BI</span>
+                    </div>
+                    <h2 class="fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                        <i class="oi oi-view-list text-primary fs-3"/>
+                        لوحة التحكم والتحليلات التنفيذية للإدارة العليا
+                    </h2>
+                    <small class="text-muted">مؤشرات أداء المبيعات، المخزون، الربحية، المصروفات، وتوصيات الأعمال المباشرة من قاعدة البيانات</small>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-primary d-flex align-items-center gap-2 px-3 py-2 fw-semibold shadow-sm"
+                            t-on-click="() => this.refresh()">
+                        <i class="oi oi-refresh" t-att-class="{'fa-spin': this.state.loading}"/>
+                        <span>تحديث البيانات الحية</span>
+                    </button>
+                    <button class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2 fw-semibold shadow-sm"
+                            t-on-click="() => this.openBranchAnalyticsList()">
+                        <i class="oi oi-folder"/>
+                        <span>التقارير التفصيلية المجمعة</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. GLOBAL FILTERS BAR -->
+            <div class="card border-0 shadow-sm mb-4 bg-light">
+                <div class="card-body p-3">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted mb-1">
+                                <i class="oi oi-home me-1"/> تصفية حسب الفرع:
+                            </label>
+                            <select class="form-select form-select-lg fw-semibold"
+                                    t-att-value="this.state.selectedBranch"
+                                    t-on-change="(ev) => this.onBranchChange(ev)">
+                                <option value="">🏢 جميع الفروع والمنافذ (المستوى المجمع)</option>
+                                <t t-if="this.state.data and this.state.data.filters_metadata">
+                                    <t t-foreach="this.state.data.filters_metadata.branches" t-as="b" t-key="b.code">
+                                        <option t-att-value="b.code" t-esc="b.name"/>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted mb-1">
+                                <i class="oi oi-cube me-1"/> تصفية حسب المستودع / المخزن:
+                            </label>
+                            <select class="form-select form-select-lg fw-semibold"
+                                    t-att-value="this.state.selectedWarehouseId"
+                                    t-on-change="(ev) => this.onWarehouseChange(ev)">
+                                <option value="">📦 جميع المستودعات والمخازن</option>
+                                <t t-if="this.state.data and this.state.data.filters_metadata">
+                                    <t t-foreach="this.state.data.filters_metadata.warehouses" t-as="w" t-key="w.id">
+                                        <option t-att-value="w.id" t-esc="w.name + ' (' + w.code + ')'"/>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 d-flex align-items-end gap-2">
+                            <button t-if="this.state.selectedBranch or this.state.selectedWarehouseId"
+                                    class="btn btn-outline-secondary btn-lg flex-grow-1 d-flex align-items-center justify-content-center gap-1"
+                                    t-on-click="() => this.resetFilters()">
+                                <i class="oi oi-close"/>
+                                <span>إلغاء التصفية (عرض الكل)</span>
+                            </button>
+                            <span t-else="" class="text-muted small pb-2">
+                                <i class="oi oi-check-circle text-success me-1"/> البيانات المعروضة حالياً تعكس أداء الشركة ككل عبر كافة الفروع.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LOADING SPINNER -->
+            <t t-if="this.state.loading">
+                <div class="text-center py-5 bg-white rounded shadow-sm">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="visually-hidden">جاري التحميل...</span>
+                    </div>
+                    <h5 class="mt-3 text-muted">جاري سحب وتجميع البيانات المباشرة من السجلات المحاسبية والمخزنية...</h5>
+                </div>
+            </t>
+
+            <!-- MAIN DASHBOARD CONTENT -->
+            <t t-elif="this.state.data">
+
+                <!-- 3. NAVIGATION PILLS (TABS) -->
+                <ul class="nav nav-pills gap-2 mb-4 bg-white p-2 rounded shadow-sm border">
+                    <li class="nav-item">
+                        <button type="button"
+                                class="nav-link fw-bold px-3 py-2"
+                                t-att-class="{'active btn-primary': this.state.activeTab === 'overview', 'btn-outline-secondary': this.state.activeTab !== 'overview'}"
+                                t-on-click="() => this.setActiveTab('overview')">
+                            <i class="oi oi-view-list me-1"/>
+                            <span>1. النظرة التنفيذية الشاملة</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button"
+                                class="nav-link fw-bold px-3 py-2"
+                                t-att-class="{'active btn-primary': this.state.activeTab === 'branches', 'btn-outline-secondary': this.state.activeTab !== 'branches'}"
+                                t-on-click="() => this.setActiveTab('branches')">
+                            <i class="oi oi-home me-1"/>
+                            <span>2. أداء ومبيعات الفروع (<t t-esc="this.state.data.branch_performance.rows.length"/>)</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button"
+                                class="nav-link fw-bold px-3 py-2"
+                                t-att-class="{'active btn-primary': this.state.activeTab === 'inventory', 'btn-outline-secondary': this.state.activeTab !== 'inventory'}"
+                                t-on-click="() => this.setActiveTab('inventory')">
+                            <i class="oi oi-cube me-1"/>
+                            <span>3. ذكاء المخزون والمستودعات</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button"
+                                class="nav-link fw-bold px-3 py-2"
+                                t-att-class="{'active btn-primary': this.state.activeTab === 'expenses', 'btn-outline-secondary': this.state.activeTab !== 'expenses'}"
+                                t-on-click="() => this.setActiveTab('expenses')">
+                            <i class="oi oi-calculator me-1"/>
+                            <span>4. المصروفات والأداء المالي</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button"
+                                class="nav-link fw-bold px-3 py-2"
+                                t-att-class="{'active btn-primary': this.state.activeTab === 'alerts', 'btn-outline-secondary': this.state.activeTab !== 'alerts'}"
+                                t-on-click="() => this.setActiveTab('alerts')">
+                            <i class="oi oi-bell me-1"/>
+                            <span>5. التنبيهات والرؤى الاستراتيجية</span>
+                            <span class="badge bg-danger ms-1" t-esc="this.state.data.overview.critical_alerts_count"/>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- ========================================================= -->
+                <!-- TAB 1: EXECUTIVE OVERVIEW -->
+                <!-- ========================================================= -->
+                <div t-if="this.state.activeTab === 'overview'" class="d-flex flex-column gap-4">
+
+                    <!-- TOP ROW KPI CARDS -->
+                    <div class="row g-3">
+                        <!-- Card 1: Net Sales -->
+                        <div class="col-md-3">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white cursor-pointer hover-lift"
+                                 t-on-click="() => this.openBranchAnalyticsList()">
+                                <div class="card-body p-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted fw-semibold small">صافي المبيعات (بدون ضريبة)</span>
+                                        <span class="badge bg-primary-subtle text-primary p-2 rounded-circle">
+                                            <i class="oi oi-calculator fs-5"/>
+                                        </span>
+                                    </div>
+                                    <h3 class="fw-bold text-dark m-0 mb-1">
+                                        <t t-esc="this.formatAmount(this.state.data.overview.net_sales_exc_vat)"/> <small class="fs-6 text-muted">ج.م</small>
+                                    </h3>
+                                    <div class="d-flex justify-content-between align-items-center small text-muted">
+                                        <span>شامل الضريبة: <t t-esc="this.formatAmount(this.state.data.overview.net_sales_inc_vat)"/> ج.م</span>
+                                        <span class="text-primary fw-bold">عرض السجلات ↗</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Gross Profit & Margin -->
+                        <div class="col-md-3">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white">
+                                <div class="card-body p-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted fw-semibold small">إجمالي الربح وهامش الربحية</span>
+                                        <span class="badge bg-success-subtle text-success p-2 rounded-circle">
+                                            <i class="oi oi-trending-up fs-5"/>
+                                        </span>
+                                    </div>
+                                    <h3 class="fw-bold text-success m-0 mb-1">
+                                        <t t-esc="this.formatAmount(this.state.data.overview.gross_profit)"/> <small class="fs-6 text-muted">ج.م</small>
+                                    </h3>
+                                    <div class="d-flex justify-content-between align-items-center small text-muted">
+                                        <span>هامش الربح التجاري:</span>
+                                        <span class="badge bg-success fs-6"><t t-esc="this.state.data.overview.gross_margin_pct"/>%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Operating Expenses & Branch Contribution -->
+                        <div class="col-md-3">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white cursor-pointer hover-lift"
+                                 t-on-click="() => this.openOperatingExpenses()">
+                                <div class="card-body p-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted fw-semibold small">المصروفات ومساهمة الفروع</span>
+                                        <span class="badge bg-danger-subtle text-danger p-2 rounded-circle">
+                                            <i class="oi oi-tag fs-5"/>
+                                        </span>
+                                    </div>
+                                    <h3 class="fw-bold text-danger m-0 mb-1">
+                                        <t t-esc="this.formatAmount(this.state.data.overview.operating_expenses)"/> <small class="fs-6 text-muted">ج.م</small>
+                                    </h3>
+                                    <div class="d-flex justify-content-between align-items-center small text-muted">
+                                        <span>المساهمة الصافية:</span>
+                                        <span class="fw-bold text-dark"><t t-esc="this.formatAmount(this.state.data.overview.branch_contribution)"/> ج.م</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Inventory Valuation at Cost -->
+                        <div class="col-md-3">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white cursor-pointer hover-lift"
+                                 t-on-click="() => this.openWarehouseStock()">
+                                <div class="card-body p-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted fw-semibold small">تقييم المخزون بسعر التكلفة</span>
+                                        <span class="badge bg-info-subtle text-info p-2 rounded-circle">
+                                            <i class="oi oi-cube fs-5"/>
+                                        </span>
+                                    </div>
+                                    <h3 class="fw-bold text-info m-0 mb-1">
+                                        <t t-esc="this.formatAmount(this.state.data.overview.inventory_valuation)"/> <small class="fs-6 text-muted">ج.م</small>
+                                    </h3>
+                                    <div class="d-flex justify-content-between align-items-center small text-muted">
+                                        <span>إجمالي الرصيد: <t t-esc="this.formatInteger(this.state.data.overview.total_stock_qty)"/> قطعة</span>
+                                        <span class="text-info fw-bold">عرض الأرصدة ↗</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECOND ROW KPI CARDS -->
+                    <div class="row g-3">
+                        <!-- Card 5: Discounts Granted -->
+                        <div class="col-md-3">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white">
+                                <div class="card-body p-3">
+                                    <span class="text-muted fw-semibold small d-block mb-1">الخصومات الممنوحة بالمعارض</span>
+                                    <h4 class="fw-bold text-warning m-0 mb-1">
+                                        <t t-esc="this.formatAmount(this.state.data.overview.discount_given)"/> <small class="fs-6 text-muted">ج.م</small>
+                                    </h4>
+                                    <div class="small text-muted">
+                                        نسبة الخصم من الإجمالي: <span class="fw-bold text-dark"><t t-esc="this.state.data.overview.discount_pct"/>%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 6: Sales Returns -->
+                        <div class="col-md-3">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white">
+                                <div class="card-body p-3">
+                                    <span class="text-muted fw-semibold small d-block mb-1">قيمة ونسبة المرتجعات</span>
+                                    <h4 class="fw-bold text-danger m-0 mb-1">
+                                        <t t-esc="this.formatAmount(Math.abs(this.state.data.overview.return_value))"/> <small class="fs-6 text-muted">ج.م</small>
+                                    </h4>
+                                    <div class="small text-muted">
+                                        الكمية: <span class="fw-bold text-dark"><t t-esc="Math.abs(this.state.data.overview.return_qty)"/> قطعة</span> | 
+                                        النسبة: <span class="badge bg-danger"><t t-esc="this.state.data.overview.return_rate_pct"/>%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 7: Dead Stock Capital -->
+                        <div class="col-md-3">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white cursor-pointer hover-lift"
+                                 t-on-click="() => this.openDeadStockReport()">
+                                <div class="card-body p-3">
+                                    <span class="text-muted fw-semibold small d-block mb-1">المخزون الراكد (رأس مال مجمد)</span>
+                                    <h4 class="fw-bold text-dark m-0 mb-1">
+                                        <t t-esc="this.formatAmount(this.state.data.overview.dead_stock_value)"/> <small class="fs-6 text-muted">ج.م</small>
+                                    </h4>
+                                    <div class="d-flex justify-content-between align-items-center small text-muted">
+                                        <span>عدد الأصناف: <t t-esc="this.state.data.inventory_intelligence.dead_stock_items.length"/> أصناف</span>
+                                        <span class="text-danger fw-bold">تسييل البضاعة ↗</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 8: Live POS Activity -->
+                        <div class="col-md-3">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white cursor-pointer hover-lift"
+                                 t-on-click="() => this.openLivePosOrders()">
+                                <div class="card-body p-3">
+                                    <span class="text-muted fw-semibold small d-block mb-1">مبيعات الكاشير الحية (POS)</span>
+                                    <h4 class="fw-bold text-primary m-0 mb-1">
+                                        <t t-esc="this.formatAmount(this.state.data.overview.live_pos_sales_total)"/> <small class="fs-6 text-muted">ج.م</small>
+                                    </h4>
+                                    <div class="d-flex justify-content-between align-items-center small text-muted">
+                                        <span>العمليات: <t t-esc="this.state.data.overview.live_pos_orders_count"/> طلب</span>
+                                        <span>متوسط السلة: <t t-esc="this.formatAmount(this.state.data.overview.aov)"/> ج.م</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EXECUTIVE SUMMARY HERO CARD -->
+                    <div class="card border-0 shadow-sm rounded-3 bg-white p-4">
+                        <h4 class="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                            <i class="oi oi-bookmark text-primary"/>
+                            الخلاصة التنفيذية لأداء شركة الأهرام (Management Digest)
+                        </h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded border-start border-primary border-4">
+                                    <h6 class="fw-bold text-primary mb-2">🏆 الفرع الأعلى مساهمة في الإيرادات:</h6>
+                                    <t t-if="this.state.data.branch_performance.top_branch">
+                                        <p class="m-0 text-dark">
+                                            يتصدر <strong><t t-esc="this.state.data.branch_performance.top_branch.name"/></strong> المبيعات بإجمالي صافي مبيعات بلغ 
+                                            <strong><t t-esc="this.formatAmount(this.state.data.branch_performance.top_branch.net_sales_inc_vat)"/> ج.م</strong>
+                                            وصافي ربح <strong><t t-esc="this.formatAmount(this.state.data.branch_performance.top_branch.profit)"/> ج.م</strong>
+                                            (هامش ربح <t t-esc="this.state.data.branch_performance.top_branch.margin_pct"/>%).
+                                        </p>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded border-start border-danger border-4">
+                                    <h6 class="fw-bold text-danger mb-2">⚠️ أبرز التحديات ونقاط النزيف المالي:</h6>
+                                    <p class="m-0 text-dark">
+                                        نسبة المرتجعات في فروع <strong>شبرا (24.3%) ومدينة نصر (23.6%) والأونلاين (23.3%)</strong> تتجاوز المعدل الطبيعي بكثير.
+                                        بالإضافة إلى وجود <strong><t t-esc="this.formatAmount(this.state.data.overview.dead_stock_value)"/> ج.م</strong> رأس مال مجمد في أصناف راكدة.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB 2: BRANCH SALES PERFORMANCE -->
+                <!-- ========================================================= -->
+                <div t-elif="this.state.activeTab === 'branches'" class="d-flex flex-column gap-3">
+
+                    <div class="card border-0 shadow-sm rounded-3 bg-white">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                                <i class="oi oi-home text-primary"/>
+                                جدول المقارنة والتحليل المالي لفروع شركة الأهرام
+                            </h5>
+                            <button class="btn btn-sm btn-outline-primary" t-on-click="() => this.openBranchAnalyticsList()">
+                                فتح كتقرير كامل في النظام ↗
+                            </button>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-hover align-middle m-0 text-center">
+                                <thead class="table-light">
+                                    <tr class="small text-muted text-nowrap">
+                                        <th class="text-start pe-3">اسم الفرع / المنفذ</th>
+                                        <th>الكود</th>
+                                        <th>الكمية المباعة</th>
+                                        <th>إجمالي المبيعات</th>
+                                        <th>الخصومات</th>
+                                        <th>المرتجعات</th>
+                                        <th>نسبة المرتجع</th>
+                                        <th>صافي المبيعات (شامل الضريبة)</th>
+                                        <th>التكلفة (COGS)</th>
+                                        <th>صافي الربح</th>
+                                        <th>هامش الربح</th>
+                                        <th>إجراء</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="this.state.data.branch_performance.rows" t-as="row" t-key="row.id">
+                                        <tr t-att-class="{'table-success-subtle': row.badge === 'top', 'table-danger-subtle': row.badge === 'high_return'}">
+                                            <td class="text-start pe-3 fw-bold text-dark">
+                                                <i t-if="row.badge === 'top'" class="oi oi-star text-warning me-1"/>
+                                                <t t-esc="row.name"/>
+                                            </td>
+                                            <td><span class="badge bg-secondary" t-esc="row.code"/></td>
+                                            <td><t t-esc="this.formatInteger(row.net_sold_qty)"/> ق</td>
+                                            <td><t t-esc="this.formatAmount(row.gross_sales)"/></td>
+                                            <td class="text-warning fw-semibold"><t t-esc="this.formatAmount(row.discount_given)"/> (<t t-esc="row.discount_pct"/>%)</td>
+                                            <td class="text-danger"><t t-esc="this.formatAmount(Math.abs(row.return_value))"/></td>
+                                            <td>
+                                                <span class="badge" t-att-class="row.return_rate > 20.0 ? 'bg-danger' : 'bg-success'">
+                                                    <t t-esc="row.return_rate"/>%
+                                                </span>
+                                            </td>
+                                            <td class="fw-bold text-primary"><t t-esc="this.formatAmount(row.net_sales_inc_vat)"/></td>
+                                            <td class="text-muted"><t t-esc="this.formatAmount(row.cogs)"/></td>
+                                            <td class="fw-bold text-success"><t t-esc="this.formatAmount(row.profit)"/></td>
+                                            <td><span class="badge bg-info text-dark"><t t-esc="row.margin_pct"/>%</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-dark px-2 py-0"
+                                                        t-on-click="() => this.openBranchSales(row.id)"
+                                                        title="عرض التفاصيل">
+                                                    تفاصيل ↗
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfoot class="table-light fw-bold">
+                                    <tr>
+                                        <td class="text-start pe-3">الإجمالي العام للشركة</td>
+                                        <td>-</td>
+                                        <td><t t-esc="this.formatInteger(this.state.data.overview.total_stock_qty)"/></td>
+                                        <td><t t-esc="this.formatAmount(this.state.data.overview.gross_sales)"/></td>
+                                        <td class="text-warning"><t t-esc="this.formatAmount(this.state.data.overview.discount_given)"/></td>
+                                        <td class="text-danger"><t t-esc="this.formatAmount(Math.abs(this.state.data.overview.return_value))"/></td>
+                                        <td><span class="badge bg-dark"><t t-esc="this.state.data.overview.return_rate_pct"/>%</span></td>
+                                        <td class="text-primary"><t t-esc="this.formatAmount(this.state.data.overview.net_sales_inc_vat)"/></td>
+                                        <td><t t-esc="this.formatAmount(this.state.data.overview.cogs)"/></td>
+                                        <td class="text-success"><t t-esc="this.formatAmount(this.state.data.overview.gross_profit)"/></td>
+                                        <td><span class="badge bg-success"><t t-esc="this.state.data.overview.gross_margin_pct"/>%</span></td>
+                                        <td>-</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB 3: INVENTORY INTELLIGENCE -->
+                <!-- ========================================================= -->
+                <div t-elif="this.state.activeTab === 'inventory'" class="d-flex flex-column gap-4">
+
+                    <!-- WAREHOUSE STOCKS -->
+                    <div class="card border-0 shadow-sm rounded-3 bg-white">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                                <i class="oi oi-cube text-primary"/>
+                                أرصدة وتقييم المخزون حسب المستودع والفروع
+                            </h5>
+                            <button class="btn btn-sm btn-outline-primary" t-on-click="() => this.openWarehouseStock()">
+                                عرض كافة الأرصدة ↗
+                            </button>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-hover align-middle m-0 text-center">
+                                <thead class="table-light">
+                                    <tr class="small text-muted text-nowrap">
+                                        <th class="text-start pe-3">اسم المستودع / الفرع</th>
+                                        <th>كود المستودع</th>
+                                        <th>عدد الأصناف المتوفرة</th>
+                                        <th>الرصيد الفعلي (On Hand)</th>
+                                        <th>الكمية المحجوزة</th>
+                                        <th>الكمية المتاحة للبيع</th>
+                                        <th>قيمة المخزون بسعر التكلفة (ج.م)</th>
+                                        <th>فحص الرصيد</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="this.state.data.inventory_intelligence.warehouses" t-as="wh" t-key="wh.id">
+                                        <tr>
+                                            <td class="text-start pe-3 fw-bold text-dark"><t t-esc="wh.name"/></td>
+                                            <td><span class="badge bg-secondary" t-esc="wh.code"/></td>
+                                            <td><t t-esc="this.formatInteger(wh.products_count)"/> صنف</td>
+                                            <td class="fw-bold text-dark"><t t-esc="this.formatInteger(wh.on_hand_qty)"/> ق</td>
+                                            <td class="text-warning"><t t-esc="this.formatInteger(wh.reserved_qty)"/> ق</td>
+                                            <td class="text-success fw-bold"><t t-esc="this.formatInteger(wh.available_qty)"/> ق</td>
+                                            <td class="fw-bold text-primary"><t t-esc="this.formatAmount(wh.valuation)"/> ج.م</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary px-2 py-0"
+                                                        t-on-click="() => this.openWarehouseStock(wh.id)">
+                                                    الأصناف ↗
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- DEAD STOCK BREAKDOWN -->
+                    <div class="card border-0 shadow-sm rounded-3 bg-white">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="fw-bold text-danger m-0 d-flex align-items-center gap-2">
+                                    <i class="oi oi-tag text-danger"/>
+                                    حصر الأصناف الراكدة المجمدة (Dead Stock)
+                                </h5>
+                                <small class="text-muted">أصناف ذات أرصدة مرتفعة بدون حركة مبيعات تتطلب عروض تخفيض وتسييل سريع</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger" t-on-click="() => this.openDeadStockReport()">
+                                فتح تقرير الراكد الكامل ↗
+                            </button>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-hover align-middle m-0 text-center">
+                                <thead class="table-light">
+                                    <tr class="small text-muted text-nowrap">
+                                        <th class="text-start pe-3">اسم الصنف</th>
+                                        <th>الباركود / الكود</th>
+                                        <th>سعر البيع الرسمي</th>
+                                        <th>سعر التكلفة التقديري</th>
+                                        <th>الكمية الراكدة بالمخزن</th>
+                                        <th>رأس المال المجمد (ج.م)</th>
+                                        <th>التوصية الإدارية المقترحة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="this.state.data.inventory_intelligence.dead_stock_items" t-as="item" t-key="item.id">
+                                        <tr>
+                                            <td class="text-start pe-3 fw-bold text-dark"><t t-esc="item.name"/></td>
+                                            <td><code><t t-esc="item.code"/></code></td>
+                                            <td><t t-esc="this.formatAmount(item.list_price)"/> ج.م</td>
+                                            <td><t t-esc="this.formatAmount(item.unit_cost)"/> ج.م</td>
+                                            <td class="fw-bold text-danger"><t t-esc="this.formatInteger(item.qty)"/> قطعة</td>
+                                            <td class="fw-bold text-danger"><t t-esc="this.formatAmount(item.total_val)"/> ج.م</td>
+                                            <td><span class="badge bg-warning text-dark" t-esc="item.recommendation"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SMART REPLENISHMENT RECOMMENDATIONS -->
+                    <div class="card border-0 shadow-sm rounded-3 bg-white">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                                <i class="oi oi-refresh text-primary"/>
+                                توصيات التحويل وإعادة التوازن المخزني بين الفروع (Cross-Branch Transfers)
+                            </h5>
+                            <button class="btn btn-sm btn-outline-primary" t-on-click="() => this.openStockRecommendations()">
+                                إدارة التوصيات ↗
+                            </button>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-hover align-middle m-0 text-center">
+                                <thead class="table-light">
+                                    <tr class="small text-muted text-nowrap">
+                                        <th>رقم التوصية</th>
+                                        <th class="text-start pe-3">الصنف المستهدف</th>
+                                        <th>من مستودع</th>
+                                        <th>إلى صالة / فرع</th>
+                                        <th>الكمية المقترحة</th>
+                                        <th>الأولوية</th>
+                                        <th>الحالة</th>
+                                        <th class="text-start">سبب التوصية</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="this.state.data.inventory_intelligence.recommendations" t-as="rec" t-key="rec.id">
+                                        <tr>
+                                            <td><code><t t-esc="rec.name"/></code></td>
+                                            <td class="text-start pe-3 fw-bold"><t t-esc="rec.product_name"/></td>
+                                            <td><span class="badge bg-secondary" t-esc="rec.src_warehouse"/></td>
+                                            <td><span class="badge bg-primary" t-esc="rec.dest_warehouse"/></td>
+                                            <td class="fw-bold"><t t-esc="rec.suggested_qty"/> ق</td>
+                                            <td>
+                                                <span class="badge" t-att-class="rec.priority === 'urgent' ? 'bg-danger' : (rec.priority === 'high' ? 'bg-warning text-dark' : 'bg-info')">
+                                                    <t t-esc="rec.priority === 'urgent' ? 'عاجل جداً' : (rec.priority === 'high' ? 'مرتفع' : 'متوسط')"/>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="badge" t-att-class="rec.state === 'approved' ? 'bg-success' : 'bg-secondary'">
+                                                    <t t-esc="rec.state === 'approved' ? 'معتمد' : 'مسودة'"/>
+                                                </span>
+                                            </td>
+                                            <td class="text-start small text-muted"><t t-esc="rec.reason"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB 4: EXPENSES & FINANCIAL PERFORMANCE -->
+                <!-- ========================================================= -->
+                <div t-elif="this.state.activeTab === 'expenses'" class="d-flex flex-column gap-4">
+
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white p-3">
+                                <span class="text-muted small fw-bold">إجمالي المصروفات التشغيلية المسجلة</span>
+                                <h3 class="fw-bold text-danger m-0 mt-1 mb-1">
+                                    <t t-esc="this.formatAmount(this.state.data.financial_performance.total_expenses)"/> <small class="fs-6">ج.م</small>
+                                </h3>
+                                <small class="text-muted">مستخرجة من القيود وفواتير المشتريات المعتمدة (Posted Moves)</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white p-3">
+                                <span class="text-muted small fw-bold">نسبة المصروفات إلى صافي المبيعات</span>
+                                <h3 class="fw-bold text-warning m-0 mt-1 mb-1">
+                                    <t t-esc="this.state.data.financial_performance.expense_to_sales_pct"/>%
+                                </h3>
+                                <small class="text-muted">مؤشر الكفاءة التشغيلية والإنفاق</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 bg-white p-3">
+                                <span class="text-muted small fw-bold">المساهمة الصافية للنشاط (Net Contribution)</span>
+                                <h3 class="fw-bold text-success m-0 mt-1 mb-1">
+                                    <t t-esc="this.formatAmount(this.state.data.financial_performance.branch_contribution)"/> <small class="fs-6">ج.م</small>
+                                </h3>
+                                <small class="text-muted">إجمالي الربح التجاري مطروحاً منه المصروفات التشغيلية</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ANALYTIC ALLOCATION NOTICE -->
+                    <div class="alert alert-info border-0 shadow-sm d-flex align-items-center gap-3 p-3">
+                        <i class="oi oi-info fs-3 text-info"/>
+                        <div>
+                            <h6 class="fw-bold text-dark m-0 mb-1">حالة توزيع المصروفات على الفروع (Analytic Allocation):</h6>
+                            <p class="m-0 small text-muted" t-esc="this.state.data.financial_performance.allocation_note"/>
+                        </div>
+                    </div>
+
+                    <!-- POSTED EXPENSE BILLS TABLE -->
+                    <div class="card border-0 shadow-sm rounded-3 bg-white">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                                <i class="oi oi-calculator text-primary"/>
+                                تفاصيل قيود وفواتير المصروفات التشغيلية المعتمدة
+                            </h5>
+                            <button class="btn btn-sm btn-outline-primary" t-on-click="() => this.openOperatingExpenses()">
+                                فتح اليومية المحاسبية ↗
+                            </button>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-hover align-middle m-0 text-center">
+                                <thead class="table-light">
+                                    <tr class="small text-muted text-nowrap">
+                                        <th>رقم القيد / الفاتورة</th>
+                                        <th>التاريخ</th>
+                                        <th>المورد / الجهة المستفيدة</th>
+                                        <th>الحساب المحاسبي</th>
+                                        <th class="text-start">الوصف والبيان</th>
+                                        <th>المدين (Debit)</th>
+                                        <th>الدائن (Credit)</th>
+                                        <th>الصافي (ج.م)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="this.state.data.financial_performance.expense_items" t-as="exp" t-key="exp.id">
+                                        <tr>
+                                            <td><code><t t-esc="exp.move_name"/></code></td>
+                                            <td><t t-esc="exp.date"/></td>
+                                            <td class="fw-bold text-dark"><t t-esc="exp.partner_name"/></td>
+                                            <td><span class="badge bg-secondary" t-esc="exp.account_name"/></td>
+                                            <td class="text-start small text-muted"><t t-esc="exp.description or 'مصروف تشغيلي'"/></td>
+                                            <td><t t-esc="this.formatAmount(exp.debit)"/></td>
+                                            <td><t t-esc="this.formatAmount(exp.credit)"/></td>
+                                            <td class="fw-bold text-danger"><t t-esc="this.formatAmount(exp.amount)"/> ج.م</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB 5: STRATEGIC BUSINESS ALERTS -->
+                <!-- ========================================================= -->
+                <div t-elif="this.state.activeTab === 'alerts'" class="d-flex flex-column gap-3">
+
+                    <t t-foreach="this.state.data.business_alerts" t-as="alert" t-key="alert.title">
+                        <div class="card border-0 shadow-sm rounded-3 p-3"
+                             t-att-class="{
+                                'border-start border-danger border-5 bg-white': alert.type === 'danger',
+                                'border-start border-warning border-5 bg-white': alert.type === 'warning',
+                                'border-start border-success border-5 bg-white': alert.type === 'success',
+                                'border-start border-info border-5 bg-white': alert.type === 'info',
+                                'border-start border-secondary border-5 bg-white': alert.type === 'secondary'
+                             }">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                                <div>
+                                    <h5 class="fw-bold m-0 mb-1"
+                                        t-att-class="{
+                                            'text-danger': alert.type === 'danger',
+                                            'text-warning text-dark': alert.type === 'warning',
+                                            'text-success': alert.type === 'success',
+                                            'text-info': alert.type === 'info',
+                                            'text-secondary': alert.type === 'secondary'
+                                        }">
+                                        <t t-esc="alert.title"/>
+                                    </h5>
+                                    <p class="text-dark m-0" t-esc="alert.description"/>
+                                </div>
+                                <t t-if="alert.action_label">
+                                    <button class="btn btn-outline-dark btn-sm text-nowrap px-3 py-2 fw-semibold"
+                                            t-on-click="() => this.handleAlertAction(alert)">
+                                        <t t-esc="alert.action_label"/> ↗
+                                    </button>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+
+                </div>
+
+            </t>
+
+            </div>
+        </div>
+    </t>
+
+</templates>

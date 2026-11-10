@@ -56,11 +56,15 @@ Key Capabilities:
         'views/stock_recommendation_views.xml',
         'views/branch_reservation_views.xml',
         'views/res_config_settings_views.xml',
+        'views/executive_dashboard_views.xml',
         'views/menu_views.xml',
     ],
     'assets': {
         'point_of_sale._assets_pos': [
             'alahram_retail_demo/static/src/app/**/*',
+        ],
+        'web.assets_backend': [
+            'alahram_retail_demo/static/src/dashboard/**/*',
         ],
     },
     'installable': True,
