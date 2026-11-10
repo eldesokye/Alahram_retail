@@ -10,3 +10,4 @@ from . import alahram_chatbot_service
 from . import discuss_channel_ai
 from . import stock_recommendation
 from . import branch_reservation
+from . import alahram_executive_dashboard

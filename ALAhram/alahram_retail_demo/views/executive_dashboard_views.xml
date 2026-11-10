@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Client Action for Executive Business Dashboard -->
+    <record id="action_alahram_executive_dashboard" model="ir.actions.client">
+        <field name="name">لوحة التحكم والتحليلات التنفيذية للأهرام</field>
+        <field name="tag">alahram_executive_dashboard</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Menu 1: Top of Al Ahram Operations Center (Sequence 1) -->
+    <menuitem id="menu_alahram_executive_dashboard"
+              name="📊 لوحة التحكم التنفيذية الشاملة"
+              parent="menu_alahram_root"
+              action="action_alahram_executive_dashboard"
+              sequence="1"/>
+
+    <!-- Menu 2: Inside Odoo Native Dashboards App -->
+    <menuitem id="menu_alahram_executive_dashboard_dashboards_app"
+              name="🍳 الأهرام — لوحة تحكم الإدارة العليا"
+              parent="spreadsheet_dashboard.spreadsheet_dashboard_menu_root"
+              action="action_alahram_executive_dashboard"
+              sequence="1"/>
+</odoo>
