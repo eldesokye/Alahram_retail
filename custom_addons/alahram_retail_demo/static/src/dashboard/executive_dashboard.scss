@@ -7,20 +7,21 @@
 }
 
 .alahram-dashboard-container {
+    flex: 1 1 auto;
     height: 100%;
     min-height: 0;
     overflow-y: auto !important;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
-    background-color: #f4f6f9;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans Arabic", sans-serif;
+    background-color: #f1f5f9;
+    font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans Arabic", sans-serif;
 
     .hover-lift {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
         &:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.10) !important;
         }
     }
 
@@ -28,24 +29,79 @@
         cursor: pointer;
     }
 
-    .card {
-        border-radius: 12px;
+    .alahram-kpi-card {
+        border-top: 4px solid #cbd5e1 !important;
+
+        &.kpi-sales {
+            border-top-color: #1d4ed8 !important;
+        }
+        &.kpi-inventory {
+            border-top-color: #0284c7 !important;
+        }
+        &.kpi-expenses {
+            border-top-color: #dc2626 !important;
+        }
+        &.kpi-performance {
+            border-top-color: #059669 !important;
+        }
     }
 
-    .table {
-        th {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+    .alahram-chart-canvas-wrap {
+        min-height: 240px;
+        width: 100%;
+    }
+
+    .alahram-empty-state {
+        min-height: 260px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        border: 1px dashed #cbd5e1;
+        border-radius: 10px;
+        background-color: #f8fafc;
+    }
+
+    .alahram-comparison-table {
+        thead th {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            user-select: none;
+            white-space: nowrap;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+
+            &.cursor-pointer:hover {
+                background-color: #e2e8f0;
+            }
         }
-        td {
-            font-size: 0.95rem;
+        tbody td,
+        tfoot td {
+            font-size: 0.88rem;
+            padding-top: 0.65rem;
+            padding-bottom: 0.65rem;
         }
     }
 
-    .nav-pills .nav-link {
-        border-radius: 8px;
-        transition: all 0.2s ease;
+    .nav-pills {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+
+        .nav-link {
+            border-radius: 10px;
+            white-space: nowrap;
+            transition: all 0.18s ease;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .alahram-kpi-card h3 {
+            font-size: 1.35rem;
+        }
+        .alahram-chart-canvas-wrap {
+            height: 250px !important;
+        }
     }
 }
-

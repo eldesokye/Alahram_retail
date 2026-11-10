@@ -2,118 +2,151 @@
 <templates id="template" xml:space="preserve">
 
     <t t-name="alahram_retail_demo.BridalPackageDialog">
-        <Dialog title="'باكدج العروسة الذكي وتوافر الفروع — شركة الأهرام'" size="'xl'" footer="false">
-            <div class="bridal-dialog-container p-3 d-flex flex-column gap-3" dir="rtl">
+        <Dialog title="'باكدج العروسة الذكي وتوافر الفروع — شركة الأهرام'"
+                size="'fs'"
+                header="false"
+                footer="false"
+                withBodyPadding="false"
+                contentClass="'alahram-bridal-dialog-content'"
+                bodyClass="'alahram-bridal-modal'">
+            <div class="bridal-dialog-container" dir="rtl">
 
-                <!-- 1. Top Navigation Bar (Tablet Tabs) -->
-                <div class="d-flex justify-content-between align-items-center bg-light p-2 rounded border">
-                    <ul class="nav nav-pills gap-2 flex-grow-1">
-                        <li class="nav-item">
-                            <button type="button"
-                                    class="nav-link fw-bold px-3 py-2"
-                                    t-att-class="{'active btn-danger': this.state.activeTab === 'lines', 'btn-outline-secondary': this.state.activeTab !== 'lines'}"
-                                    t-on-click="() => this.state.activeTab = 'lines'">
-                                <i class="oi oi-fw me-1" data-icon="list" aria-hidden="true"/>
-                                <span>1. تشكيلة الأصناف والتوافر (<t t-esc="this.state.lines.length"/>)</span>
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button"
-                                    class="nav-link fw-bold px-3 py-2"
-                                    t-att-class="{'active btn-danger': this.state.activeTab === 'setup', 'btn-outline-secondary': this.state.activeTab !== 'setup'}"
-                                    t-on-click="() => this.state.activeTab = 'setup'">
-                                <i class="oi oi-fw me-1" data-icon="settings" aria-hidden="true"/>
-                                <span>2. القطاعات والميزانية</span>
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button"
-                                    class="nav-link fw-bold px-3 py-2"
-                                    t-att-class="{'active btn-danger': this.state.activeTab === 'discount', 'btn-outline-secondary': this.state.activeTab !== 'discount'}"
-                                    t-on-click="() => this.state.activeTab = 'discount'">
-                                <i class="oi oi-fw me-1" data-icon="star" aria-hidden="true"/>
-                                <span>3. حوكمة الخصم والحجز</span>
-                            </button>
-                        </li>
-                    </ul>
-
-                    <!-- Customer Quick Selection Pill -->
-                    <div class="d-flex align-items-center bg-white px-2 py-1 rounded border shadow-sm me-2">
-                        <button type="button" 
-                                class="btn btn-sm d-flex align-items-center gap-1 text-nowrap"
-                                t-att-class="this.state.partnerId ? 'btn-outline-success fw-bold' : 'btn-outline-danger'"
-                                t-on-click="() => this.selectPartner()"
-                                title="اختيار / تغيير العميل من نقطة البيع">
-                            <i class="oi oi-user"/>
-                            <span t-if="this.state.customerName" class="text-truncate" style="max-width: 140px;" t-esc="this.state.customerName"/>
-                            <span t-else="">اختيار عميل / العروسة</span>
-                        </button>
-                        <button t-if="this.state.partnerId" 
-                                type="button" 
-                                class="btn btn-sm btn-link text-muted p-0 ms-1" 
-                                t-on-click="() => this.clearPartner()" 
-                                title="إلغاء ربط العميل">
-                            <i class="oi oi-close"/>
-                        </button>
-                    </div>
-
-                    <!-- Summary Widget -->
-                    <div class="d-flex align-items-center gap-3 bg-white px-3 py-1 rounded border shadow-sm">
-                        <div class="text-center">
-                            <small class="text-muted d-block">إجمالي الأصناف</small>
-                            <span class="fw-bold text-dark fs-6"><t t-esc="this.formatAmount(this.state.totalOriginalPrice, 2)"/> ج.م</span>
-                        </div>
-                        <div class="vr"/>
-                        <div class="text-center">
-                            <small class="text-muted d-block">الميزانية المستهدفة</small>
-                            <span class="fw-bold text-primary fs-6"><t t-esc="this.formatAmount(this.state.targetBudget, 2)"/> ج.م</span>
-                            <small class="d-block text-muted" style="font-size: 10px;">نطاق: <t t-esc="this.formatAmount(this.state.lowerBound, 0)"/> - <t t-esc="this.formatAmount(this.state.preferredUpperBound, 0)"/></small>
-                        </div>
-                        <div class="vr"/>
-                        <div class="text-center">
-                            <small class="text-muted d-block">حالة المطابقة</small>
-                            <span class="badge" t-att-class="{
-                                'bg-success': this.state.budgetMatchStatus === 'matches_budget',
-                                'bg-info text-dark': this.state.budgetMatchStatus === 'below_budget',
-                                'bg-primary': this.state.budgetMatchStatus === 'within_preferred',
-                                'bg-warning text-dark': this.state.budgetMatchStatus === 'slightly_above_preferred',
-                                'bg-danger': this.state.budgetMatchStatus === 'out_of_bounds',
-                                'bg-secondary': this.state.budgetMatchStatus === 'no_solution'
-                            }">
-                                <t t-if="this.state.budgetMatchStatus === 'matches_budget'">مطابق للميزانية</t>
-                                <t t-elif="this.state.budgetMatchStatus === 'below_budget'">اقتصادي (أقل)</t>
-                                <t t-elif="this.state.budgetMatchStatus === 'within_preferred'">ضمن النطاق المفضل</t>
-                                <t t-elif="this.state.budgetMatchStatus === 'slightly_above_preferred'">أعلى من المفضل بقليل</t>
-                                <t t-elif="this.state.budgetMatchStatus === 'out_of_bounds'">خارج سقف الميزانية</t>
-                                <t t-else="">لا توجد تشكيلة</t>
-                            </span>
-                        </div>
-                        <div class="vr"/>
-                        <div class="text-center">
-                            <small class="text-muted d-block">الصافي النهائي</small>
-                            <span class="fw-bold text-success fs-5"><t t-esc="this.formatAmount(this.state.finalPackagePrice, 2)"/> ج.م</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Budget Feedback Alert Banner -->
-                <t t-if="this.state.budgetFeedbackMessage">
-                    <div class="alert alert-info py-2 px-3 mb-0 d-flex align-items-center justify-content-between shadow-sm border-start border-info border-4">
+                <!-- 1. EXECUTIVE FULL-SCREEN HEADER & NAVIGATION BAR -->
+                <div class="bridal-top-header px-3 px-md-4 py-2 shadow-sm">
+                    <!-- Title + Customer Quick Pill + Close Bar -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 pb-2 mb-2 border-bottom">
                         <div class="d-flex align-items-center gap-2">
-                            <i class="oi oi-info fs-5 text-info"/>
-                            <span class="fw-bold"><t t-esc="this.state.budgetFeedbackMessage"/></span>
+                            <span class="bg-danger text-white rounded-2 p-2 d-flex align-items-center justify-content-center">
+                                <i class="oi oi-gift fs-5"/>
+                            </span>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-0">باكدج العروسة الذكي وتوافر الفروع — شركة الأهرام</h5>
+                                <small class="text-muted">محرك تشكيل جهاز العروسة بالميزانية، فحص مخزون الفروع، وحوكمة الخصومات</small>
+                            </div>
                         </div>
-                        <span class="badge bg-secondary">فارق الميزانية: <t t-esc="this.state.budgetVariance > 0 ? '+' : ''"/><t t-esc="this.formatAmount(this.state.budgetVariance, 2)"/> ج.م</span>
+
+                        <div class="d-flex align-items-center gap-2">
+                            <!-- Customer Quick Selection Pill -->
+                            <div class="d-flex align-items-center bg-light px-2 py-1 rounded border shadow-sm">
+                                <button type="button"
+                                        class="btn btn-sm d-flex align-items-center gap-1 text-nowrap"
+                                        t-att-class="this.state.partnerId ? 'btn-outline-success fw-bold' : 'btn-outline-danger'"
+                                        t-on-click="() => this.selectPartner()"
+                                        title="اختيار / تغيير العميل من نقطة البيع">
+                                    <i class="oi oi-user"/>
+                                    <span t-if="this.state.customerName" class="text-truncate" style="max-width: 160px;" t-esc="this.state.customerName"/>
+                                    <span t-else="">اختيار عميل / العروسة</span>
+                                </button>
+                                <button t-if="this.state.partnerId"
+                                        type="button"
+                                        class="btn btn-sm btn-link text-muted p-0 ms-1"
+                                        t-on-click="() => this.clearPartner()"
+                                        title="إلغاء ربط العميل">
+                                    <i class="oi oi-close"/>
+                                </button>
+                            </div>
+
+                            <!-- Fullscreen Close Button -->
+                            <button type="button"
+                                    class="btn btn-outline-secondary d-flex align-items-center gap-2 fw-bold px-3"
+                                    t-on-click="() => this.closeDialog()"
+                                    title="إغلاق الشاشة والعودة لنقطة البيع">
+                                <i class="oi oi-close"/>
+                                <span>إغلاق</span>
+                            </button>
+                        </div>
                     </div>
-                </t>
+
+                    <!-- Navigation Tabs + Financial Summary Bar -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <ul class="nav nav-pills gap-2">
+                            <li class="nav-item">
+                                <button type="button"
+                                        class="nav-link fw-bold px-3 py-2"
+                                        t-att-class="{'active btn-danger': this.state.activeTab === 'lines', 'btn-outline-secondary': this.state.activeTab !== 'lines'}"
+                                        t-on-click="() => this.state.activeTab = 'lines'">
+                                    <i class="oi oi-fw me-1" data-icon="list" aria-hidden="true"/>
+                                    <span>1. تشكيلة الأصناف والتوافر (<t t-esc="this.state.lines.length"/>)</span>
+                                </button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button"
+                                        class="nav-link fw-bold px-3 py-2"
+                                        t-att-class="{'active btn-danger': this.state.activeTab === 'setup', 'btn-outline-secondary': this.state.activeTab !== 'setup'}"
+                                        t-on-click="() => this.state.activeTab = 'setup'">
+                                    <i class="oi oi-fw me-1" data-icon="settings" aria-hidden="true"/>
+                                    <span>2. القطاعات والميزانية</span>
+                                </button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button"
+                                        class="nav-link fw-bold px-3 py-2"
+                                        t-att-class="{'active btn-danger': this.state.activeTab === 'discount', 'btn-outline-secondary': this.state.activeTab !== 'discount'}"
+                                        t-on-click="() => this.state.activeTab = 'discount'">
+                                    <i class="oi oi-fw me-1" data-icon="star" aria-hidden="true"/>
+                                    <span>3. حوكمة الخصم والحجز</span>
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Financial Summary Widget -->
+                        <div class="d-flex flex-wrap align-items-center gap-3 bg-light px-3 py-1 rounded border shadow-sm">
+                            <div class="text-center">
+                                <small class="text-muted d-block">إجمالي الأصناف</small>
+                                <span class="fw-bold text-dark fs-6"><t t-esc="this.formatAmount(this.state.totalOriginalPrice, 2)"/> ج.م</span>
+                            </div>
+                            <div class="vr d-none d-sm-block"/>
+                            <div class="text-center">
+                                <small class="text-muted d-block">الميزانية المستهدفة</small>
+                                <span class="fw-bold text-primary fs-6"><t t-esc="this.formatAmount(this.state.targetBudget, 2)"/> ج.م</span>
+                                <small class="d-block text-muted" style="font-size: 10px;">نطاق: <t t-esc="this.formatAmount(this.state.lowerBound, 0)"/> - <t t-esc="this.formatAmount(this.state.preferredUpperBound, 0)"/></small>
+                            </div>
+                            <div class="vr d-none d-sm-block"/>
+                            <div class="text-center">
+                                <small class="text-muted d-block">حالة المطابقة</small>
+                                <span class="badge" t-att-class="{
+                                    'bg-success': this.state.budgetMatchStatus === 'matches_budget',
+                                    'bg-info text-dark': this.state.budgetMatchStatus === 'below_budget',
+                                    'bg-primary': this.state.budgetMatchStatus === 'within_preferred',
+                                    'bg-warning text-dark': this.state.budgetMatchStatus === 'slightly_above_preferred',
+                                    'bg-danger': this.state.budgetMatchStatus === 'out_of_bounds',
+                                    'bg-secondary': this.state.budgetMatchStatus === 'no_solution'
+                                }">
+                                    <t t-if="this.state.budgetMatchStatus === 'matches_budget'">مطابق للميزانية</t>
+                                    <t t-elif="this.state.budgetMatchStatus === 'below_budget'">اقتصادي (أقل)</t>
+                                    <t t-elif="this.state.budgetMatchStatus === 'within_preferred'">ضمن النطاق المفضل</t>
+                                    <t t-elif="this.state.budgetMatchStatus === 'slightly_above_preferred'">أعلى من المفضل بقليل</t>
+                                    <t t-elif="this.state.budgetMatchStatus === 'out_of_bounds'">خارج سقف الميزانية</t>
+                                    <t t-else="">لا توجد تشكيلة</t>
+                                </span>
+                            </div>
+                            <div class="vr d-none d-sm-block"/>
+                            <div class="text-center">
+                                <small class="text-muted d-block">الصافي النهائي</small>
+                                <span class="fw-bold text-success fs-5"><t t-esc="this.formatAmount(this.state.finalPackagePrice, 2)"/> ج.م</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Budget Feedback Alert Banner -->
+                    <t t-if="this.state.budgetFeedbackMessage">
+                        <div class="alert alert-info py-1 px-3 mt-2 mb-0 d-flex flex-wrap align-items-center justify-content-between gap-2 border-start border-info border-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="oi oi-info fs-5 text-info"/>
+                                <span class="fw-bold small"><t t-esc="this.state.budgetFeedbackMessage"/></span>
+                            </div>
+                            <span class="badge bg-secondary">فارق الميزانية: <t t-esc="this.state.budgetVariance > 0 ? '+' : ''"/><t t-esc="this.formatAmount(this.state.budgetVariance, 2)"/> ج.م</span>
+                        </div>
+                    </t>
+                </div>
 
                 <!-- ========================================================= -->
                 <!-- TAB 1: LINES & MULTI-BRANCH AVAILABILITY -->
                 <!-- ========================================================= -->
                 <t t-if="this.state.activeTab === 'lines'">
-                    <div class="d-flex flex-column gap-3">
+                    <div class="bridal-tab-lines-workspace">
                         <!-- Controls: Quick Add Search & Suggest Button -->
-                        <div class="d-flex justify-content-between align-items-center gap-2 bg-light p-2 rounded border">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 bg-white p-2 rounded border shadow-sm flex-shrink-0">
                             <div class="input-group" style="max-width: 450px;">
                                 <span class="input-group-text bg-white"><i class="oi oi-search"/></span>
                                 <input type="text"
@@ -135,9 +168,9 @@
 
                         <!-- Search Autocomplete Dropdown if typing -->
                         <t t-if="this.state.searchQuery and this.filteredCatalog.length > 0">
-                            <div class="card shadow-sm p-2 bg-white border border-danger">
+                            <div class="card shadow-sm p-2 bg-white border border-danger flex-shrink-0">
                                 <div class="text-muted small mb-1 fw-bold">نتائج البحث من كتالوج الأهرام (اضغط للإضافة):</div>
-                                <div class="d-flex flex-wrap gap-2" style="max-height: 180px; overflow-y: auto;">
+                                <div class="d-flex flex-wrap gap-2 bridal-search-results">
                                     <t t-foreach="this.filteredCatalog" t-as="item" t-key="item.id">
                                         <button type="button"
                                                 class="btn btn-sm btn-outline-dark text-start d-flex flex-column p-2 rounded"
@@ -156,8 +189,8 @@
 
                         <!-- Intelligent Budget-Constrained Recommendation Cards (Economy, Best Match, Premium) -->
                         <t t-if="this.state.recommendedPackages and this.state.recommendedPackages.length > 0">
-                            <div class="card p-2 bg-light border border-primary shadow-sm mb-1">
-                                <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+                            <div class="card p-2 bg-white border border-primary shadow-sm flex-shrink-0">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2 px-1">
                                     <span class="fw-bold text-dark fs-6">
                                         <i class="oi oi-star text-warning me-1"/>خيارات الباكدج المقترحة المقيدة بالميزانية (الميزانية: <t t-esc="this.formatAmount(this.state.targetBudget, 2)"/> ج.م | النطاق المفضل: <t t-esc="this.formatAmount(this.state.lowerBound, 0)"/> - <t t-esc="this.formatAmount(this.state.preferredUpperBound, 0)"/> ج.م):
                                     </span>
@@ -226,7 +259,7 @@
 
                         <!-- No Solution Banner if out of budget bounds -->
                         <t t-if="!this.state.hasSolution">
-                            <div class="alert alert-danger p-3 shadow-sm border-start border-danger border-4">
+                            <div class="alert alert-danger p-3 shadow-sm border-start border-danger border-4 flex-shrink-0 mb-0">
                                 <div class="d-flex align-items-center gap-2 mb-2">
                                     <i class="oi oi-close fs-4 text-danger"/>
                                     <h6 class="fw-bold mb-0 text-danger">تنبيه الميزانية: تعذر تشكيل باكدج يغطي كافة القطاعات المطلوبة ضمن سقف الميزانية</h6>
@@ -243,8 +276,8 @@
                             </div>
                         </t>
 
-                        <!-- Lines Table -->
-                        <div class="table-responsive bg-white rounded border shadow-sm" style="max-height: 420px; overflow-y: auto;">
+                        <!-- Lines Table (Fills remaining vertical viewport height with sticky headers) -->
+                        <div class="bridal-table-wrapper shadow-sm">
                             <table class="table table-hover align-middle mb-0 text-center">
                                 <thead class="table-light sticky-top">
                                     <tr>
@@ -361,7 +394,8 @@
                 <!-- TAB 2: SETUP & SECTORS -->
                 <!-- ========================================================= -->
                 <t t-if="this.state.activeTab === 'setup'">
-                    <div class="row g-3">
+                    <div class="bridal-tab-scroll-workspace">
+                        <div class="row g-3">
                         <!-- Left Column: Customer & Target Budget -->
                         <div class="col-md-5">
                             <div class="card h-100 shadow-sm border">
@@ -596,13 +630,15 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </t>
 
                 <!-- ========================================================= -->
                 <!-- TAB 3: DISCOUNT GOVERNANCE & CONFIRMATION -->
                 <!-- ========================================================= -->
                 <t t-if="this.state.activeTab === 'discount'">
-                    <div class="row g-3">
+                    <div class="bridal-tab-scroll-workspace">
+                        <div class="row g-3">
                         <div class="col-md-6">
                             <div class="card h-100 shadow-sm border">
                                 <div class="card-header bg-light fw-bold text-dark">
@@ -716,6 +752,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </t>
 
