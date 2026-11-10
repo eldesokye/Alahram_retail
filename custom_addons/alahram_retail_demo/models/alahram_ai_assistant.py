@@ -21,6 +21,11 @@ class AlahramBranchAnalytics(models.Model):
     cogs_cost = fields.Float(string='تكلفة البضاعة المباعة COGS (ج.م)')
     net_profit = fields.Float(string='صافي الربح (ج.م)')
     return_rate = fields.Float(string='نسبة المرتجع %')
+    sales_target = fields.Float(
+        string='المستهدف البيعي الشهري (ج.م)',
+        default=0.0,
+        help='المستهدف البيعي المعتمد للفرع — اتركه صفراً إذا لم يتم تحديده في النظام.'
+    )
 
 
 class AlahramAIAssistant(models.Model):

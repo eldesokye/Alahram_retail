@@ -5,19 +5,20 @@
         <field name="name">alahram.branch.analytics.list</field>
         <field name="model">alahram.branch.analytics</field>
         <field name="arch" type="xml">
-            <list string="تحليل مبيعات وربحية ومرتجعات الفروع (أكتوبر 2026)" create="false" edit="false">
-                <field name="branch_name"/>
-                <field name="net_sold_qty"/>
-                <field name="gross_sales" widget="monetary"/>
-                <field name="discount_given" widget="monetary"/>
-                <field name="vat_14_amount" widget="monetary"/>
-                <field name="return_qty" decoration-danger="return_qty &lt; 0"/>
-                <field name="return_value" widget="monetary" decoration-danger="return_value &lt; 0"/>
-                <field name="net_sales_inc_vat" widget="monetary" decoration-success="net_sales_inc_vat &gt; 1000000"/>
-                <field name="net_sales_exc_vat" widget="monetary"/>
-                <field name="cogs_cost" widget="monetary"/>
-                <field name="net_profit" widget="monetary" decoration-success="net_profit &gt; 100000"/>
-                <field name="return_rate" widget="percentage" decoration-danger="return_rate &gt; 20.0" decoration-success="return_rate &lt; 10.0"/>
+            <list string="تحليل مبيعات وربحية ومرتجعات الفروع (أكتوبر 2026)" create="false" editable="bottom">
+                <field name="branch_name" readonly="1"/>
+                <field name="net_sold_qty" readonly="1"/>
+                <field name="gross_sales" widget="monetary" readonly="1"/>
+                <field name="discount_given" widget="monetary" readonly="1"/>
+                <field name="vat_14_amount" widget="monetary" readonly="1"/>
+                <field name="return_qty" readonly="1" decoration-danger="return_qty &lt; 0"/>
+                <field name="return_value" widget="monetary" readonly="1" decoration-danger="return_value &lt; 0"/>
+                <field name="net_sales_inc_vat" widget="monetary" readonly="1" decoration-success="net_sales_inc_vat &gt; 1000000"/>
+                <field name="net_sales_exc_vat" widget="monetary" readonly="1"/>
+                <field name="sales_target" widget="monetary" optional="show"/>
+                <field name="cogs_cost" widget="monetary" readonly="1"/>
+                <field name="net_profit" widget="monetary" readonly="1" decoration-success="net_profit &gt; 100000"/>
+                <field name="return_rate" widget="percentage" readonly="1" decoration-danger="return_rate &gt; 20.0" decoration-success="return_rate &lt; 10.0"/>
             </list>
         </field>
     </record>
@@ -26,7 +27,7 @@
     <record id="action_alahram_branch_analytics_report" model="ir.actions.act_window">
         <field name="name">تقرير 1: أداء مبيعات وربحية ومرتجعات الفروع (أكتوبر 2026)</field>
         <field name="res_model">alahram.branch.analytics</field>
-        <field name="view_mode">list</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 بيان أداء مبيعات وربحية الفروع - المصدر الموحد للبيانات
