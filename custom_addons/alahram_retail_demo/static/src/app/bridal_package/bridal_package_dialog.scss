@@ -145,6 +145,26 @@
         white-space: nowrap;
     }
 
+    .bridal-stepper-nav {
+        .nav-link {
+            border: 1px solid #cbd5e1;
+            background-color: #f8fafc;
+            color: #334155;
+            transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+
+            &:hover:not(.active) {
+                background-color: #eef2f6;
+                border-color: #94a3b8;
+                color: #0f172a;
+            }
+
+            &.active {
+                border-color: transparent;
+                box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
+            }
+        }
+    }
+
     .btn-lg {
         padding: 10px 18px;
         font-size: 1rem;

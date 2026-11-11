@@ -59,32 +59,41 @@
 
                     <!-- Navigation Tabs + Financial Summary Bar -->
                     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-                        <ul class="nav nav-pills gap-2">
-                            <li class="nav-item">
+                        <ul class="nav nav-pills bridal-stepper-nav gap-2 align-items-center" role="tablist">
+                            <li class="nav-item" role="presentation">
                                 <button type="button"
-                                        class="nav-link fw-bold px-3 py-2"
-                                        t-att-class="{'active btn-danger': this.state.activeTab === 'lines', 'btn-outline-secondary': this.state.activeTab !== 'lines'}"
-                                        t-on-click="() => this.state.activeTab = 'lines'">
-                                    <i class="oi oi-fw me-1" data-icon="list" aria-hidden="true"/>
-                                    <span>1. تشكيلة الأصناف والتوافر (<t t-esc="this.state.lines.length"/>)</span>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button"
-                                        class="nav-link fw-bold px-3 py-2"
+                                        role="tab"
+                                        class="nav-link fw-bold px-3 py-2 d-flex align-items-center gap-1"
+                                        t-att-aria-selected="this.state.activeTab === 'setup' ? 'true' : 'false'"
                                         t-att-class="{'active btn-danger': this.state.activeTab === 'setup', 'btn-outline-secondary': this.state.activeTab !== 'setup'}"
                                         t-on-click="() => this.state.activeTab = 'setup'">
                                     <i class="oi oi-fw me-1" data-icon="settings" aria-hidden="true"/>
-                                    <span>2. القطاعات والميزانية</span>
+                                    <span>1. القطاعات والميزانية</span>
                                 </button>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" role="presentation">
                                 <button type="button"
-                                        class="nav-link fw-bold px-3 py-2"
+                                        role="tab"
+                                        class="nav-link fw-bold px-3 py-2 d-flex align-items-center gap-1"
+                                        t-att-aria-selected="this.state.activeTab === 'lines' ? 'true' : 'false'"
+                                        t-att-class="{'active btn-danger': this.state.activeTab === 'lines', 'btn-outline-secondary': this.state.activeTab !== 'lines'}"
+                                        t-on-click="() => this.state.activeTab = 'lines'">
+                                    <i class="oi oi-fw me-1" data-icon="format_list_bulleted" aria-hidden="true"/>
+                                    <span>2. تشكيلة الأصناف والتوافر</span>
+                                    <span class="badge rounded-pill ms-1"
+                                          t-att-class="this.state.activeTab === 'lines' ? 'bg-white text-dark' : 'bg-secondary-subtle text-dark border'"
+                                          t-esc="this.state.lines.length"/>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button type="button"
+                                        role="tab"
+                                        class="nav-link fw-bold px-3 py-2 d-flex align-items-center gap-1"
+                                        t-att-aria-selected="this.state.activeTab === 'discount' ? 'true' : 'false'"
                                         t-att-class="{'active btn-danger': this.state.activeTab === 'discount', 'btn-outline-secondary': this.state.activeTab !== 'discount'}"
                                         t-on-click="() => this.state.activeTab = 'discount'">
                                     <i class="oi oi-fw me-1" data-icon="star" aria-hidden="true"/>
-                                    <span>3. حوكمة الخصم والحجز</span>
+                                    <span>3. طلبات الخصم والحجز</span>
                                 </button>
                             </li>
                         </ul>
@@ -141,7 +150,7 @@
                 </div>
 
                 <!-- ========================================================= -->
-                <!-- TAB 1: LINES & MULTI-BRANCH AVAILABILITY -->
+                <!-- TAB 2: LINES & MULTI-BRANCH AVAILABILITY -->
                 <!-- ========================================================= -->
                 <t t-if="this.state.activeTab === 'lines'">
                     <div class="bridal-tab-lines-workspace">
@@ -391,7 +400,7 @@
                 </t>
 
                 <!-- ========================================================= -->
-                <!-- TAB 2: SETUP & SECTORS -->
+                <!-- TAB 1: SETUP & SECTORS -->
                 <!-- ========================================================= -->
                 <t t-if="this.state.activeTab === 'setup'">
                     <div class="bridal-tab-scroll-workspace">
@@ -634,7 +643,7 @@
                 </t>
 
                 <!-- ========================================================= -->
-                <!-- TAB 3: DISCOUNT GOVERNANCE & CONFIRMATION -->
+                <!-- TAB 3: DISCOUNT REQUESTS & RESERVATION -->
                 <!-- ========================================================= -->
                 <t t-if="this.state.activeTab === 'discount'">
                     <div class="bridal-tab-scroll-workspace">
